@@ -79,6 +79,7 @@ prettier
 pulseaudio-bluetooth
 reflector
 rofi
+rust
 sof-firmware
 sudo
 texinfo

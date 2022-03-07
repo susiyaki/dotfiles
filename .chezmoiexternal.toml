@@ -31,3 +31,13 @@
 [".rbenv/plugins/rbenv-build"]
   type = "git-repo"
   url = "https://github.com/rbenv/ruby-build"
+
+["git/yaskkserv2"]
+  type = "git-repo"
+  url = "https://github.com/wachikun/yaskkserv2.git"
+["git/dict"]
+  type = "git-repo"
+  url = "https://github.com:skk-dev/dict.git"
+["git/skk-jisyo-neologd"]
+  type = "git-repo"
+  url = "https://github.com:tokuhirom/skk-jisyo-neologd.git"
