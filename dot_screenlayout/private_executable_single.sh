@@ -1,0 +1,2 @@
+#!/bin/sh
+xrandr --output eDP1 --primary --mode 1920x1080 --rotate normal --output DP1 --off --output DP2 --off --output DP3 --off --output DP4 --off --output DP5 --off --output HDMI1 --off --output VIRTUAL1 --off --output DVI-I-3-2 --off --output DVI-I-2-1 --off --output DP-1-0 --off --output DP-1-1 --off --output DP-1-2 --off --output DP-1-3 --off --output HDMI-1-0 --off --output DP-1-4 --off --output DP-1-5 --off
