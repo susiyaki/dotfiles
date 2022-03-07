@@ -1,0 +1,14 @@
+#!/bin/bash
+# wmctrl
+# ${1}: process name (ex: Alacritty)
+# ${2}: applicatoin name (ex: alacritty)
+
+# processが起動されていなかったら起動
+if wmctrl -l | grep -i -q "${1}"; then
+  active_window_name=$(xdotool getactivewindow getwindowname)
+  if ! echo $active_window_name | grep -q ${1}; then
+    wmctrl -a ${1} # forcusを当てる
+  fi
+else
+  ${2}
+fi

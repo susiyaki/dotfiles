@@ -1,0 +1,26 @@
+#!/bin/bash
+
+tmux_pane_current_path=$1
+
+function open-lazygit-tmux-popup() {
+  if [ -n tmux_pane_current_path ]; then
+    repo_root=$tmux_pane_current_path
+  else
+    repo_root=$pwd
+  fi
+
+  while ! [ -e $repo_root/.git ] && [ $(dirname $repo_root) != $repo_root ]
+  do
+      repo_root=$(dirname $repo_root)
+  done
+
+  if [ -d $repo_root/.git ]; then
+      tmux popup -E -w 95% -h 95% "lazygit -p $repo_root"
+  elif [ -f $repo_root/.git ]; then
+      tmux popup -E -w 95% -h 95% "lazygit -w $repo_root"
+  else
+      dunstify "$repo_root" "Not exist repository root."
+  fi
+}
+
+open-lazygit-tmux-popup
