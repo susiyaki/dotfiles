@@ -1,0 +1,23 @@
+[user]
+	name = susiyaki
+	email = susiyaki.dev@gmail.com
+
+[alias]
+  a = add
+  br = branch
+  c = commit
+  co = checkout
+  fe = fetch
+  pl = pull
+  ps = !git push origin `git rev-parse --abbrev-ref HEAD`; gh pr create -w
+  reb = rebase
+  res = restore
+  rehead = !git reset --hard origin/`git rev-parse --abbrev-ref HEAD`;
+  s = status -s
+  swi = switch
+
+[pull]
+	rebase = false
+
+[core]
+	pager = LESSCHARSET=utf-8 less
