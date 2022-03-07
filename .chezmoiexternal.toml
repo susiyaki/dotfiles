@@ -1,0 +1,33 @@
+[".dvm"]
+  type = "git-repo"
+  url = "https://github.com/cbracken/dvm"
+[".jenv"]
+  type = "git-repo"
+  url = "https://github.com/jenv/jenv.git"
+[".luaenv"]
+  type = "git-repo"
+  url = "https://github.com/cehoffman/luaenv.git"
+[".luaenv/plugins/lua-build"]
+  type = "git-repo"
+  url = "https://github.com/cehoffman/lua-build.git"
+[".luaenv/plugins/luaenv-luarocks"]
+  type = "git-repo"
+  url = "https://github.com/xpol/luaenv-luarocks.git"
+[".nodeenv"]
+  type = "git-repo"
+  url = "https://github.com/nodenv/nodenv"
+[".nodenv/plugins/node-build"]
+  type = "git-repo"
+  url = "https://github.com/nodenv/node-build"
+[".pyenv"]
+  type = "git-repo"
+  url = "https://github.com/pyenv/pyenv.git"
+[".pyenv/plugins/pyenv-virtualenv"]
+  type = "git-repo"
+  url ="https://github.com/pyenv/pyenv-virtualenv.git"
+[".rbenv"]
+  type = "git-repo"
+  url = "https://github.com/rbenv/rbenv"
+[".rbenv/plugins/rbenv-build"]
+  type = "git-repo"
+  url = "https://github.com/rbenv/ruby-build"
