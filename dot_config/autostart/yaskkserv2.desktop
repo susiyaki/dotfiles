@@ -1,0 +1,6 @@
+[Desktop Entry]
+Exec=yaskkserv2 --google-japanese-input=notfound --google-suggest --google-cache-filename=/home/susiyaki/skk/yaskkserv2.cache /home/susiyaki/skk/dictionary.yaskkserv2
+Name=Yet Another SKK server2
+Type=Application
+Version=1.0
+OnlyShowIn=i3
