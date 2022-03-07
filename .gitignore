@@ -1,8 +1,9 @@
 Session.vim
 
+chezmoidata.toml
+
 # fish
 dot_config/fish/fish_variables
 
 # neovim
-
 dot_config/nvim/plugin/packer_compiled.lua
