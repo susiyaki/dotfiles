@@ -1,0 +1,49 @@
+local utils = require('utils')
+
+vim.g.mapleader = ' '
+
+utils.map('n', 'j', 'gj', { noremap = true, silent = true })
+utils.map('n', 'k', 'gk', { noremap = true, silent = true })
+utils.map('n', '<down>', 'gj', { noremap = true, silent = true })
+utils.map('n', '<up>', 'gk', { noremap = true, silent = true })
+utils.map('n', '_', ':-', { noremap = true, silent = false })
+utils.map('n', '+', ':+', { noremap = true, silent = false })
+
+
+utils.map('n', 's', '<Nop>')
+utils.map('n', 'ss', ':<C-u>sp<CR>', { noremap = true, silent = true })
+utils.map('n', 'sv', ':<C-u>vs<CR>', { noremap = true, silent = true })
+utils.map('n', 'sj', '<C-w>j', { noremap = true, silent = true })
+utils.map('n', 'sk', '<C-w>k', { noremap = true, silent = true })
+utils.map('n', 'sl', '<C-w>l', { noremap = true, silent = true })
+utils.map('n', 'sh', '<C-w>h', { noremap = true, silent = true })
+utils.map('n', 'sJ', '<C-w>J', { noremap = true, silent = true })
+utils.map('n', 'sK', '<C-w>K', { noremap = true, silent = true })
+utils.map('n', 'sL', '<C-w>L', { noremap = true, silent = true })
+utils.map('n', 'sH', '<C-w>H', { noremap = true, silent = true })
+utils.map('n', '<C-Right>', 'gt', { noremap = true, silent = true })
+utils.map('n', '<C-Left>', 'gT', { noremap = true, silent = true })
+utils.map('n', 'st', ':<C-u>tabnew<CR>', { noremap = true, silent = true })
+utils.map('n', '<ESC><ESC>', ':<C-u>set nohlsearch!<CR>', { noremap = true, silent = true })
+
+utils.map('n', '<Leader>w', ':w<CR>')
+utils.map('n', '<Leader>q', ':q!<CR>')
+utils.map('n', '<Leader>ee', ':e!<CR>', { noremap = true, silent = true })
+
+utils.map('n', 'q', 'qq<ESC>')
+utils.map('n', '@', "reg_recording() == '' ? '@q' : ''", { expr = true })
+
+utils.map('n', '<C-c>', '<Nop>')
+
+utils.map('i', 'jj', '<ESC>')
+
+utils.map('i', '<C-k>', 'pumvisible() ? "<C-y>" : ""', { noremap = true, expr = true })
+utils.map('i', '<C-n>', 'pumvisible() ? "<Down>" : "<C-n>"', { noremap = true, expr = true })
+utils.map('i', '<C-p>', 'pumvisible() ? "<Up>" : "<C-p>"', { noremap = true, expr = true })
+
+utils.map('c', '<C-n>' ,'<Down>', { noremap = true })
+utils.map('c', '<C-p>' ,'<Up>', { noremap = true })
+
+vim.cmd([[
+  au FileType qf nnoremap <silent><buffer>q :quit<CR>
+]])
