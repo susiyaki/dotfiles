@@ -1,0 +1,6 @@
+{
+  "link": {
+    "prefix": "link",
+    "body": "[${1:$TM_SELECTED_TEXT}]($2)"
+  }
+}

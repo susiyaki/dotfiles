@@ -1,0 +1,28 @@
+{
+  "Public Method Definition": {
+    "prefix": "public method",
+    "body": ["/**", " * ${1:name}", " */", "public ${1:name}() {", "\t$0", "}"],
+    "description": "Public Method Definition"
+  },
+  "Protected Method Definition": {
+    "prefix": "protected method",
+    "body": ["/**", " * ${1:name}", " */", "protected ${1:name}() {", "\t$0", "}"],
+    "description": "Protected Method Definition"
+  },
+  "Private Method Definition": {
+    "prefix": "private method",
+    "body": ["private ${1:name}() {", "\t$0", "}"],
+    "description": "Private Method Definition"
+  },
+  "Property getter": {
+    "prefix": "get",
+    "body": [
+      "",
+      "public get ${1:value}() : ${2:string} {",
+      "\t${3:return $0}",
+      "}",
+      ""
+    ],
+    "description": "Property getter"
+  }
+}

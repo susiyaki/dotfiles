@@ -1,0 +1,6 @@
+{
+  "react-form-log": {
+    "prefix": ["formlog"],
+    "body": "const values = watch();\nconsole.log(values);"
+  }
+}
