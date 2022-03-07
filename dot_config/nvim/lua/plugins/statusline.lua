@@ -1,34 +1,34 @@
 local devicons = require 'nvim-web-devicons'
 
-local cl = {
-  normal = '#ff9900',
-  insert = '#67efeb',
-  replace = '#fc5555',
-  visual = '#9454c9',
-  command = '#e8e847',
-  terminal = '#000000',
+local colors = {
+  normal      = '#ff9900',
+  insert      = '#67efeb',
+  replace     = '#fc5555',
+  visual      = '#9454c9',
+  command     = '#e8e847',
+  terminal    = '#000000',
 
-  none = '#3b3b3b',
+  none        = '#3b3b3b',
 
-  bg = '#1b1b1b',
-  fg = '#ffffff',
-  fgh = '#000000',
+  bg          = '#1b1b1b',
+  fg          = '#ffffff',
+  fgh         = '#000000',
 
-  lsp_active = '#00ffbf'
+  lsp_active  = '#00ffbf'
 }
 
 local mode_map = {
-  ['n'] = {'NORMAL', cl.normal},
-  ['i'] = {'INSERT', cl.insert},
-  ['R'] = {'REPLACE', cl.replace},
-  ['v'] = {'VISUAL', cl.visual},
-  ['V'] = {'V-LINE', cl.visual},
-  ['c'] = {'COMMAND', cl.command},
-  ['s'] = {'SELECT', cl.visual},
-  ['S'] = {'S-LINE', cl.visual},
-  ['t'] = {'TERMINAL', cl.terminal},
-  [''] = {'V-BLOCK', cl.visual},
-  [''] = {'S-BLOCK', cl.visual},
+  ['n'] = {'NORMAL', colors.normal},
+  ['i'] = {'INSERT', colors.insert},
+  ['R'] = {'REPLACE', colors.replace},
+  ['v'] = {'VISUAL', colors.visual},
+  ['V'] = {'V-LINE', colors.visual},
+  ['c'] = {'COMMAND', colors.command},
+  ['s'] = {'SELECT', colors.visual},
+  ['S'] = {'S-LINE', colors.visual},
+  ['t'] = {'TERMINAL', colors.terminal},
+  [''] = {'V-BLOCK', colors.visual},
+  [''] = {'S-BLOCK', colors.visual},
   ['Rv'] = {'VIRTUAL'},
   ['rm'] = {'--MORE'},
 }
@@ -53,19 +53,42 @@ local icons = {
   lsp_status = ''
 }
 
-local pornhub_theme = {
-  normal = { a = { fg = cl.fgh, bg = cl.normal } },
-  insert = { a = { fg = cl.fgh, bg = cl.insert } },
-  visual = { a = { fg = cl.fgh, bg = cl.visual } },
-  replace = { a = { fg = cl.fgh, bg = cl.replace } },
-  command = { a = { fg = cl.fgh, bg = cl.command } },
-  terminal = { a = { fg = cl.fg, bg = cl.terminal } },
-
+local theme = {
+  normal = {
+    a = { bg = colors.normal, fg = colors.fgh, gui = 'bold' },
+    b = { bg = colors.none, fg = colors.fg },
+    c = { bg = colors.none, fg = colors.fg },
+  },
+  insert = {
+    a = { bg = colors.insert, fg = colors.fgh, gui = 'bold' },
+    b = { bg = colors.none, fg = colors.fg },
+    c = { bg = colors.none, fg = colors.fg },
+  },
+  visual = {
+    a = { bg = colors.visual, fg = colors.fgh, gui = 'bold' },
+    b = { bg = colors.none, fg = colors.fg },
+    c = { bg = colors.none, fg = colors.fg },
+  },
+  replace = {
+    a = { bg = colors.replace, fg = colors.fgh, gui = 'bold' },
+    b = { bg = colors.none, fg = colors.fg },
+    c = { bg = colors.none, fg = colors.fg },
+  },
+  command = {
+    a = { bg = colors.command, fg = colors.fgh, gui = 'bold' },
+    b = { bg = colors.none, fg = colors.fg },
+    c = { bg = colors.none, fg = colors.fg },
+  },
+  terminal = {
+    a = { bg = colors.terminal, fg = colors.fg, gui = 'bold' },
+    b = { bg = colors.none, fg = colors.fg },
+    c = { bg = colors.none, fg = colors.fg },
+  },
   inactive = {
-    a = { fg = cl.fg, bg = cl.none },
-    b = { fg = cl.fg, bg = cl.none },
-    c = { fg = cl.fg, bg = cl.none },
-  }
+    a = { bg = colors.none, fg = colors.fg },
+    b = { bg = colors.none, fg = colors.none },
+    c = { bg = colors.none, fg = colors.none },
+  },
 }
 
 local function lsp_status()
@@ -83,7 +106,7 @@ end
 
 require('lualine').setup({
   options = {
-    theme = pornhub_theme,
+    theme = theme,
     component_separators = sep.right,
     section_separators = { left = sep.left, right =  sep.right }
   },
@@ -101,7 +124,7 @@ require('lualine').setup({
     lualine_x = {
       {
         lsp_status,
-        color = { fg = cl.lsp_active, bg = cl.none },
+        colors = { fg = colors.lsp_active, bg = colors.none },
         separator = {  }
       },
       {
