@@ -52,13 +52,13 @@ if type -q nvim
   if type -q tmux
     alias vim="tmux new-window nvim"
     alias vi="tmux new-window nvim"
-    alias vis="tmux new-window nvim -S Session.vim"
   else
     alias vim="nvim"
     alias vi="nvim"
-    alias vis="nvim -S Session.vim"
   end
 end
+
+alias nvimp="nvim $HOME/.config/nvim/lua/plugin.lua"
 
 if type -q exa
   alias ls="exa"
