@@ -61,4 +61,13 @@ else
   set_single_monitor
 fi
 
+function check_file() {
+  if [ ! -f $MODE_FILE ]; then
+    touch $MODE_FILE
+    echo set_single_monitor
+  fi
+}
+
+
+check_file
 change_mode

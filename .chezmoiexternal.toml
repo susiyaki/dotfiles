@@ -37,7 +37,7 @@
   url = "https://github.com/wachikun/yaskkserv2.git"
 ["skk/git/dict"]
   type = "git-repo"
-  url = "https://github.com:skk-dev/dict.git"
+  url = "https://github.com/skk-dev/dict.git"
 ["skk/git/skk-jisyo-neologd"]
   type = "git-repo"
-  url = "https://github.com:tokuhirom/skk-jisyo-neologd.git"
+  url = "https://github.com/tokuhirom/skk-jisyo-neologd.git"
