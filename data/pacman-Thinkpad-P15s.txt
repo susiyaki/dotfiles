@@ -35,6 +35,7 @@ figlet
 fish
 flameshot
 flex
+fzf
 gcc
 gdu
 git

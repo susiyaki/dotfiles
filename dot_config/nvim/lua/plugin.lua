@@ -140,12 +140,6 @@ return require('packer').startup(
         setup = function() require'plugins.vim-indent-guide' end
       },
 
-      -- [vim-obsession]: session manage
-      {
-        'tpope/vim-obsession',
-        setup = function() require'plugins.vim-obsession' end
-      },
-
       -- [vim-quickrun]
       {
         'thinca/vim-quickrun',

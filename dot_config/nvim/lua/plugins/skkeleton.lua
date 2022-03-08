@@ -7,9 +7,9 @@ utils.map('i', 'jj', '<ESC>')
 vim.cmd([[
 function! s:skkeleton_init() abort
   call skkeleton#config({
-    \ 'debug': v:false,
+    \ 'debug': v:true,
     \ 'eggLikeNewline': v:true,
-    \ 'globalJisyo': '~/.config/SKK-JISYO.L',
+    \ 'globalJisyo': '~/skk/git/dict/SKK-JISYO.L',
     \ 'globalJisyoEncoding': 'utf-8',
     \ 'userJisyo': '~/.skkeleton',
     \ 'useSkkServer': v:true,

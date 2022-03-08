@@ -5,3 +5,5 @@ Session.vim
 utils/
 todo/
 data/
+
+dot_config/fish/fish_variables
