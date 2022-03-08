@@ -39,6 +39,10 @@ function main() {
   yaskkserv2_make_dictionary --dictionary-filename=$SKK_CONFIG_DIR/$JISYO_FILENAME ${jisyoSources[@]} $SKK_GIT_REPO/skk-jisyo-neologd/SKK-JISYO.neologd &>/dev/null
   echo "Done."
 
+  echo "Generating utf-8 dictionary file for neovim..."
+  yaskkserv2_make_dictionary --dictionary-filename=$SKK_CONFIG_DIR/$JISYO_FILENAME --utf8 --output-jisyo-filename=$SKK_CONFIG_DIR/SKK-JISYO.utf8
+  echo "Done."
+
   echo "Finished to setup yaskkserv2."
   echo ""
 }

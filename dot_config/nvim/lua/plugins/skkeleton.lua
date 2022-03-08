@@ -7,15 +7,13 @@ utils.map('i', 'jj', '<ESC>')
 vim.cmd([[
 function! s:skkeleton_init() abort
   call skkeleton#config({
-    \ 'debug': v:true,
+    \ 'debug': v:false,
     \ 'eggLikeNewline': v:true,
-    \ 'globalJisyo': '~/skk/git/dict/SKK-JISYO.L',
+    \ 'globalJisyo': '~/skk/SKK-JISYO.utf8',
     \ 'globalJisyoEncoding': 'utf-8',
     \ 'userJisyo': '~/.skkeleton',
     \ 'useSkkServer': v:true,
     \ 'showCandidatesCount': 2
-    \ })
-  call skkeleton#register_kanatable('rom', {
     \ })
   call skkeleton#register_kanatable('rom', {
     \ 'jj': 'escape',
@@ -23,8 +21,9 @@ function! s:skkeleton_init() abort
     \ "z\<Space>": ["\u3000", ''],
     \ })
 endfunction
-augroup skkeleton-initlaize-pre
+augroup skkeleton-initialize-pre
   autocmd!
   autocmd User skkeleton-initialize-pre call s:skkeleton_init()
 augroup END
 ]])
+
