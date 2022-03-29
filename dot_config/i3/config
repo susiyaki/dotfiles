@@ -197,7 +197,7 @@ bar {
 }
 
 # Configuare keyboard repeat speed
-exec --no-startup-id xset r rate 210 50
+exec --no-startup-id xset r rate 250 100
 
 # wallpaper
 exec --no-startup-id feh --bg-scale $HOME/images/wallpaper.jpg

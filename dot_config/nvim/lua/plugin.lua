@@ -214,13 +214,11 @@ return require('packer').startup(
           'dhruvasagar/vim-table-mode',
           setup = function() require'plugins.vim-table-mode' end
         },
-
         {
-          'kat0h/bufpreview.vim',
-          requires = {
-            'vim-denops/denops.vim'
-          }
+          'iamcco/markdown-preview.nvim',
+          run = 'cd app && yarn install'
         },
+
         ft = { 'markdown' }
       },
     }
