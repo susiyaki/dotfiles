@@ -3,6 +3,9 @@
 [[ -f ~/.Xmodmap ]] && xmodmap ~/.Xmodmap
 [[ -f ~/.screenlayout/script.sh ]] && source ~/.screenlayout/script.sh
 
+xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
+
 xbindkeys
 
 setxkbmap us

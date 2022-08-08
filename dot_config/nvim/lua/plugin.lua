@@ -93,6 +93,15 @@ return require('packer').startup(
       }
     }
 
+    use {
+      'simrat39/rust-tools.nvim',
+      requires = {
+        'mfussenegger/nvim-dap',
+        'nvim-lua/plenary.nvim'
+      },
+      ft = { 'rust' }
+    }
+
     -- StatusLine
     use {
       'nvim-lualine/lualine.nvim',

@@ -49,6 +49,36 @@ end)
           update_in_insert = false
       })
 
+-- rust tools
+local opts = {
+    tools = {
+        autoSetHints = true,
+        hover_with_actions = true,
+        runnables = {
+            use_telescope = true
+        },
+        inlay_hints = {
+            show_parameter_hints = false,
+            parameter_hints_prefix = "",
+            other_hints_prefix = "",
+        },
+    },
+
+    server = {
+        on_attach = on_attach,
+        settings = {
+            ["rust-analyzer"] = {
+                -- enable clippy on save
+                checkOnSave = {
+                    command = "clippy"
+                },
+            }
+        }
+    },
+}
+
+-- require('rust-tools').setup(opts)
+
 vim.api.nvim_command([[
 highlight LspDiagnosticsSignError guibg=#a31111 guifg=White
 highlight LspDiagnosticsSignWarning guibg=#edc123 guifg=Black
