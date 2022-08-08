@@ -209,13 +209,13 @@ bindsym $mod+ctrl+b exec "/usr/local/bin/toggle_app Chrome google-chrome-stable"
 bindsym $mod+ctrl+s exec "/usr/local/bin/toggle_app Slack slack"
 # terminal
 bindsym $mod+ctrl+t exec "/usr/local/bin/toggle_app Alacritty alacritty"
-# notio
+# notion
 bindsym $mod+ctrl+n exec "/usr/local/bin/toggle_app Notion notion-app-nativefier"
 # discord
 bindsym $mod+ctrl+d exec "/usr/local/bin/toggle_app Discord discord"
 # figma
 bindsym $mod+ctrl+f exec "/usr/local/bin/toggle_app Figma figma-linux"
-# figma
+# Spotify
 bindsym $mod+ctrl+m exec "/usr/local/bin/toggle_app Spotify spotify"
 # Switch screenlayout
 bindsym $mod+Mod4+m exec "$HOME/.screenlayout/script.sh"
