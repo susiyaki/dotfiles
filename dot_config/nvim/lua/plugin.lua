@@ -44,7 +44,7 @@ return require('packer').startup(
         requires = {
           'folke/lua-dev.nvim',
           'williamboman/mason.nvim',
-          "williamboman/mason-lspconfig.nvim"
+          "williamboman/mason-lspconfig.nvim",
         },
         config = function() require'plugins.lsp' end
       },

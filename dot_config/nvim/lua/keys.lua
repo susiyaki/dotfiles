@@ -37,9 +37,6 @@ utils.map('n', '<C-c>', '<Nop>')
 
 utils.map('i', 'jj', '<ESC>')
 
-utils.map('c', '<C-n>' ,'<Down>', { noremap = true })
-utils.map('c', '<C-p>' ,'<Up>', { noremap = true })
-
 vim.cmd([[
   au FileType qf nnoremap <silent><buffer>q :quit<CR>
 ]])
