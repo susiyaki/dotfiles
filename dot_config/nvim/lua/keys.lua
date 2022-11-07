@@ -37,10 +37,6 @@ utils.map('n', '<C-c>', '<Nop>')
 
 utils.map('i', 'jj', '<ESC>')
 
-utils.map('i', '<C-k>', 'pumvisible() ? "<C-y>" : ""', { noremap = true, expr = true })
-utils.map('i', '<C-n>', 'pumvisible() ? "<Down>" : "<C-n>"', { noremap = true, expr = true })
-utils.map('i', '<C-p>', 'pumvisible() ? "<Up>" : "<C-p>"', { noremap = true, expr = true })
-
 utils.map('c', '<C-n>' ,'<Down>', { noremap = true })
 utils.map('c', '<C-p>' ,'<Up>', { noremap = true })
 

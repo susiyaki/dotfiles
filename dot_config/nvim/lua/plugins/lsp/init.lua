@@ -1,5 +1,9 @@
 USER = vim.fn.expand('$USER')
 
+local mason = require("mason")
+local mason_lspconfig = require("mason-lspconfig")
+local nvim_lsp = require('lspconfig')
+
 local on_attach = function(client, bufnr)
     -- require'lsp_signature'.on_attach(client)
 
@@ -7,77 +11,40 @@ local on_attach = function(client, bufnr)
     require'plugins.lsp.settings'.on_attach(bufnr)
 end
 
-local nvim_lsp = require('lspconfig')
-
--- Capabilities
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-  -- Code actions
-  capabilities.textDocument.codeAction = {
-      dynamicRegistration = true,
-      codeActionLiteralSupport = {
-          codeActionKind = {
-              valueSet = (function()
-                  local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
-                  table.sort(res)
-                  return res
-              end)()
-          }
-      }
-  }
-
-  capabilities.textDocument.completion.completionItem.snippetSupport = true;
-
--- LSPs
-local lsp_installer = require("nvim-lsp-installer")
-
-lsp_installer.on_server_ready(function(server)
-    local opts = {capabilities = capabilities, on_attach = on_attach}
-
-    server:setup(opts)
-end)
-
-  -- dart
-  nvim_lsp.dartls.setup{capabilities = capabilities, on_attach = on_attach}
-
-  -- LSP Enable diagnostics
-  vim.lsp.handlers["textDocument/publishDiagnostics"] =
-      vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-          virtual_text = false,
-          underline = true,
-          signs = true,
-          update_in_insert = false
-      })
-
--- rust tools
-local opts = {
-    tools = {
-        autoSetHints = true,
-        hover_with_actions = true,
-        runnables = {
-            use_telescope = true
-        },
-        inlay_hints = {
-            show_parameter_hints = false,
-            parameter_hints_prefix = "",
-            other_hints_prefix = "",
-        },
-    },
-
-    server = {
-        on_attach = on_attach,
-        settings = {
-            ["rust-analyzer"] = {
-                -- enable clippy on save
-                checkOnSave = {
-                    command = "clippy"
-                },
-            }
+-- Code actions
+capabilities.textDocument.codeAction = {
+    dynamicRegistration = true,
+    codeActionLiteralSupport = {
+        codeActionKind = {
+            valueSet = (function()
+                local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
+                table.sort(res)
+                return res
+            end)()
         }
-    },
+    }
 }
 
--- require('rust-tools').setup(opts)
+capabilities.textDocument.completion.completionItem.snippetSupport = true;
+
+mason.setup()
+mason_lspconfig.setup_handlers({ function(server)
+    local opts = {capabilities = capabilities, on_attach = on_attach}
+
+    nvim_lsp[server].setup(opts)
+  end
+})
+
+-- LSP Enable diagnostics
+vim.lsp.handlers["textDocument/publishDiagnostics"] =
+    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        virtual_text = false,
+        underline = true,
+        signs = true,
+        update_in_insert = false
+    })
 
 vim.api.nvim_command([[
 highlight LspDiagnosticsSignError guibg=#a31111 guifg=White

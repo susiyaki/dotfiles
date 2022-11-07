@@ -16,7 +16,7 @@ return function(client, bufnr)
   buf_set_keymap('n', '[d', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', ']d', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   buf_set_keymap('n', '<leader>ld', '<Cmd>lua vim.diagnostic.open_float()<CR>', opts)
-  buf_set_keymap('n', '<leader>lld', '<Cmd>lua set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<leader>lld', '<Cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 
   -- buf_set_keymap('n', '<leader>law',
   --                '<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
