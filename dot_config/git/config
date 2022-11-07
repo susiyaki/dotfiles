@@ -7,6 +7,7 @@
   br = branch
   c = commit
   co = checkout
+  cp = cherry-pick
   fe = fetch
   pl = pull
   ps = !git push origin `git rev-parse --abbrev-ref HEAD`; gh pr create -w

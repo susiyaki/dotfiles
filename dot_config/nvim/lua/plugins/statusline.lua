@@ -1,5 +1,3 @@
-local devicons = require 'nvim-web-devicons'
-
 local colors = {
   normal      = '#ff9900',
   insert      = '#67efeb',

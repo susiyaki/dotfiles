@@ -106,7 +106,6 @@ return require('packer').startup(
     use {
       'nvim-lualine/lualine.nvim',
       config = function() require'plugins.statusline' end,
-      requires = { 'kyazdani42/nvim-web-devicons', opt = true }
     }
 
     use {

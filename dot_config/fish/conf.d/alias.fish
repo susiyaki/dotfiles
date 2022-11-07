@@ -11,7 +11,7 @@ abbr dc docker-compose
 abbr f fzf
 
 # atcoder
-alias ca="cargo atcoder"
+abbr cc "cargo compete"
 
 # directory指定省略
 alias rm="rm -i"

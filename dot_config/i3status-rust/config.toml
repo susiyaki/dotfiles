@@ -7,11 +7,11 @@ command = "echo \uf03d" # assumes fontawesome icons
 on_click = "peek"
 interval = "once"
 
-[[block]]
-block = "custom"
-command = "echo \uf030" # assumes fontawesome icons
-on_click = "flameshot gui -p ~/Pictures"
-interval = "once"
+# [[block]]
+# block = "custom"
+# command = "echo \uf030" # assumes fontawesome icons
+# on_click = "flameshot gui -p ~/Pictures"
+# interval = "once"
 
 [[block]]
 block = "disk_space"
