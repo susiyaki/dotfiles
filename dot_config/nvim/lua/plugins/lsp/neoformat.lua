@@ -19,6 +19,7 @@ vim.g.neoformat_enabled_sass = { 'prettier' }
 -- javascript typescript
 vim.g.neoformat_enabled_javascript = { 'prettier' }
 vim.g.neoformat_enabled_typescript = { 'prettier' }
+vim.g.neoformat_enabled_typescriptreact = { 'prettier' }
 
 -- dart
 vim.g.neoformat_enabled_dart = { 'dartfmt' }
