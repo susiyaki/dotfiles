@@ -12,7 +12,7 @@ function! s:skkeleton_init() abort
     \ 'globalJisyo': '~/skk/SKK-JISYO.utf8',
     \ 'globalJisyoEncoding': 'utf-8',
     \ 'userJisyo': '~/.skkeleton',
-    \ 'useSkkServer': v:true,
+    \ 'useSkkServer': v:false,
     \ 'showCandidatesCount': 2
     \ })
   call skkeleton#register_kanatable('rom', {

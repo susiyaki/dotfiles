@@ -37,7 +37,7 @@ return require('packer').startup(
       },
     }
 
-    -- LSP
+    -- LSP/Linter
     use {
       {
         'neovim/nvim-lspconfig',
@@ -45,6 +45,8 @@ return require('packer').startup(
           'folke/lua-dev.nvim',
           'williamboman/mason.nvim',
           "williamboman/mason-lspconfig.nvim",
+          "jose-elias-alvarez/null-ls.nvim",
+          'jayp0521/mason-null-ls.nvim',
         },
         config = function() require'plugins.lsp' end
       },
@@ -86,12 +88,6 @@ return require('packer').startup(
 
       -- lsp_signature
       'ray-x/lsp_signature.nvim',
-
-      -- formatter
-      {
-        'sbdchd/neoformat',
-        config = function() require'plugins.lsp.neoformat' end
-      }
     }
 
     use {

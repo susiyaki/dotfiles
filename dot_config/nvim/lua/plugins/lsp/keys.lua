@@ -31,7 +31,7 @@ return function(client, bufnr)
   buf_set_keymap('n', '<leader>a', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   -- buf_set_keymap('i', '<C-k>', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
 
-
+  buf_set_keymap('n', '<leader>f', '<Cmd>lua vim.lsp.buf.format()<CR>', opts)
 
   -- Set some keybinds conditional on server capabilities
   -- if client.resolved_capabilities.document_formatting then
