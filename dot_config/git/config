@@ -10,6 +10,7 @@
   cp = cherry-pick
   fe = fetch
   pl = pull
+  plr = git pl origin (git br --show-current)
   ps = !git push origin `git rev-parse --abbrev-ref HEAD`; gh pr create -w
   reb = rebase
   res = restore
