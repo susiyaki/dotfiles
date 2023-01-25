@@ -1,7 +1,7 @@
 vim.cmd([[packadd packer.nvim]])
 return require('packer').startup(
   function(use)
-    use {'wbthomason/packer.nvim', opt = true}
+    use { 'wbthomason/packer.nvim', opt = true }
 
     -- Filer
     use {
@@ -13,7 +13,7 @@ return require('packer').startup(
         'kristijanhusak/defx-icons',
         'kristijanhusak/defx-git'
       },
-      config = function() require'plugins.defx' end
+      config = function() require 'plugins.defx' end
     }
 
     -- FuzzyFinder
@@ -25,7 +25,7 @@ return require('packer').startup(
           run = './install --all',
         }
       },
-      setup = function() require'plugins.fzf' end
+      setup = function() require 'plugins.fzf' end
     }
 
     -- Git
@@ -33,7 +33,7 @@ return require('packer').startup(
       'airblade/vim-gitgutter',
       {
         'tpope/vim-fugitive',
-        setup = function() require'plugins.vim-fugitive' end,
+        setup = function() require 'plugins.vim-fugitive' end,
       },
     }
 
@@ -48,18 +48,18 @@ return require('packer').startup(
           "jose-elias-alvarez/null-ls.nvim",
           'jayp0521/mason-null-ls.nvim',
         },
-        config = function() require'plugins.lsp' end
+        config = function() require 'plugins.lsp' end
       },
 
       {
         'glepnir/lspsaga.nvim',
-        config = function() require'plugins.lsp.saga' end
+        config = function() require 'plugins.lsp.saga' end
       },
 
       -- completion
       {
         'hrsh7th/nvim-cmp',
-        config = function() require'plugins.lsp.nvim-cmp' end,
+        config = function() require 'plugins.lsp.nvim-cmp' end,
       },
       'onsails/lspkind-nvim',
       'hrsh7th/cmp-nvim-lsp',
@@ -76,14 +76,14 @@ return require('packer').startup(
 
       {
         'j-hui/fidget.nvim',
-        config = function() require'fidget'.setup{} end
+        config = function() require 'fidget'.setup {} end
       },
 
 
       -- symbol outline
       {
         'simrat39/symbols-outline.nvim',
-        setup = function() require'plugins.symbols-outline' end
+        setup = function() require 'plugins.symbols-outline' end
       },
 
       -- lsp_signature
@@ -102,17 +102,14 @@ return require('packer').startup(
     -- StatusLine
     use {
       'nvim-lualine/lualine.nvim',
-      config = function() require'plugins.statusline' end,
+      config = function() require 'plugins.statusline' end,
     }
 
     use {
-      -- [auto-pairs]: auto pairs
-      'jiangmiao/auto-pairs',
-
       -- [dial.nvim]
       {
         'monaqa/dial.nvim',
-        setup = function() require'plugins.dial' end
+        setup = function() require 'plugins.dial' end
       },
 
       -- [skkeleton.vim]
@@ -133,6 +130,12 @@ return require('packer').startup(
       -- [nvim-bfq]: enhance quickfix
       'kevinhwang91/nvim-bqf',
 
+      -- [nvim-insx]: auto pair
+      {
+        'hrsh7th/nvim-insx',
+        config = function() require('plugins.nvim-insx') end
+      },
+
       -- [nvim-treesitter]: syntax highlight
       {
         'nvim-treesitter/nvim-treesitter',
@@ -142,13 +145,13 @@ return require('packer').startup(
       -- [vim-indent-guide]: visualize indent
       {
         'nathanaelkane/vim-indent-guides',
-        setup = function() require'plugins.vim-indent-guide' end
+        setup = function() require 'plugins.vim-indent-guide' end
       },
 
       -- [vim-quickrun]
       {
         'thinca/vim-quickrun',
-        setup = function() require'plugins.vim-quickrun' end
+        setup = function() require 'plugins.vim-quickrun' end
       },
 
       -- [vim-surround]:
@@ -157,19 +160,19 @@ return require('packer').startup(
       -- [tcomment_vim]
       {
         'tomtom/tcomment_vim',
-        setup = function() require'plugins.tcomment_vim' end
+        setup = function() require 'plugins.tcomment_vim' end
       },
 
       -- [vim-trailing-whitespace]: visualize white space
       {
         'bronson/vim-trailing-whitespace',
-        setup = function() require'plugins.vim-trailing-whitespace' end,
+        setup = function() require 'plugins.vim-trailing-whitespace' end,
       },
 
       -- [switch.vim]: toggle boolean
       {
         'AndrewRadev/switch.vim',
-        setup = function() require'plugins.switch' end
+        setup = function() require 'plugins.switch' end
       },
 
       -- [winresizer]: window resizer
@@ -178,7 +181,7 @@ return require('packer').startup(
       -- [yankround.vim]: enhaunce yank
       {
         'LeafCage/yankround.vim',
-        setup = function() require'plugins.yankround' end
+        setup = function() require 'plugins.yankround' end
       },
 
       -- [vimproc]
@@ -199,13 +202,13 @@ return require('packer').startup(
     }
 
     -- Lazy
-      -- web develop
+    -- web develop
     use {
       {
         -- [emmet-vim]
         {
           'mattn/emmet-vim',
-          setup = function() require'plugins.emmet' end
+          setup = function() require 'plugins.emmet' end
         },
         -- [vim-coloresque]
         'gko/vim-coloresque',
@@ -217,7 +220,7 @@ return require('packer').startup(
         -- [vim-table-mode]
         {
           'dhruvasagar/vim-table-mode',
-          setup = function() require'plugins.vim-table-mode' end
+          setup = function() require 'plugins.vim-table-mode' end
         },
         {
           'iamcco/markdown-preview.nvim',
