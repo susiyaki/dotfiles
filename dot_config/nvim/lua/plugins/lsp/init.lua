@@ -1,10 +1,8 @@
 USER = vim.fn.expand('$USER')
 
 local mason = require("mason")
-local mason_lspconfig = require("mason-lspconfig")
 local null_ls = require('null-ls')
 local mason_null_ls = require("mason-null-ls")
-local nvim_lsp = require('lspconfig')
 
 mason.setup()
 
@@ -26,37 +24,7 @@ mason_null_ls.setup({
 })
 mason_null_ls.setup_handlers()
 
--- lsp config
-local on_attach = function(client, bufnr)
-  require 'plugins.lsp.keys' (client, bufnr)
-  require 'plugins.lsp.settings'.on_attach(bufnr)
-end
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-
--- Code actions
-capabilities.textDocument.codeAction = {
-  dynamicRegistration = true,
-  codeActionLiteralSupport = {
-    codeActionKind = {
-      valueSet = (function()
-        local res = vim.tbl_values(vim.lsp.protocol.CodeActionKind)
-        table.sort(res)
-        return res
-      end)()
-    }
-  }
-}
-
-capabilities.textDocument.completion.completionItem.snippetSupport = true;
-
-mason_lspconfig.setup_handlers({ function(server)
-  local opts = { capabilities = capabilities, on_attach = on_attach }
-
-  nvim_lsp[server].setup(opts)
-end
-})
-
+require('plugins.lsp.mason_lspconfig')
 
 -- LSP Enable diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] =
