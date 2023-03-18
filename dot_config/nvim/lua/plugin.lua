@@ -3,6 +3,17 @@ return require('packer').startup(
   function(use)
     use { 'wbthomason/packer.nvim', opt = true }
 
+    -- AI
+    use {
+      "jackMort/ChatGPT.nvim",
+      requires = {
+        "MunifTanjim/nui.nvim",
+        "nvim-lua/plenary.nvim",
+        "nvim-telescope/telescope.nvim"
+      },
+      config = function() require 'plugins.chatgpt' end
+    }
+    use { "github/copilot.vim", config = function() require 'plugins.copilot' end }
     -- Filer
     use {
       'Shougo/defx.nvim',
@@ -164,10 +175,10 @@ return require('packer').startup(
       },
 
       -- [vim-trailing-whitespace]: visualize white space
-      {
-        'bronson/vim-trailing-whitespace',
-        setup = function() require 'plugins.vim-trailing-whitespace' end,
-      },
+      -- {
+      --   'bronson/vim-trailing-whitespace',
+      --   setup = function() require 'plugins.vim-trailing-whitespace' end,
+      -- },
 
       -- [switch.vim]: toggle boolean
       {
