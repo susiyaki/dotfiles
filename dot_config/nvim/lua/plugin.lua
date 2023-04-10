@@ -4,15 +4,15 @@ return require('packer').startup(
     use { 'wbthomason/packer.nvim', opt = true }
 
     -- AI
-    use {
-      "jackMort/ChatGPT.nvim",
-      requires = {
-        "MunifTanjim/nui.nvim",
-        "nvim-lua/plenary.nvim",
-        "nvim-telescope/telescope.nvim"
-      },
-      config = function() require 'plugins.chatgpt' end
-    }
+    -- use {
+    --   "jackMort/ChatGPT.nvim",
+    --   requires = {
+    --     "MunifTanjim/nui.nvim",
+    --     "nvim-lua/plenary.nvim",
+    --     "nvim-telescope/telescope.nvim"
+    --   },
+    --   config = function() require 'plugins.chatgpt' end
+    -- }
     use { "github/copilot.vim", config = function() require 'plugins.copilot' end }
     -- Filer
     use {
