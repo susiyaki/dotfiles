@@ -29,6 +29,7 @@ exec "setxkbmap -layout us"
 exec dex -ae i3
 exec --no-startup-id fcitx5 -d
 exec --no-startup-id picom
+exec --no-startup-id "xset r rate 250 100"
 exec_always --no-startup-id dunst -config /home/susiyaki/.config/dunst/dunstrc
 
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
