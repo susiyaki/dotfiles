@@ -1,6 +1,11 @@
 eval (ssh-agent -c) >/dev/null
-keychain -q $HOME/.ssh/github/id_rsa
-source $HOME/.keychain/(hostname)-fish
+
+if [ (uname -s) = "Darwin" ]
+    eval (/opt/homebrew/bin/brew shellenv) >/dev/null
+else
+    keychain -q $HOME/.ssh/github/id_rsa
+    source $HOME/.keychain/(hostname)-fish
+end
 
 # nodenv
 if type -q nodenv
