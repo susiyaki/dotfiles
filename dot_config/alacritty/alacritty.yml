@@ -1,6 +1,6 @@
 # tmuxを起動
 shell:
-  program: /usr/bin/fish
+  program: /opt/homebrew/bin/fish
   args:
     - -l
     - -c
@@ -8,7 +8,7 @@ shell:
 
 # font設定
 font:
-  size: 10
+  size: 12
   offset:
     y: 1
   normal:
