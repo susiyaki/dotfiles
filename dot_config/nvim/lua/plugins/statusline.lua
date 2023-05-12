@@ -44,11 +44,11 @@ local sep = {
 
 local icons = {
   locker = '' ,
-  unsaved = '',
+  unsaved = '⚉',
   dos = '',
   unix = '',
   mac = '',
-  lsp_status = ''
+  lsp_status = '☍'
 }
 
 local theme = {
