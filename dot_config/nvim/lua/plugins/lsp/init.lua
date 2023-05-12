@@ -20,9 +20,9 @@ mason_null_ls.setup({
     'shfmt',
   },
   automatic_installation = true,
-  automatic_setup = true
+  automatic_setup = true,
+  handlers = {}
 })
-mason_null_ls.setup_handlers()
 
 require('plugins.lsp.mason_lspconfig')
 
