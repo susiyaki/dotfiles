@@ -9,8 +9,7 @@ function! s:skkeleton_init() abort
   call skkeleton#config({
     \ 'debug': v:false,
     \ 'eggLikeNewline': v:true,
-    \ 'globalJisyo': '~/skk/SKK-JISYO.utf8',
-    \ 'globalJisyoEncoding': 'utf-8',
+    \ 'globalJisyo': '~/skk/SKK-JISYO.L',
     \ 'userJisyo': '~/.skkeleton',
     \ 'useSkkServer': v:false,
     \ 'showCandidatesCount': 2
@@ -26,4 +25,3 @@ augroup skkeleton-initialize-pre
   autocmd User skkeleton-initialize-pre call s:skkeleton_init()
 augroup END
 ]])
-
