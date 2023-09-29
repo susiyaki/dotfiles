@@ -1,8 +1,7 @@
 local api = vim.api
 
 local vars = {
-  python_host_prog = '$HOME/.pyenv/versions/neovim2/bin/python',
-  python3_host_prog = '$HOME/.pyenv/versions/neovim3/bin/python',
+  python3_host_prog = '$HOME/.venv/neovim3/bin/python',
   loaded_matchparen = 1
 }
 
