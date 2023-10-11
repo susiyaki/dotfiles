@@ -48,6 +48,7 @@ test -d $HOME/Library/Android/sdk/platform-tools && set -gx PATH $HOME/Library/A
 test -d $HOME/Android/Sdk/tools && set -gx PATH $HOME/Android/Sdk/tools $PATH
 test -d $HOME/Android/Sdk/tools/bin && set -gx PATH $HOME/Android/Sdk/tools/bin $PATH
 test -d $HOME/Android/Sdk/platform-tools && set -gx PATH $HOME/Android/Sdk/platform-tools $PATH
+test -d /Users/laeno/Library/Android/sdk && set -gx ANDROID_HOME /Users/laeno/Library/Android/sdk
 
 # openssl
 test -d /usr/local/opt/openssl@1.1/bin && set -gx PATH /usr/local/opt/openssl@1.1/bin $PATH

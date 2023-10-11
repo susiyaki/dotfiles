@@ -53,3 +53,36 @@ colors:
   cursor:
       text: '0xffffff'
       cursor: '0xe649ce'
+
+# key_bindings:
+#   - { key: A,         mods: Command,       chars: "\x01" }
+#   - { key: B,         mods: Command,       chars: "\x02" }
+#   - { key: C,         mods: Command,       chars: "\x03" }
+#   - { key: D,         mods: Command,       chars: "\x04" }
+#   - { key: E,         mods: Command,       chars: "\x05" }
+#   - { key: F,         mods: Command,       chars: "\x06" }
+#   - { key: G,         mods: Command,       chars: "\x07" }
+#   - { key: H,         mods: Command,       chars: "\x08" }
+#   - { key: I,         mods: Command,       chars: "\x09" }
+#   - { key: J,         mods: Command,       chars: "\x10" }
+#   - { key: K,         mods: Command,       chars: "\x11" }
+#   - { key: L,         mods: Command,       chars: "\x12" }
+#   - { key: M,         mods: Command,       chars: "\x13" }
+#   - { key: N,         mods: Command,       chars: "\x14" }
+#   - { key: O,         mods: Command,       chars: "\x15" }
+#   - { key: P,         mods: Command,       chars: "\x16" }
+#   - { key: Q,         mods: Command,       chars: "\x17" }
+#   - { key: R,         mods: Command,       chars: "\x18" }
+#   - { key: S,         mods: Command,       chars: "\x19" }
+#   - { key: T,         mods: Command,       chars: "\x20" }
+#   - { key: U,         mods: Command,       chars: "\x21" }
+#   - { key: V,         mods: Command,       chars: "\x22" }
+#   - { key: W,         mods: Command,       chars: "\x23" }
+#   - { key: X,         mods: Command,       chars: "\x24" }
+#   - { key: Y,         mods: Command,       chars: "\x25" }
+#   - { key: Z,         mods: Command,       chars: "\x26" }
+#   - { key: LBracket,  mods: Command,       chars: "\x27" }
+#   - { key: Backslash, mods: Command,       chars: "\x28" }
+#   - { key: RBracket,  mods: Command,       chars: "\x29" }
+#
+

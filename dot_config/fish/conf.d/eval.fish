@@ -8,9 +8,9 @@ else
 end
 
 # nodenv
-if type -q nodenv
-    source (nodenv init - |psub)
-end
+# if type -q nodenv
+#     source (nodenv init - |psub)
+# end
 
 # pyenv
 if type -q pyenv
@@ -19,10 +19,10 @@ if type -q pyenv
     status --is-interactive; and source (pyenv virtualenv-init -|psub)
 end
 
-# rbenv
-if type -q rbenv
-    status --is-interactive; and rbenv init - fish | source
-end
+# # rbenv
+# if type -q rbenv
+#     status --is-interactive; and rbenv init - fish | source
+# end
 
 # jenv
 if type -q jenv
@@ -42,4 +42,9 @@ end
 # github cli
 if type -q gh
     eval (gh completion -s fish | source)
+end
+
+# asdf
+if type -q asdf
+  source /opt/homebrew/opt/asdf/libexec/asdf.fish
 end
