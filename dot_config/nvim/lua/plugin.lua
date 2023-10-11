@@ -34,7 +34,8 @@ return require('packer').startup(
         {
           'junegunn/fzf',
           run = './install --all',
-        }
+        },
+        'kyoh86/vim-ripgrep'
       },
       setup = function() require 'plugins.fzf' end
     }
