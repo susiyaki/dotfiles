@@ -13,7 +13,6 @@ bluez-utils
 chezmoi
 cups
 dart
-dbeaver
 deno
 dex
 dialog

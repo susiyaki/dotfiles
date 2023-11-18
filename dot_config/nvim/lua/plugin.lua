@@ -34,8 +34,7 @@ return require('packer').startup(
         {
           'junegunn/fzf',
           run = './install --all',
-        },
-        'kyoh86/vim-ripgrep'
+        }
       },
       setup = function() require 'plugins.fzf' end
     }
@@ -129,6 +128,14 @@ return require('packer').startup(
         'vim-skk/skkeleton',
         config = function() require('plugins.skkeleton') end,
         requires = {
+          'vim-denops/denops.vim'
+        }
+      },
+
+      -- [silicon]
+      {
+        'skanehira/denops-silicon.vim',
+        required = {
           'vim-denops/denops.vim'
         }
       },
