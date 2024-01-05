@@ -1,7 +1,3 @@
-local utils = require('utils')
-
-utils.map('n', '<C-w>', ':<C-U>:Defx -resume -split=vertical -vertical_preview -buffer-name=`"defx" . tabpagenr()`<CR>', { noremap = false, silent = true })
-
 vim.fn['defx#custom#option']('_', {
   winwidth = 35,
   split = 'vertical',

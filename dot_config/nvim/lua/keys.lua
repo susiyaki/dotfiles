@@ -37,7 +37,7 @@ utils.map('n', '<C-c>', '<Nop>')
 
 utils.map('i', 'jj', '<ESC>')
 
-utils.map('n', ']r', ':luafile ~/.config/nvim/lua/plugins/lsp/mason_lspconfig.lua<CR>', { noremap = true, silent = true })
+-- utils.map('n', ']r', ':luafile ~/.config/nvim/lua/plugins/lsp/mason_lspconfig.lua<CR>', { noremap = true, silent = true })
 
 vim.cmd([[
   au FileType qf nnoremap <silent><buffer>q :quit<CR>

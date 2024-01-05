@@ -1,7 +1,3 @@
-local utils = require('utils')
-
-utils.map('n', '<leader>o', ":SymbolsOutlineOpen<CR>")
-
 vim.g.symbols_outline = {
     highlight_hovered_item = true,
     show_guides = true,
