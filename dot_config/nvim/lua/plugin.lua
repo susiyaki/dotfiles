@@ -65,6 +65,10 @@ return require('lazy').setup({
     config = function() require 'plugins.lsp' end,
     keys = {
       { "]r", ":luafile ~/.config/nvim/lua/plugins/lsp/mason_lspconfig.lua<CR>", noremap = true, silent = true }
+    },
+    ft = {
+      "typescript",
+      "typescriptreact",
     }
   },
   {
@@ -75,6 +79,7 @@ return require('lazy').setup({
   -- Completion
   {
     "hrsh7th/nvim-cmp",
+    event = "InsertEnter",
     dependencies = {
       { "onsails/lspkind-nvim" },
       { "hrsh7th/cmp-nvim-lsp" },
@@ -104,12 +109,6 @@ return require('lazy').setup({
   },
 
   -- Utilities
-  {
-    "simrat39/symbols-outline.nvim",
-    keys = {
-      "<Leader>o", ":SymbolsOutline<CR>"
-    }
-  },
   {
     "monaqa/dial.nvim",
     keys = {
@@ -170,6 +169,11 @@ return require('lazy').setup({
   },
   { "Shougo/vimproc.vim" },
   { "gko/vim-coloresque" },
+  {
+    "shellRaining/hlchunk.nvim",
+    event = "UIEnter",
+    config = function() require('plugins.hlchunk') end
+  },
 
   -- Web
   {
