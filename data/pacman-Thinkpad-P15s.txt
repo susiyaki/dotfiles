@@ -10,14 +10,13 @@ binutils
 bison
 bluez
 bluez-utils
-cawbird
 chezmoi
 cups
 dart
-dbeaver
 deno
 dex
 dialog
+direnv
 discord
 dmenu
 docker-compose
@@ -43,7 +42,7 @@ git
 github-cli
 groff
 grub
-i3-gaps
+i3-wm
 i3status-rust
 inetutils
 intel-ucode
@@ -77,6 +76,7 @@ patch
 pavucontrol
 pcmanfm-qt
 peek
+picom
 pkgconf
 postgresql
 prettier
@@ -84,12 +84,14 @@ pulseaudio-bluetooth
 reflector
 rofi
 rust
+sentry-cli
 sof-firmware
 sudo
 telegram-desktop
 texinfo
 tlp-rdw
 tmux
+ttf-hack-nerd
 ttf-roboto
 which
 wireless_tools
