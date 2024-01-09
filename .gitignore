@@ -7,3 +7,6 @@ dot_config/fish/fish_variables
 
 # neovim
 dot_config/nvim/plugin/packer_compiled.lua
+
+# lazygift
+dot_config/lazygit/state.yml
