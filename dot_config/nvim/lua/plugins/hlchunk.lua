@@ -7,6 +7,18 @@ require("hlchunk").setup({
     right_arrow = ">",
   },
   chunk = {
-    notify = false
+    notify = false,
+    style = {
+      { fg = "#ffac59" },
+      { fg = "#808080" }
+    }
+  },
+  line_num = {
+    style = "#ffac59"
+  },
+  blank = {
+    chars = {
+      ""
+    }
   }
 })
