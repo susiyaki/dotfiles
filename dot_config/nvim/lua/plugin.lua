@@ -35,7 +35,6 @@ return require('lazy').setup({
       { "<C-]>bc",          ":BCommits<CR>",      noremap = true, silent = true },
       { "<C-]><C-c>",       ":History:<CR>",      noremap = true, silent = true },
       { "<C-]><C-s>",       ":History/<CR>",      noremap = true, silent = true },
-      { "<Leader><Leader>", ":Commands<CR>",      noremap = true, silent = true },
     },
     config = function() require 'plugins.fzf' end
   },
@@ -47,39 +46,11 @@ return require('lazy').setup({
     config = function() require 'plugins.vim-fugitive' end,
   },
 
-  -- LSP/Linter
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      { "folke/lua-dev.nvim" },
-      { "williamboman/mason.nvim" },
-      { "williamboman/mason-lspconfig.nvim" },
-      {
-        "jose-elias-alvarez/null-ls.nvim",
-        dependencies = {
-          "nvim-lua/plenary.nvim"
-        }
-      },
-      { "jayp0521/mason-null-ls.nvim" },
-    },
-    config = function() require 'plugins.lsp' end,
-    keys = {
-      { "]r", ":luafile ~/.config/nvim/lua/plugins/lsp/mason_lspconfig.lua<CR>", noremap = true, silent = true }
-    },
-    ft = {
-      "typescript",
-      "typescriptreact",
-    }
-  },
-  {
-    "glepnir/lspsaga.nvim",
-    config = function() require 'plugins.lsp.saga' end
-  },
-  { "ray-x/lsp_signature.nvim" },
   -- Completion
   {
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
+    config = function() require 'plugins.lsp.nvim-cmp' end,
     dependencies = {
       { "onsails/lspkind-nvim" },
       { "hrsh7th/cmp-nvim-lsp" },
@@ -89,7 +60,37 @@ return require('lazy').setup({
       { "hrsh7th/cmp-vsnip" },
       { "hrsh7th/vim-vsnip" },
       { "hrsh7th/vim-vsnip-integ" },
-      { "j-hui/fidget.nvim" }
+      { "j-hui/fidget.nvim" },
+    }
+  },
+
+  -- LSP
+  {
+    "glepnir/lspsaga.nvim",
+    config = function() require 'plugins.lsp.saga' end,
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      dependencies = {
+        { "folke/lua-dev.nvim" },
+        { "williamboman/mason.nvim" },
+        { "williamboman/mason-lspconfig.nvim" },
+        {
+          "jose-elias-alvarez/null-ls.nvim",
+          dependencies = {
+            "nvim-lua/plenary.nvim"
+          }
+        },
+        { "jayp0521/mason-null-ls.nvim" },
+      },
+      config = function() require 'plugins.lsp' end,
+      keys = {
+        { "]r", ":luafile ~/.config/nvim/lua/plugins/lsp/mason_lspconfig.lua<CR>", noremap = true, silent = true }
+      },
+      ft = {
+        "typescript",
+        "typescriptreact",
+        "lua"
+      }
     }
   },
 
