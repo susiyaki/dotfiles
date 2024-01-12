@@ -184,10 +184,8 @@ return require('lazy').setup({
       "html",
       "css",
       "eruby",
-      "javascript",
-      "typescript",
-      "javascript.jsx",
-      "typescript.tsx",
+      'javascriptreact',
+      'typescriptreact',
       "xml"
     }
   },
