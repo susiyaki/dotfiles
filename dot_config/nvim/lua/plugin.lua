@@ -179,7 +179,7 @@ return require('lazy').setup({
   -- Web
   {
     "mattn/emmet-vim",
-    config = function() require('plugins.emmet') end,
+    init = function() require('plugins.emmet') end,
     ft = {
       "html",
       "css",
