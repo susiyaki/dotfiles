@@ -9,18 +9,17 @@ function! s:skkeleton_init() abort
   call skkeleton#config({
     \ 'debug': v:false,
     \ 'eggLikeNewline': v:true,
-    \ 'globalJisyo': '~/skk/SKK-JISYO.utf8',
-    \ 'globalJisyoEncoding': 'utf-8',
-    \ 'userJisyo': '~/.skkeleton',
-    \ 'useSkkServer': v:false,
-    \ 'showCandidatesCount': 2
+    \ 'userDictionary': '~/.skkeleton',
+    \ 'globalDictionaries': ['~/skk/SKK-JISYO.L'],
+    \ 'showCandidatesCount': 2,
+    \ 'sources': ['skk_dictionary', 'google_japanese_input'],
     \ })
   call skkeleton#register_kanatable('rom', {
     \ 'jj': 'escape',
-    \ 'z\/': '・',
     \ "z\<Space>": ["\u3000", ''],
     \ })
 endfunction
+
 augroup skkeleton-initialize-pre
   autocmd!
   autocmd User skkeleton-initialize-pre call s:skkeleton_init()
