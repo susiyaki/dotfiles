@@ -32,8 +32,9 @@ mason_lspconfig.setup_handlers({ function(server)
 
   if server == "tsserver" then
     opts.root_dir = nvim_lsp.util.root_pattern("package.json")
+    opts.single_file_support = false
   elseif server == "denols" then
-    opts.root_dir = nvim_lsp.util.root_pattern("deno.json")
+    opts.root_dir = nvim_lsp.util.root_pattern("deno.json", "deno.jsonc")
     opts.init_options = {
       lint = true,
       unstable = true,
@@ -47,6 +48,11 @@ mason_lspconfig.setup_handlers({ function(server)
         }
       }
     }
+  elseif server == "biome" then
+    opts.root_dir = nvim_lsp.util.root_pattern("biome.json")
+    opts.single_file_support = false
+  elseif server == "eslint" then
+    opts.root_dir = nvim_lsp.util.root_pattern("package.json")
   end
 
   nvim_lsp[server].setup(opts)
