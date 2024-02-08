@@ -25,16 +25,16 @@ return require('lazy').setup({
       { "junegunn/fzf" }
     },
     keys = {
-      { "<C-]><C-g>",       ":GFiles<CR>",        noremap = true, silent = true },
-      { "<C-]><C-f>",       ":Files<CR>",         noremap = true, silent = true },
-      { "<C-]><C-b>",       ":Buffers<CR>",       noremap = true, silent = true },
-      { "<C-g><C-g>",       ":Rg<Space>",         noremap = true, silent = true },
-      { "<C-g><C-w>",       ":Rg <C-R><C-w><CR>", noremap = true, silent = true },
-      { "<C-]>s",           ":GFiles?<CR>",       noremap = true, silent = true },
-      { "<C-]>c",           ":Commits<CR>",       noremap = true, silent = true },
-      { "<C-]>bc",          ":BCommits<CR>",      noremap = true, silent = true },
-      { "<C-]><C-c>",       ":History:<CR>",      noremap = true, silent = true },
-      { "<C-]><C-s>",       ":History/<CR>",      noremap = true, silent = true },
+      { "<C-]><C-g>", ":GFiles<CR>",        noremap = true, silent = true },
+      { "<C-]><C-f>", ":Files<CR>",         noremap = true, silent = true },
+      { "<C-]><C-b>", ":Buffers<CR>",       noremap = true, silent = true },
+      { "<C-g><C-g>", ":Rg<Space>",         noremap = true, silent = true },
+      { "<C-g><C-w>", ":Rg <C-R><C-w><CR>", noremap = true, silent = true },
+      { "<C-]>s",     ":GFiles?<CR>",       noremap = true, silent = true },
+      { "<C-]>c",     ":Commits<CR>",       noremap = true, silent = true },
+      { "<C-]>bc",    ":BCommits<CR>",      noremap = true, silent = true },
+      { "<C-]><C-c>", ":History:<CR>",      noremap = true, silent = true },
+      { "<C-]><C-s>", ":History/<CR>",      noremap = true, silent = true },
     },
     config = function() require 'plugins.fzf' end
   },
@@ -113,12 +113,10 @@ return require('lazy').setup({
   {
     "monaqa/dial.nvim",
     keys = {
-      { "<C-a>",  "<Plug>(dial-increment)" },
-      { "<C-x>",  "<Plug>(dial-decrement)" },
-      { "<C-a>",  "<Plug>(dial-increment-additional)" },
-      { "<C-x>",  "<Plug>(dial-decrement-additional)" },
-      { "g<C-a>", "<Plug>(dial-increment-additional)" },
-      { "g<C-x>", "<Plug>(dial-decrement-additional)" },
+      { "<C-a>",  "<Plug>(dial-increment)",  mode = { "n", "v" } },
+      { "<C-x>",  "<Plug>(dial-decrement)",  mode = { "n", "v" } },
+      { "g<C-a>", "g<Plug>(dial-increment)", mode = { "n", "v" } },
+      { "g<C-x>", "g<Plug>(dial-decrement)", mode = { "n", "v" } },
     }
   },
   {
