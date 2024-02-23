@@ -7,3 +7,5 @@ todo/
 data/
 
 dot_config/fish/fish_variables
+
+dot_config/fcitx5/conf/private_cached_layouts

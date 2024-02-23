@@ -10,9 +10,6 @@ abbr dc docker-compose
 # fzf
 abbr f fzf
 
-# atcoder
-abbr cc "cargo compete"
-
 # directory指定省略
 alias rm="rm -i"
 alias cp="cp -i"
@@ -22,32 +19,12 @@ alias mkdir="mkdir -p"
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo="sudo "
 
-# rails
-alias rails="bundle exec rails"
-alias be="bundle exec"
-alias cap="bundle exec cap"
-alias binstall="bundle install -j4"
-
-# flutter
-abbr fl "fvm flutter"
-abbr fld "fvm flutter pub global run devtools"
-
-# android
-alias sdkmanager="sdkmanager --sdk_root='$ANDROID_SDK_ROOT'"
-
 # lazygit
 # docui
 abbr gl lazygit
 abbr dl lazydocker
 
-# yarn
-abbr y yarn
-abbr yw "yarn workspace"
-abbr yws "yarn workspaces"
-
-# utern
-alias cwlogs="aws logs describe-log-groups --query "logGroups[].[logGroupName]" --output text"
-
+# nvim
 if type -q nvim
   if type -q tmux
     alias vim="tmux new-window nvim"
@@ -58,8 +35,7 @@ if type -q nvim
   end
 end
 
-alias nvimp="nvim $HOME/.config/nvim/lua/plugin.lua"
-
+# rust apps
 if type -q exa
   alias ls="exa"
   alias la="exa -a"

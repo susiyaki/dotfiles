@@ -12,6 +12,8 @@ main() {
   pacman -Qqe | grep -Fvx "$(pacman -Qqm)" > "$TARGET"
   echo ""
   echo "Backup pacman libraries is completed."
+  echo ""
+  echo ""
 }
 
 main

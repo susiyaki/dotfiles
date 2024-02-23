@@ -12,7 +12,7 @@ if type -q gh
     eval (gh completion -s fish | source)
 end
 
-# asdf
-if test -f /opt/asdf-vm/asdf.fish
-  source /opt/asdf-vm/asdf.fish
+# mise
+if test -f "$HOME/.local/bin/mise"
+  $HOME/.local/bin/mise activate fish | source
 end
