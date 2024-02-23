@@ -11,10 +11,10 @@ set $term alacritty
 set $browser google-chrome-stable
 
 # Display
-output eDP-1 scale 1.3
+output eDP-1 scale 1.5
 
 # Font
-font pango:monospace 18
+font pango:monospace 10
 
 # Wallpaper
 output "*" bg /usr/share/backgrounds/archlinux/small.png fill
@@ -40,6 +40,9 @@ bindsym $alt+Shift+c reload
 bindsym $alt+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 ## Notification
+set $flavor macchiato
+set $version v0.1.2.1
+exec_always if [ ! -f ~/.config/swaync/style.css ]; then $(mkdir -p ~/.config/swaync && curl -L https://github.com/catppuccin/swaync/releases/download/$version/$flavor.css -o ~/.config/swaync/style.css); fi
 bindsym $super+Shift+n exec swaync-client -t -sw
 
 ## Lock
@@ -55,15 +58,16 @@ bindsym $super+e exec thunar
 # Clipboard
 bindsym Control+semicolon  exec clipman pick -t rofi
 
+# Bluetooth
+for_window [app_id="blueman-manager"] floating enable
+
 ## App shortcuts
 bindsym $super+Return exec $term
 bindsym $alt+Ctrl+t exec $term
 bindsym $alt+Ctrl+b exec $browser
 
-
 ## Kill focused window
 bindsym $alt+Shift+q kill
-
 
 # Moving
 # Move your focus around
@@ -174,7 +178,6 @@ exec_always "systemctl --user import-environment; systemctl --user start sway-se
 exec swaync
 exec swayidle -w timeout 300 'swaylock -f -C ~/.config/swaylock/config' timeout 1200 'systemctl suspend'
 exec blueman-applet
-for_window [app_id="blueman-manager"] floating enable
 exec fcitx5 -d
 exec wl-paste -t text --watch ~/.config/sway/scripts/myclipman
 exec nm-applet --indicator

@@ -1,26 +1,94 @@
 {
-  "layer": "top",
-  "position": "top",
-  "spacing": 0,
+  "layer": "top", // Waybar at top layer
+  "position": "top", // Waybar position (top|bottom|left|right)
+  "spacing": 4, // Gaps between modules (4px)
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": ["sway/window"],
-  "modules-right": ["cpu", "memory", "pulseaudio", "backlight", "battery", "clock", "tray", "idle_inhibitor"],
+  "modules-right": ["custom/vpn", "cpu", "memory", "pulseaudio", "backlight", "battery", "clock", "tray", "idle_inhibitor"],
+  // Modules configuration
   "sway/workspaces": {
-    "disable-scroll" :true,
-    "all-outputs": false
+    "disable-scroll": true,
+    "all-outputs": false,
+    "format": "{index} {icon}",
+    "format-icons": {
+      "1: main": "",
+      "9: sub": "",
+      "2: slack": "",
+      "3: disco": "",
+      "8: game": "",
+      "10: media": "",
+      "urgent": "",
+      "focused": "",
+      "default": ""
+    }
+  },
+  "sway/mode": {
+    "format": "<span style=\"italic\">{}</span>"
   },
   "idle_inhibitor": {
     "format": "{icon}",
     "format-icons": {
-      "activated": "TODO",
-      "deactivated": "TODO"
+      "activated": "",
+      "deactivated": ""
     }
   },
   "tray": {
     "icon-size": 24,
-    "spacing": 4
+    "spacing": 2
   },
   "clock": {
-    "timezone": "Asia/Tokyo",
-  }
+    // "timezone": "America/New_York",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format": "{:%Y-%m-%d(%a) %H:%M}",
+    "format-alt": "{:%Y-%m-%d(%a) %H:%M}"
+  },
+  "cpu": {
+    "format": "   {usage}%",
+    "tooltip": false
+  },
+  "memory": {
+    "format": "   {used:0.1f}G / {total:0.1f}G  ({percentage}%)"
+  },
+  "backlight": {
+    "format": "{icon}   {percent}%",
+    "format-icons": ["", "", "", "", "", "", "", "", ""]
+  },
+  "battery": {
+    "states": {
+      "full": 100,
+      // "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}    {capacity}%",
+    "format-charging": "   {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-alt": "{time} {icon}",
+    "format-full": "",
+    "format-icons": ["", "", "", "", ""]
+  },
+  "pulseaudio": {
+    "format": "{icon}   {volume}%   {format_source}",
+    "format-bluetooth": " {icon} {volume}% {format_source}",
+    "format-bluetooth-muted": "  {format_source}",
+    "format-muted": " {format_source}",
+    "format-source": " {volume}%",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    },
+    "on-click": "pavucontrol"
+  },
+  "custom/vpn": {
+    "format": "   {}",
+    "interval": 5,
+    "exec": "$HOME/.config/waybar/scripts/nm-vpn.sh",
+    "exec-if": "exit 0"
+   }
 }
