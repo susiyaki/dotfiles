@@ -159,7 +159,7 @@ bar {
   swaybar_command waybar
 }
 
-# Keyboard & Touchpad 
+# Keyboard & Touchpad
 input type:keyboard {
   repeat_delay 300
   repeat_rate 50
@@ -178,6 +178,8 @@ exec_always "systemctl --user import-environment; systemctl --user start sway-se
 exec swaync
 exec swayidle -w timeout 300 'swaylock -f -C ~/.config/swaylock/config' timeout 1200 'systemctl suspend'
 exec blueman-applet
-exec fcitx5 -d
+exec --no-startup-id fcitx5 -d
 exec wl-paste -t text --watch ~/.config/sway/scripts/myclipman
 exec nm-applet --indicator
+
+include /etc/sway/config.d/*
