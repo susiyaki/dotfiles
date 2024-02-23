@@ -1,22 +1,19 @@
 #!/bin/sh
 
-MACHINE_NAME=$(chezmoi data | jq ".machine_name" | sed -e 's/"//g')
 CHEZMOI_ROOT=$(chezmoi data | jq ".chezmoi.sourceDir" | sed -e 's/"//g')
-CHEZMOI_DATA=(
-  "machine_name"
-)
+CHEZMOI_DATA=("machine_name")
 
 ERROR=0
 
-function get_chezmoidata() {
-  echo $(chezmoi data | jq ".$1")
+get_chezmoidata() {
+ chezmoi data | jq ".$1"
 }
 
-function main() {
+main() {
   echo "Checking .chezmoidata.toml..."
   echo ""
 
-  if [ ! -f $CHEZMOI_ROOT/.chezmoidata.toml ]; then
+  if [ ! -f "$CHEZMOI_ROOT/.chezmoidata.toml" ]; then
     echo ".chezmoidata.toml is not exists."
     exit 1
   fi
@@ -32,8 +29,8 @@ function main() {
 
   echo ""
 
-  if [ $ERROR == 1 ]; then
-    echo "Error occured duaring checking .chezmoidata.toml."
+  if [ $ERROR = 1 ]; then
+    echo "Error occurred duaring checking .chezmoidata.toml."
     exit 1
   else
     echo "Succeeded to check .chezmoidata.toml."
