@@ -15,6 +15,7 @@ efibootmgr
 fcitx5
 fcitx5-configtool
 fcitx5-gtk
+fcitx5-qt
 fcitx5-skk
 fish
 flameshot
@@ -54,6 +55,7 @@ swayidle
 swaylock
 thunar
 tmux
+ttf-font-awesome
 ttf-hack-nerd
 ufw
 waybar
