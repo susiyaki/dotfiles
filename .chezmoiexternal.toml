@@ -1,3 +1,6 @@
 [".tmux/plugins/tpm"]
 type = 'git-repo'
 url = "https://github.com/tmux-plugins/tpm"
+[".local/share/skk/dict"]
+  type = "git-repo"
+  url = "https://github.com/skk-dev/dict.git"

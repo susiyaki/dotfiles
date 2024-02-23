@@ -10,7 +10,7 @@ function! s:skkeleton_init() abort
     \ 'debug': v:false,
     \ 'eggLikeNewline': v:true,
     \ 'userDictionary': '~/.skkeleton',
-    \ 'globalDictionaries': ['~/skk/SKK-JISYO.L'],
+    \ 'globalDictionaries': ['~/.local/share/skk/dict/SKK-JISYO.L'],
     \ 'showCandidatesCount': 2,
     \ 'sources': ['skk_dictionary', 'google_japanese_input'],
     \ })
