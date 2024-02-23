@@ -8,7 +8,6 @@ set $up k
 set $right l
 
 set $term alacritty
-set $browser google-chrome-stable
 
 # Display
 output eDP-1 scale 1.5
@@ -21,8 +20,8 @@ output "*" bg /usr/share/backgrounds/archlinux/small.png fill
 
 # Custom keybindings
 ## Basics
-bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
-bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+bindsym XF86MonBrightnessDown exec brightnessctl set 3%-
+bindsym XF86MonBrightnessUp exec brightnessctl set 3%+
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
 bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
@@ -63,8 +62,9 @@ for_window [app_id="blueman-manager"] floating enable
 
 ## App shortcuts
 bindsym $super+Return exec $term
-bindsym $alt+Ctrl+t exec $term
-bindsym $alt+Ctrl+b exec $browser
+bindsym $alt+Ctrl+t exec ~/.config/sway/scripts/focus_or_open $term
+bindsym $alt+Ctrl+b exec ~/.config/sway/scripts/focus_or_open google-chrome-stable
+bindsym $alt+Ctrl+s exec ~/.config/sway/scripts/focus_or_open slack
 
 ## Kill focused window
 bindsym $alt+Shift+q kill

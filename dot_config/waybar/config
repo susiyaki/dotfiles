@@ -11,13 +11,6 @@
     "all-outputs": false,
     "format": "{index} {icon}",
     "format-icons": {
-      "1: main": "",
-      "9: sub": "",
-      "2: slack": "",
-      "3: disco": "",
-      "8: game": "",
-      "10: media": "",
-      "urgent": "",
       "focused": "",
       "default": ""
     }
@@ -33,8 +26,8 @@
     }
   },
   "tray": {
-    "icon-size": 24,
-    "spacing": 2
+    "icon-size": 18,
+    "spacing": 4
   },
   "clock": {
     // "timezone": "America/New_York",
@@ -56,7 +49,6 @@
   "battery": {
     "states": {
       "full": 100,
-      // "good": 95,
       "warning": 30,
       "critical": 15
     },
@@ -64,7 +56,7 @@
     "format-charging": "   {capacity}%",
     "format-plugged": "  {capacity}%",
     "format-alt": "{time} {icon}",
-    "format-full": "",
+    "format-full": "{icon}    {capacity}%",
     "format-icons": ["", "", "", "", ""]
   },
   "pulseaudio": {
@@ -84,11 +76,5 @@
       "default": ["", "", ""]
     },
     "on-click": "pavucontrol"
-  },
-  "custom/vpn": {
-    "format": "   {}",
-    "interval": 5,
-    "exec": "$HOME/.config/waybar/scripts/nm-vpn.sh",
-    "exec-if": "exit 0"
-   }
+  }
 }
