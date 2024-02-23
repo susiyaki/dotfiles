@@ -62,4 +62,5 @@ ufw
 waybar
 wget
 wireplumber
+wl-clipboard
 xorg-xwayland
