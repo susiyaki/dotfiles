@@ -14,3 +14,10 @@ keymap:
       only: Alacritty
     remap:
       C-KEY_BACKSLASH: Esc
+  - name: Wofi
+    application:
+      only: wofi
+    remap:
+      C-n: down
+      C-p: up
+      C-c: Esc

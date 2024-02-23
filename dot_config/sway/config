@@ -39,23 +39,22 @@ bindsym $alt+Shift+c reload
 bindsym $alt+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
 ## Notification
-set $flavor macchiato
-set $version v0.1.2.1
-exec_always if [ ! -f ~/.config/swaync/style.css ]; then $(mkdir -p ~/.config/swaync && curl -L https://github.com/catppuccin/swaync/releases/download/$version/$flavor.css -o ~/.config/swaync/style.css); fi
 bindsym $super+Shift+n exec swaync-client -t -sw
 
 ## Lock
 bindsym $super+Shift+l exec swaylock -f -C ~/.config/swaylock/config
 
 ## Launcher
-bindsym $super+Tab exec "rofi -show window"
-bindsym $super+space exec "rofi -show combi"
+# bindsym $super+Tab exec "rofi -show window"
+# bindsym $super+space exec "rofi -show combi"
+bindsym $super+space exec wofi --show drun
 
 ## Filer
 bindsym $super+e exec thunar
 
 # Clipboard
-bindsym Control+semicolon  exec clipman pick -t rofi
+# bindsym Control+semicolon exec clipman pick -t rofi
+bindsym Control+semicolon exec clipman pick -t wofi -T'--prompt=clipboard-history -i'
 
 # Bluetooth
 for_window [app_id="blueman-manager"] floating enable

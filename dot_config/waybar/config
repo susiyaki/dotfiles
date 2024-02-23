@@ -3,8 +3,8 @@
   "position": "top", // Waybar position (top|bottom|left|right)
   "spacing": 4, // Gaps between modules (4px)
   "modules-left": ["sway/workspaces", "sway/mode"],
-  "modules-center": ["sway/window"],
-  "modules-right": ["custom/vpn", "cpu", "memory", "pulseaudio", "backlight", "battery", "clock", "tray", "idle_inhibitor"],
+  "modules-center": ["custom/clock"],
+  "modules-right": ["cpu", "memory", "pulseaudio", "backlight", "battery", "tray",  "idle_inhibitor"],
   // Modules configuration
   "sway/workspaces": {
     "disable-scroll": true,
@@ -29,11 +29,9 @@
     "icon-size": 18,
     "spacing": 4
   },
-  "clock": {
-    // "timezone": "America/New_York",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format": "{:%Y-%m-%d(%a) %H:%M}",
-    "format-alt": "{:%Y-%m-%d(%a) %H:%M}"
+  "custom/clock": {
+    "exec": "echo '  '$(date +'%m-%d ( %a )  %H:%M')'  '",
+    "interval": 5
   },
   "cpu": {
     "format": "   {usage}%",
