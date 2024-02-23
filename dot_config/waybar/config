@@ -1,0 +1,26 @@
+{
+  "layer": "top",
+  "position": "top",
+  "spacing": 0,
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": ["sway/window"],
+  "modules-right": ["cpu", "memory", "pulseaudio", "backlight", "battery", "clock", "tray", "idle_inhibitor"],
+  "sway/workspaces": {
+    "disable-scroll" :true,
+    "all-outputs": false
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "TODO",
+      "deactivated": "TODO"
+    }
+  },
+  "tray": {
+    "icon-size": 24,
+    "spacing": 4
+  },
+  "clock": {
+    "timezone": "Asia/Tokyo",
+  }
+}

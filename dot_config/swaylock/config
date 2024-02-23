@@ -1,0 +1,5 @@
+ignore-empty-password
+
+clock
+timestr=%R
+datestr%1, %e of %B

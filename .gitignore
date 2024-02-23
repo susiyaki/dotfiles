@@ -1,6 +1,7 @@
+# auto generated
 Session.vim
 
-chezmoidata.toml
+.chezmoidata.toml
 
 # fish
 dot_config/fish/fish_variables
@@ -10,3 +11,6 @@ dot_config/nvim/plugin/packer_compiled.lua
 
 # fcitx5
 dot_config/fcitx5/conf/private_cached_layouts
+
+# systemed
+dot_config/systemd/user/sway-session.target.wants/

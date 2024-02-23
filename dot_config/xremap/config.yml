@@ -1,0 +1,16 @@
+modmap:
+  - name: Global
+    remap:
+      CapsLock: Ctrl_L
+
+keymap:
+  - name: Default
+    application:
+      not: Alacritty
+    remap:
+      C-j: C-KEY_BACKSLASH
+  - name: Terminal
+    application:
+      only: Alacritty
+    remap:
+      C-KEY_BACKSLASH: Esc
