@@ -1,8 +1,0 @@
-# Lenovo Thinkpad P15s
-## Increase backlight
-"xbacklight -inc 5"
-  Mod2 + XF86MonBrightnessUp
-
-## Decrease backlight
-"xbacklight -dec 5"
-  Mod2 + XF86MonBrightnessDown
