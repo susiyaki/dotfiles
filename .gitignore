@@ -14,3 +14,6 @@ dot_config/fcitx5/conf/private_cached_layouts
 
 # systemed
 dot_config/systemd/user/sway-session.target.wants/
+
+# sway log
+dot_config/sway/log/

@@ -13,7 +13,9 @@ set $term alacritty
 output eDP-1 scale 1.5
 
 # Font
-font pango:monospace 10
+# font pango:monospace 10
+font pango:monospace 0
+default_border none
 
 # Wallpaper
 output "*" bg /usr/share/backgrounds/archlinux/small.png fill
@@ -38,11 +40,18 @@ bindsym $alt+Shift+c reload
 ### Exit sway (logs you out of your Wayland session)
 bindsym $alt+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 
+## Screenshots
+bindsym Print exec grim -g "$(slurp -d)" - | wl-copy
+bindsym Shift+Print exec grim -g "$(slurp -d)" $HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%H-%M-%S).png
+
 ## Notification
 bindsym $super+Shift+n exec swaync-client -t -sw
 
 ## Lock
-bindsym $super+Shift+l exec swaylock -f -C ~/.config/swaylock/config
+# bindsym $super+Shift+l exec swaylock -f -C ~/.config/swaylock/config
+
+## Logout
+bindsym $alt+Shift+delete exec wlogout
 
 ## Launcher
 # bindsym $super+Tab exec "rofi -show window"
@@ -180,5 +189,6 @@ exec blueman-applet
 exec --no-startup-id fcitx5 -d
 exec wl-paste -t text --watch ~/.config/sway/scripts/myclipman
 exec nm-applet --indicator
+exec ~/.config/sway/scripts/window_border
 
 include /etc/sway/config.d/*
