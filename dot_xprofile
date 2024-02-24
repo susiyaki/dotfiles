@@ -29,7 +29,7 @@ export QT_IM_MODULE=fcitx
 export XMODIFIERS="@im=fcitx"
 
 # xwaylandで動くもののscaleを設定
-export GDK_DPI_SCALE=1.2
+export GDK_DPI_SCALE=1
 
 # sway を起動する前に5秒 sleep
 sleep 5
