@@ -119,12 +119,12 @@ return require('lazy').setup({
       { "g<C-x>", "g<Plug>(dial-decrement)", mode = { "n", "v" } },
     }
   },
-  {
-    "skanehira/denops-silicon.vim",
-    dependencies = {
-      { "vim-denops/denops.vim" }
-    }
-  },
+  -- {
+  --   "skanehira/denops-silicon.vim",
+  --   dependencies = {
+  --     { "vim-denops/denops.vim" }
+  --   }
+  -- },
   {
     "morhetz/gruvbox",
     config = function() require('plugins.colorscheme') end

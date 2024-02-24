@@ -13,12 +13,20 @@ set $term alacritty
 output eDP-1 scale 1.5
 
 # Font
-# font pango:monospace 10
-font pango:monospace 0
-default_border none
+font pango:monospace 10
+# font pango:monospace 0
 
 # Wallpaper
 output "*" bg /usr/share/backgrounds/archlinux/small.png fill
+
+# Border
+default_border pixel 3
+client.background #24273a
+client.focused #b8c0e0 #b8c0e0 #494d64
+client.focused_inactive #8087a2 #8087a2 #000000
+client.unfocused #494d64 #494d64 b8c0e0
+client.urgent #ee99a0 #cad3f5 #000000
+
 
 # Custom keybindings
 ## Basics
@@ -51,7 +59,7 @@ bindsym $super+Shift+n exec swaync-client -t -sw
 # bindsym $super+Shift+l exec swaylock -f -C ~/.config/swaylock/config
 
 ## Logout
-bindsym $alt+Shift+delete exec wlogout
+bindsym $alt+Shift+delete exec wlogout -b 2
 
 ## Launcher
 # bindsym $super+Tab exec "rofi -show window"
@@ -189,6 +197,5 @@ exec blueman-applet
 exec --no-startup-id fcitx5 -d
 exec wl-paste -t text --watch ~/.config/sway/scripts/myclipman
 exec nm-applet --indicator
-exec ~/.config/sway/scripts/window_border
 
 include /etc/sway/config.d/*
