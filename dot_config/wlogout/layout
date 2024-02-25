@@ -4,6 +4,11 @@
   "text" : "Lock"
 }
 {
+  "label" : "logout",
+  "action" : "swaymsg exit",
+  "text" : "Logout"
+}
+{
   "label" : "suspend",
   "action" : "systemctl suspend",
   "text" : "Suspend"

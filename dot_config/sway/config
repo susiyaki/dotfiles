@@ -52,6 +52,9 @@ bindsym $alt+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. 
 bindsym Print exec grim -g "$(slurp -d)" - | wl-copy
 bindsym Shift+Print exec grim -g "$(slurp -d)" $HOME/Pictures/Screenshots/$(date +%Y-%m-%d-%H-%M-%S).png
 
+## Screencasts
+# bindsym Ctrl+Print exec wf-recorder -g "$(slurp -d)" -f $HOME/Videos/Screencasts/$(date +%Y-%m-%d-%H-%M-%S).mp4
+
 ## Notification
 bindsym $super+Shift+n exec swaync-client -t -sw
 
@@ -59,7 +62,7 @@ bindsym $super+Shift+n exec swaync-client -t -sw
 # bindsym $super+Shift+l exec swaylock -f -C ~/.config/swaylock/config
 
 ## Logout
-bindsym $alt+Shift+delete exec wlogout -b 2
+bindsym $alt+Shift+delete exec wlogout
 
 ## Launcher
 # bindsym $super+Tab exec "rofi -show window"
@@ -75,6 +78,9 @@ bindsym Control+semicolon exec clipman pick -t wofi -T'--prompt=clipboard-histor
 
 # Bluetooth
 for_window [app_id="blueman-manager"] floating enable
+
+# 1Password
+for_window [class="1Password"] floating enable
 
 ## App shortcuts
 bindsym $super+Return exec $term
@@ -194,7 +200,7 @@ exec_always "systemctl --user import-environment; systemctl --user start sway-se
 exec swaync
 exec swayidle -w timeout 300 'swaylock -f -C ~/.config/swaylock/config' timeout 1200 'systemctl suspend'
 exec blueman-applet
-exec --no-startup-id fcitx5 -d
+exec_always fcitx5 -d --replace
 exec wl-paste -t text --watch ~/.config/sway/scripts/myclipman
 exec nm-applet --indicator
 

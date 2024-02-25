@@ -1,5 +1,5 @@
-eval (ssh-agent -c) >/dev/null
-keychain -q $HOME/.ssh/github/id_rsa
+# eval (ssh-agent -c) >/dev/null
+# keychain -q $HOME/.ssh/github/id_rsa
 source $HOME/.keychain/(hostname)-fish
 
 # direnv
