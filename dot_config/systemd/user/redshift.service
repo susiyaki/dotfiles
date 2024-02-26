@@ -1,0 +1,11 @@
+[Unit]
+Description=Control display color temperature with redshift
+Documentation=https://aur.archlinux.org/packages/redshift-wayland-git
+BindTo=sway-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/redshift -m wayland
+
+[Install]
+WantedBy=sway-session.target
