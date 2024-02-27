@@ -22,3 +22,6 @@ set -x PATH "$PATH:$GOPATH/bin"
 set -x RUSTUP_HOME "$XDG_DATA_HOME/rustup"
 set -x CARGO_HOME "$XDG_DATA_HOME/cargo"
 test -d $CARGO_HOME && bass source "$CARGO_HOME/env"
+
+# Android
+set -x ANDROID_HOME "/opt/android-sdk"

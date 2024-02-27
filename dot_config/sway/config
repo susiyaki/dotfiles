@@ -39,6 +39,10 @@ bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+### display color temperature
+bindsym XF86Display exec systemctl --user is-active redshift.service && systemctl --user stop redshift.service || systemctl --user start redshift.service
+### notification
+bindsym XF86Messenger exec swaync-client -t -sw
 
 ## Sway
 ### Use Mouse+$alt to drag floating windows to theier wanted position
@@ -54,9 +58,6 @@ bindsym Shift+Print exec grim -g "$(slurp -d)" $HOME/Pictures/Screenshots/$(date
 
 ## Screencasts
 # bindsym Ctrl+Print exec wf-recorder -g "$(slurp -d)" -f $HOME/Videos/Screencasts/$(date +%Y-%m-%d-%H-%M-%S).mp4
-
-## Notification
-bindsym $super+Shift+n exec swaync-client -t -sw
 
 ## Lock
 # bindsym $super+Shift+l exec swaylock -f -C ~/.config/swaylock/config

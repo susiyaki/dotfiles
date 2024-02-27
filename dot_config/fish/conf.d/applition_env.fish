@@ -15,5 +15,3 @@ set -x FZF_DEFAULT_OPTS "--preview 'bat --color=always --theme=gruvbox-dark --st
   --bind 'ctrl-o:execute: tmux new-window nvim {}'
 "
 set -x FZF_ALT_C_OPTS "--preview 'tree -C {} | head -200'"
-
-
