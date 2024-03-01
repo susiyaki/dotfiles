@@ -11,6 +11,9 @@ get_app_process_name() {
     "google-chrome-stable")
       echo "chrome"
       ;;
+    "discord")
+      echo "Discord"
+      ;;
     # 別のアプリケーションが必要なら追加
     *)
       echo "$1"
