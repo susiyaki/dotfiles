@@ -29,3 +29,12 @@ keymap:
       j: down
       k: up
       l: right
+  - name: Google Chrome
+    application:
+      only: Google-chrome
+    remap:
+      C-c: Esc
+      C-Shift-h: left
+      C-Shift-j: down
+      C-Shift-k: up
+      C-Shift-l: right

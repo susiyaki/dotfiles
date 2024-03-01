@@ -59,22 +59,16 @@ bindsym Shift+Print exec grim -g "$(slurp -d)" $HOME/Pictures/Screenshots/$(date
 ## Screencasts
 # bindsym Ctrl+Print exec wf-recorder -g "$(slurp -d)" -f $HOME/Videos/Screencasts/$(date +%Y-%m-%d-%H-%M-%S).mp4
 
-## Lock
-# bindsym $super+Shift+l exec swaylock -f -C ~/.config/swaylock/config
-
 ## Logout
 bindsym $alt+Shift+delete exec wlogout
 
 ## Launcher
-# bindsym $super+Tab exec "rofi -show window"
-# bindsym $super+space exec "rofi -show combi"
 bindsym $super+space exec wofi --show drun
 
 ## Filer
 bindsym $super+e exec thunar
 
 # Clipboard
-# bindsym Control+semicolon exec clipman pick -t rofi
 bindsym Control+semicolon exec clipman pick -t wofi -T'--prompt=clipboard-history -i'
 
 # Bluetooth
@@ -88,6 +82,7 @@ bindsym $super+Return exec $term
 bindsym $alt+Ctrl+t exec ~/.config/sway/scripts/focus_or_open $term
 bindsym $alt+Ctrl+b exec ~/.config/sway/scripts/focus_or_open google-chrome-stable
 bindsym $alt+Ctrl+s exec ~/.config/sway/scripts/focus_or_open slack
+bindsym $alt+Ctrl+d exec ~/.config/sway/scripts/focus_or_open discord
 
 ## Kill focused window
 bindsym $alt+Shift+q kill
