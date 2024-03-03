@@ -20,7 +20,7 @@ keymap:
     remap:
       C-n: down
       C-p: up
-      C-c: Esc
+      # C-c: Esc
   - name: wlogout
     application:
       only: wlogout
@@ -29,11 +29,10 @@ keymap:
       j: down
       k: up
       l: right
-  - name: Google Chrome
+  - name: Vim like cursor
     application:
-      only: Google-chrome
+      only: [Google-chrome, Slack, Alacritty]
     remap:
-      C-c: Esc
       C-Shift-h: left
       C-Shift-j: down
       C-Shift-k: up

@@ -1,7 +1,7 @@
 local utils = require('utils')
 
 utils.map('i', 'jk', '<Plug>(skkeleton-enable)', { noremap = false })
-utils.map('c', 'jk', '<Plug>(skkeleton-disalbed)', { noremap = false })
+utils.map('c', 'jk', '<Plug>(skkeleton-enable)', { noremap = false })
 utils.map('i', 'jj', '<ESC>')
 
 vim.cmd([[
@@ -18,6 +18,7 @@ function! s:skkeleton_init() abort
     \ 'jj': 'escape',
     \ "z\<Space>": ["\u3000", ''],
     \ })
+
 endfunction
 
 augroup skkeleton-initialize-pre
