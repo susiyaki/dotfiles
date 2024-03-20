@@ -83,6 +83,7 @@ bindsym $alt+Ctrl+t exec ~/.config/sway/scripts/focus_or_open $term
 bindsym $alt+Ctrl+b exec ~/.config/sway/scripts/focus_or_open google-chrome-stable
 bindsym $alt+Ctrl+s exec ~/.config/sway/scripts/focus_or_open slack
 bindsym $alt+Ctrl+d exec ~/.config/sway/scripts/focus_or_open discord
+bindsym $alt+Ctrl+m exec ~/.config/sway/scripts/focus_or_open spotify-launcher
 
 ## Kill focused window
 bindsym $alt+Shift+q kill

@@ -31,7 +31,7 @@ keymap:
       l: right
   - name: Vim like cursor
     application:
-      only: [Google-chrome, Slack, Alacritty]
+      only: [Google-chrome, Slack, Alacritty, discord]
     remap:
       C-Shift-h: left
       C-Shift-j: down
