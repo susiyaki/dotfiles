@@ -24,7 +24,18 @@ return require('lazy').setup({
       "ibhagwan/fzf-lua",
       dependencies = { "nvim-tree/nvim-web-devicons" },
       config = function()
-        require("fzf-lua").setup({})
+        require("fzf-lua").setup({
+          keymap = {
+            builtin = {
+              -- Ctrl-kをプレビューの上移動にバインド
+              ["<C-k>"] = "preview-page-up",
+              -- Ctrl-jをプレビューの下移動にバインド
+              ["<C-j>"] = "preview-page-down",
+              -- Ctrl-fをモーダルサイズのトグルにバインド
+              ["<C-f>"] = "toggle-fullscreen",
+            }
+          }
+        })
       end,
       keys = {
         { "<C-]><C-g>", ":FzfLua git_files<CR>",  noremap = true, silent = true },
