@@ -20,23 +20,21 @@ return require('lazy').setup({
 
   -- Fuzzy Finder
   {
-    "junegunn/fzf.vim",
-    dependencies = {
-      { "junegunn/fzf" }
-    },
-    keys = {
-      { "<C-]><C-g>", ":GFiles<CR>",        noremap = true, silent = true },
-      { "<C-]><C-f>", ":Files<CR>",         noremap = true, silent = true },
-      { "<C-]><C-b>", ":Buffers<CR>",       noremap = true, silent = true },
-      { "<C-g><C-g>", ":Rg<Space>",         noremap = true, silent = true },
-      { "<C-g><C-w>", ":Rg <C-R><C-w><CR>", noremap = true, silent = true },
-      { "<C-]>s",     ":GFiles?<CR>",       noremap = true, silent = true },
-      { "<C-]>c",     ":Commits<CR>",       noremap = true, silent = true },
-      { "<C-]>bc",    ":BCommits<CR>",      noremap = true, silent = true },
-      { "<C-]><C-c>", ":History:<CR>",      noremap = true, silent = true },
-      { "<C-]><C-s>", ":History/<CR>",      noremap = true, silent = true },
-    },
-    config = function() require 'plugins.fzf' end
+    {
+      "ibhagwan/fzf-lua",
+      dependencies = { "nvim-tree/nvim-web-devicons" },
+      config = function()
+        require("fzf-lua").setup({})
+      end,
+      keys = {
+        { "<C-]><C-g>", ":FzfLua git_files<CR>",  noremap = true, silent = true },
+        { "<C-]><C-f>", ":FzfLua files<CR>",  noremap = true, silent = true },
+        { "<C-]><C-b>", ":FzfLua buffers<CR>",  noremap = true, silent = true },
+        { "<C-g><C-g>", ":FzfLua live_grep<CR>",  noremap = true, silent = true },
+        { "<C-g><C-w>", ":FzfLua grep_cword<CR>",  noremap = true, silent = true },
+        { "<C-]><C-Space>", ":FzfLua<CR>",  noremap = true, silent = true }
+      }
+    }
   },
 
   -- Git
