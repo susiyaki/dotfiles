@@ -5,12 +5,9 @@ return function(client, bufnr)
 
   local opts = { noremap = true, silent = true }
   -- definition
-  -- buf_set_keymap('n', '<leader>d', '<Cmd>Lspsaga peek_definition<CR>', opts)
-  -- buf_set_keymap('n', '<leader>t', '<Cmd>Lspsaga peek_type_definition<CR>', opts)
+  buf_set_keymap('n', '<leader>d', '<Cmd>Lspsaga peek_definition<CR>', opts)
+  buf_set_keymap('n', '<leader>t', '<Cmd>Lspsaga peek_type_definition<CR>', opts)
   -- buf_set_keymap('n', '<leader>c', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<leader>d', '<Cmd>FzfLua lsp_definitions<CR>', opts)
-  buf_set_keymap('n', '<leader>t', '<Cmd>FzfLua lsp_typedefs<CR>', opts)
-  buf_set_keymap('n', '<leader>c', '<Cmd>FzfLua lsp_references<CR>', opts)
 
 
   -- doc
@@ -19,7 +16,6 @@ return function(client, bufnr)
 
   -- diagnostics
   -- buf_set_keymap('n', '<leader>ld', '<Cmd>Lspsaga show_line_diagnostics<CR>', opts)
-  buf_set_keymap('n', '<leader>ld', '<Cmd>FzfLua lsp_document_diagnostics<CR>', opts)
   -- buf_set_keymap('n', '<leader>lld', '<Cmd>Lspsaga show_workspace_diagnostics<CR>', opts)
 
   -- rename
@@ -27,7 +23,6 @@ return function(client, bufnr)
 
   -- code action
   -- buf_set_keymap('n', '<leader>a', '<Cmd>Lspsaga code_action<CR>', opts)
-  buf_set_keymap('n', '<leader>a', '<Cmd>FzfLua lsp_code_actions<CR>', opts)
 
   -- format
   buf_set_keymap('n', '<leader>f', '<Cmd>lua vim.lsp.buf.format()<CR>', opts)

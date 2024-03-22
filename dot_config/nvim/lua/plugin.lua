@@ -43,7 +43,11 @@ return require('lazy').setup({
         { "<C-]><C-b>", ":FzfLua buffers<CR>",  noremap = true, silent = true },
         { "<C-g><C-g>", ":FzfLua live_grep<CR>",  noremap = true, silent = true },
         { "<C-g><C-w>", ":FzfLua grep_cword<CR>",  noremap = true, silent = true },
-        { "<C-]><C-Space>", ":FzfLua<CR>",  noremap = true, silent = true }
+        { "<C-]><C-Space>", ":FzfLua<CR>",  noremap = true, silent = true },
+        -- LSP
+        { "<leader>c",  ":FzfLua lsp_references<CR>", noremap = true, silent = true },
+        { "<leader>a",  ":FzfLua lsp_code_actions<CR>", noremap = true, silent = true },
+        { "<leader>ld",  ":FzfLua lsp_document_diagnostics<CR>", noremap = true, silent = true },
       }
     }
   },
