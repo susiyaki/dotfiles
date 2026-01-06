@@ -80,14 +80,14 @@
     "on-click": "wlogout"
   },
   "custom/screencast": {
-    "exec": "~/.config/waybar/scripts/screencast-indicator.sh",
+    "exec": "bash ~/.config/waybar/scripts/screencast-indicator.sh",
     "return-type": "json",
     "interval": 1,
     "format": "{}",
-    "on-click": "~/.config/sway/scripts/capture-manager.sh screencast"
+    "on-click": "bash ~/.config/sway/scripts/capture-manager.sh screencast"
   },
   "custom/dnd": {
-    "exec": "~/.config/waybar/scripts/dnd-indicator.sh",
+    "exec": "bash ~/.config/waybar/scripts/dnd-indicator.sh",
     "return-type": "json",
     "interval": 1,
     "format": "{}",

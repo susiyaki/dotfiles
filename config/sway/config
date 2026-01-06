@@ -55,11 +55,11 @@ bindsym $alt+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. 
 
 ## Screenshots & Screencasts
 # Screenshot/screencast to clipboard (no Shift)
-bindsym Print exec ~/.config/sway/scripts/capture-manager.sh screenshot --clipboard
-bindsym Ctrl+Print exec ~/.config/sway/scripts/capture-manager.sh screencast --clipboard
+bindsym Print exec bash ~/.config/sway/scripts/capture-manager.sh screenshot --clipboard
+bindsym Ctrl+Print exec bash ~/.config/sway/scripts/capture-manager.sh screencast --clipboard
 # Screenshot/screencast to file (with Shift)
-bindsym Shift+Print exec ~/.config/sway/scripts/capture-manager.sh screenshot --save
-bindsym Ctrl+Shift+Print exec ~/.config/sway/scripts/capture-manager.sh screencast --save
+bindsym Shift+Print exec bash ~/.config/sway/scripts/capture-manager.sh screenshot --save
+bindsym Ctrl+Shift+Print exec bash ~/.config/sway/scripts/capture-manager.sh screencast --save
 
 ## Logout
 bindsym $alt+Shift+delete exec wlogout
@@ -81,11 +81,11 @@ for_window [class="1Password"] floating enable
 
 ## App shortcuts
 bindsym $super+Return exec $term
-bindsym $alt+Ctrl+t exec ~/.config/sway/scripts/focus_or_open $term
-bindsym $alt+Ctrl+b exec ~/.config/sway/scripts/focus_or_open google-chrome-stable
-bindsym $alt+Ctrl+s exec ~/.config/sway/scripts/focus_or_open slack
-bindsym $alt+Ctrl+d exec ~/.config/sway/scripts/focus_or_open discord
-bindsym $alt+Ctrl+m exec ~/.config/sway/scripts/focus_or_open spotify-launcher
+bindsym $alt+Ctrl+t exec bash ~/.config/sway/scripts/focus_or_open $term
+bindsym $alt+Ctrl+b exec bash ~/.config/sway/scripts/focus_or_open google-chrome-stable
+bindsym $alt+Ctrl+s exec bash ~/.config/sway/scripts/focus_or_open slack
+bindsym $alt+Ctrl+d exec bash ~/.config/sway/scripts/focus_or_open discord
+bindsym $alt+Ctrl+m exec bash ~/.config/sway/scripts/focus_or_open spotify-launcher
 
 ## Kill focused window
 bindsym $alt+Shift+q kill
