@@ -29,6 +29,7 @@
 
     brews = [
       "sketchybar"
+      "ni"  # Fast npm alternative
     ];
 
     casks = [

@@ -31,9 +31,9 @@
     eza
     ripgrep
     fd
-    fzf
+    fzf     # Fuzzy finder (fish integration via fisher plugin)
     jq
-    zoxide
+    # zoxide - managed by programs.zoxide
     starship
     tree
     gh      # GitHub CLI
@@ -74,7 +74,7 @@
         fe = "fetch";
         pl = "pull";
         plr = "!git pull origin $(git branch --show-current)";
-        ps = "!git push origin `git rev-parse --abbrev-ref HEAD`; gh pr create -w";
+        ps = "!git push origin `git rev-parse --abbrev-ref HEAD`; gh pr create";
         reb = "rebase";
         res = "restore";
         rehead = "!git reset --hard origin/`git rev-parse --abbrev-ref HEAD`";
@@ -93,6 +93,18 @@
   # Fish shell
   programs.fish = {
     enable = true;
+    shellAliases = {
+      # Common shortcuts
+      ls = "eza --icons";
+      ll = "eza -l --icons";
+      la = "eza -la --icons";
+      cat = "bat";
+
+      # Git shortcuts
+      g = "git";
+      gs = "git status";
+      gd = "git diff";
+    };
     shellInit = ''
       fish_vi_key_bindings
 
@@ -108,6 +120,8 @@
   #   enable = true;
   #   enableFishIntegration = true;
   # };
+
+  # fzf (fuzzy finder) - fish integration via static files in config/fish/
 
   # Direnv
   programs.direnv = {

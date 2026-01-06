@@ -23,6 +23,9 @@ secrets/
 # Fish shell generated files
 config/fish/fish_variables
 config/fish/functions/__*
+# Exception: fzf fish integration (managed explicitly)
+!config/fish/functions/__fzf*.fish
+!config/fish/conf.d/fzf.fish
 config/fish/functions/fisher.fish
 config/fish/functions/fish_*_prompt.fish
 config/fish/completions/fisher.fish
