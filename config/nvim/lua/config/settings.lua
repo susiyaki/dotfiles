@@ -1,7 +1,7 @@
 local api = vim.api
 
 local vars = {
-  python3_host_prog = '$HOME/.venv/neovim3/bin/python',
+  -- python3_host_prog is now managed by Nix (programs.neovim.withPython3)
   loaded_matchparen = 1
 }
 
