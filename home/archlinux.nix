@@ -199,6 +199,11 @@
           AddKeysToAgent = "yes";
         };
       };
+      "github.com" = {
+        hostname = "github.com";
+        identityFile = "~/.ssh/github/id_rsa";
+        user = "git";
+      };
     };
   };
 
