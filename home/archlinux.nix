@@ -206,12 +206,50 @@
 
   # Alacritty configuration
   home.file.".config/alacritty/alacritty-base.toml".source = ../config/alacritty/alacritty-base.toml;
-  home.file.".config/alacritty/alacritty.linux.toml".source = ../config/alacritty/alacritty.linux.toml;
+
+  # Generate alacritty.linux.toml with dynamic username
+  home.file.".config/alacritty/alacritty.linux.toml".text = ''
+    # ============================================================
+    # Alacritty - Linux Specific Configuration
+    # ============================================================
+
+    [general]
+    import = ["alacritty-base.toml"]
+
+    # Override shell path for Linux (Nix)
+    [terminal.shell]
+    program = "${config.home.homeDirectory}/.nix-profile/bin/fish"
+    args = ["-l", "-c", "tmux new-session -A -s main"]
+  '';
 
   # Set Linux-specific alacritty config as default
   home.file.".config/alacritty/alacritty.toml".text = ''
     [general]
     import = ["alacritty.linux.toml"]
+  '';
+
+  # tmux configuration
+  home.file.".config/tmux/tmux-base.conf".source = ../config/tmux/tmux-base.conf;
+
+  # Generate tmux.conf with dynamic username
+  home.file.".config/tmux/tmux.conf".text = ''
+    # Load base configuration
+    source-file ~/.config/tmux/tmux-base.conf
+
+    # Shell configuration (Nix-managed fish)
+    set-option -g default-shell ${config.home.homeDirectory}/.nix-profile/bin/fish
+    set-option -g default-command ${config.home.homeDirectory}/.nix-profile/bin/fish
+
+    # Copy/Paste configuration (Wayland)
+    # "y" でヤンク (wl-copy)
+    set -s copy-command 'wl-copy'
+    bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'wl-copy'
+
+    # "Y" で行ヤンク
+    bind -T copy-mode-vi Y send -X copy-line
+
+    # "p"でペースト (wl-paste)
+    bind p run "tmux set-buffer \"$(wl-paste)\"; tmux paste-buffer"
   '';
 
   # Swaylock configuration

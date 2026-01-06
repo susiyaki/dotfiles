@@ -15,6 +15,7 @@
     lazygit
     lazydocker
     mise  # Version manager for development tools
+    tmux  # Terminal multiplexer
 
     # Runtimes (managed by mise per-project, but installed via Nix)
     nodejs_22
@@ -136,13 +137,8 @@
     ]);
   };
 
-  # Tmux
-  programs.tmux = {
-    enable = true;
-    terminal = "screen-256color";
-    keyMode = "vi";
-    mouse = true;
-  };
+  # Tmux (managed via custom config files in OS-specific modules)
+  # programs.tmux is disabled to use custom tmux.conf per OS
 
   # Symlink config files
   home.file = {
@@ -155,7 +151,7 @@
     # ".config/fish".source = ../config/fish;
     ".config/fish/conf.d".source = ../config/fish/conf.d;
     ".config/fish/functions".source = ../config/fish/functions;
-    ".config/tmux".source = ../config/tmux;
+    # Note: tmux config is handled per-OS in darwin.nix and archlinux.nix
   };
 
   # Note: Alacritty config is handled per-OS in darwin.nix and archlinux.nix

@@ -1,16 +1,19 @@
 { config, pkgs, inputs, ... }:
 
 {
-  # Enable experimental features
-  nix.settings.experimental-features = "nix-command flakes";
+  # Determinate に Nix の管理を任せる
+  nix.enable = false;
 
-  # System packages
+  system.primaryUser = "laeno";
+
   environment.systemPackages = with pkgs; [
     vim
     git
+    fish
   ];
 
-  # Homebrew integration
+  programs.fish.enable = true;
+
   homebrew = {
     enable = true;
     onActivation = {
@@ -20,16 +23,18 @@
     };
 
     taps = [
-      "nikitabobko/tap"      # Aerospace
-      "FelixKratz/formulae"  # SketchyBar
+      "nikitabobko/tap"
+      "FelixKratz/formulae"
     ];
 
     brews = [
-      "aerospace"
       "sketchybar"
     ];
 
     casks = [
+      # Window Management
+      "aerospace"
+
       # Terminal & Editor
       "alacritty"
 
@@ -47,12 +52,12 @@
       "spotify"
 
       # Development
-      "docker"
+      "docker-desktop"
       "android-studio"
       "android-platform-tools"
 
       # Cloud & Infrastructure
-      "google-cloud-sdk"
+      "gcloud-cli"
       "ngrok"
       "session-manager-plugin"
 
@@ -64,7 +69,6 @@
     ];
   };
 
-  # macOS system settings
   system = {
     defaults = {
       dock = {
@@ -97,15 +101,11 @@
     stateVersion = 5;
   };
 
-  # User configuration
   users.users.laeno = {
     name = "laeno";
     home = "/Users/laeno";
   };
 
-  # Auto upgrade nix package and the daemon service
-  services.nix-daemon.enable = true;
-
-  # Used for backwards compatibility
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 }
+
