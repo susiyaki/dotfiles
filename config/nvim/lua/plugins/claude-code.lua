@@ -87,8 +87,46 @@ vim.keymap.set('n', '<Space>,v', function()
 end, { noremap = true, silent = true, desc = "Toggle ClaudeCode (vertical)" })
 
 -- Claude Code: ,, でポップアップ入力してClaude Codeペインとyankレジスタに反映
-vim.keymap.set('n', ',,', function()
-  vim.ui.input({ prompt = 'Claude Codeに送信: ' }, function(input)
+local function prompt_and_send_to_claude()
+  -- フローティングウィンドウの設定
+  local width = 80
+  local height = 5
+  local buf = vim.api.nvim_create_buf(false, true)
+
+  -- ウィンドウの位置を中央に計算
+  local ui = vim.api.nvim_list_uis()[1]
+  local win_width = ui.width
+  local win_height = ui.height
+  local col = math.floor((win_width - width) / 2)
+  local row = math.floor((win_height - height) / 2)
+
+  -- フローティングウィンドウを作成
+  local opts = {
+    relative = 'editor',
+    width = width,
+    height = height,
+    col = col,
+    row = row,
+    style = 'minimal',
+    border = 'rounded',
+    title = ' Claude Codeに送信 ',
+    title_pos = 'center',
+  }
+  local win = vim.api.nvim_open_win(buf, true, opts)
+
+  -- バッファオプション
+  vim.api.nvim_buf_set_option(buf, 'buftype', 'nofile')
+  vim.api.nvim_buf_set_option(buf, 'bufhidden', 'wipe')
+  vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
+
+  -- 送信処理
+  local function send_input()
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+    local input = table.concat(lines, '\n')
+
+    -- ウィンドウを閉じる
+    vim.api.nvim_win_close(win, true)
+
     if input and input ~= '' then
       -- yankレジスタに保存（複数のレジスタに保存）
       vim.fn.setreg('"', input, 'c')  -- 無名レジスタ
@@ -100,13 +138,13 @@ vim.keymap.set('n', ',,', function()
       local claude_buf = nil
       local claude_chan = nil
 
-      for _, buf in ipairs(vim.api.nvim_list_bufs()) do
-        if vim.api.nvim_buf_is_valid(buf) then
-          local name = vim.api.nvim_buf_get_name(buf)
+      for _, b in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_valid(b) then
+          local name = vim.api.nvim_buf_get_name(b)
           -- ターミナルバッファで、'claude'という文字列を含むものを探す
-          if vim.bo[buf].buftype == 'terminal' and name:lower():match('claude') then
-            claude_buf = buf
-            claude_chan = vim.bo[buf].channel
+          if vim.bo[b].buftype == 'terminal' and name:lower():match('claude') then
+            claude_buf = b
+            claude_chan = vim.bo[b].channel
             break
           end
         end
@@ -115,11 +153,66 @@ vim.keymap.set('n', ',,', function()
       if claude_chan and claude_chan > 0 then
         -- ターミナルバッファに送信
         vim.api.nvim_chan_send(claude_chan, input .. '\n')
-        print('Claude Codeに送信しました (レジスタにも保存): ' .. input)
-      else
-        print('Claude Codeのターミナルバッファが見つかりません（レジスタには保存されました）')
       end
     end
-  end)
-end, { noremap = true, silent = false, desc = 'Send input to Claude Code pane and yank register' })
+  end
+
+  -- キャンセル処理
+  local function cancel_input()
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, true)
+    end
+  end
+
+  -- キーマップ設定（バッファローカル）
+  -- normalモードでEnterで送信
+  vim.keymap.set('n', '<CR>', send_input, {
+    buffer = buf,
+    noremap = true,
+    silent = true,
+  })
+
+  -- インサートモードでCtrl+kで送信
+  vim.keymap.set('i', '<C-k>', function()
+    vim.cmd('stopinsert')
+    vim.schedule(send_input)
+  end, {
+    buffer = buf,
+    noremap = true,
+    silent = true,
+  })
+
+  -- Escでキャンセル（インサートモードからノーマルモードへ）
+  vim.keymap.set('i', '<Esc>', '<Esc>', {
+    buffer = buf,
+    noremap = true,
+    silent = true,
+  })
+
+  -- ノーマルモードでEscでキャンセル
+  vim.keymap.set('n', '<Esc>', cancel_input, {
+    buffer = buf,
+    noremap = true,
+    silent = true,
+  })
+
+  -- qでキャンセル
+  vim.keymap.set('n', 'q', cancel_input, {
+    buffer = buf,
+    noremap = true,
+    silent = true,
+  })
+
+  -- インサートモードで開始
+  vim.cmd('startinsert')
+end
+
+-- ノーマルモード: ,, でポップアップ
+vim.keymap.set('n', ',,', prompt_and_send_to_claude, { noremap = true, silent = false, desc = 'Send input to Claude Code pane and yank register' })
+
+-- ターミナルモード: ,, でポップアップ（ターミナルモードを抜けてから実行）
+vim.keymap.set('t', ',,', function()
+  vim.cmd('stopinsert')  -- ターミナルモードを抜ける
+  vim.schedule(prompt_and_send_to_claude)  -- ノーマルモードになってから実行
+end, { noremap = true, silent = false, desc = 'Send input to Claude Code pane from terminal mode' })
 
