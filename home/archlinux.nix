@@ -111,9 +111,6 @@
   programs.fish.shellAliases = {
     # System management
     reflectorjp = "sudo reflector --country 'Japan' --age 24 --protocol https --sort rate --save /etc/pacman.d/mirrorlist";
-    rebuild = "sudo nixos-rebuild switch --flake ~/dotfiles-new#thinkpad-p14s";
-    rebuild-test = "sudo nixos-rebuild test --flake ~/dotfiles-new#thinkpad-p14s";
-    rebuild-boot = "sudo nixos-rebuild boot --flake ~/dotfiles-new#thinkpad-p14s";
     hm-switch = "home-manager switch --flake ~/dotfiles-new#susiyaki@thinkpad-p14s";
 
     # Common shortcuts
@@ -221,8 +218,5 @@
   home.file.".config/swaylock/config".source = ../config/swaylock/config;
 
   # Wlogout configuration
-  home.file.".config/wlogout" = {
-    source = ../config/wlogout;
-    recursive = true;
-  };
+  home.file.".config/wlogout".source = ../config/wlogout;
 }
