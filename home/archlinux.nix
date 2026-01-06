@@ -5,6 +5,8 @@
     ./common.nix
     ../modules/archlinux/sway
     ../modules/archlinux/waybar
+    ../modules/archlinux/xremap
+    ../modules/archlinux/wofi
   ];
 
   # Standalone home-manager requires these

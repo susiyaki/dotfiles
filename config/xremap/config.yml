@@ -1,0 +1,41 @@
+modmap:
+  - name: Global
+    remap:
+      CapsLock: Ctrl_L
+
+keymap:
+  - name: Default
+    application:
+      not: Alacritty
+    remap:
+      C-j: C-KEY_BACKSLASH
+  - name: Terminal
+    application:
+      only: Alacritty
+    remap:
+      C-KEY_BACKSLASH: Esc
+  - name: wofi
+    application:
+      only: wofi
+    remap:
+      C-n: down
+      C-p: up
+      # C-c: Esc
+  - name: wlogout
+    application:
+      only: wlogout
+    remap:
+      h: left
+      j: down
+      k: up
+      l: right
+  - name: Vim like cursor
+    application:
+      only: [Google-chrome, Slack, Alacritty, discord]
+    remap:
+      C-Shift-h: left
+      C-Shift-j: down
+      C-Shift-k: up
+      C-Shift-l: right
+      C-Shift-n: down
+      C-Shift-p: up
