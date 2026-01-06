@@ -11,7 +11,7 @@
   # Common packages
   home.packages = with pkgs; [
     # Development tools
-    neovim
+    # neovim is configured separately below
     lazygit
     lazydocker
     mise  # Version manager for development tools
@@ -53,30 +53,33 @@
   # Git configuration
   programs.git = {
     enable = true;
-    userName = "susiyaki";
-    userEmail = "susiyaki.dev@gmail.com";
 
-    extraConfig = {
+    settings = {
+      user = {
+        name = "susiyaki";
+        email = "susiyaki.dev@gmail.com";
+      };
+
       init.defaultBranch = "main";
       pull.rebase = false;
       core.pager = "LESSCHARSET=utf-8 less";
-    };
 
-    aliases = {
-      a = "add";
-      br = "branch";
-      c = "commit";
-      co = "checkout";
-      cp = "cherry-pick";
-      fe = "fetch";
-      pl = "pull";
-      plr = "!git pull origin $(git branch --show-current)";
-      ps = "!git push origin `git rev-parse --abbrev-ref HEAD`; gh pr create -w";
-      reb = "rebase";
-      res = "restore";
-      rehead = "!git reset --hard origin/`git rev-parse --abbrev-ref HEAD`";
-      s = "status -s";
-      swi = "switch";
+      alias = {
+        a = "add";
+        br = "branch";
+        c = "commit";
+        co = "checkout";
+        cp = "cherry-pick";
+        fe = "fetch";
+        pl = "pull";
+        plr = "!git pull origin $(git branch --show-current)";
+        ps = "!git push origin `git rev-parse --abbrev-ref HEAD`; gh pr create -w";
+        reb = "rebase";
+        res = "restore";
+        rehead = "!git reset --hard origin/`git rev-parse --abbrev-ref HEAD`";
+        s = "status -s";
+        swi = "switch";
+      };
     };
 
     ignores = [
@@ -91,6 +94,9 @@
     enable = true;
     shellInit = ''
       set -g fish_greeting
+
+      # Set fish_variables to writable location
+      set -g fish_variables_path $HOME/.local/share/fish/fish_variables
     '';
   };
 
@@ -112,6 +118,22 @@
     enableFishIntegration = true;
   };
 
+  # Neovim with proper providers
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+
+    withPython3 = true;
+    withNodeJs = true;
+    withRuby = true;
+
+    extraPython3Packages = (ps: with ps; [
+      pynvim
+    ]);
+  };
+
   # Tmux
   programs.tmux = {
     enable = true;
@@ -123,7 +145,10 @@
   # Symlink config files
   home.file = {
     ".config/nvim".source = ../config/nvim;
-    ".config/fish".source = ../config/fish;
+    # Fish is managed by programs.fish, not symlinking
+    # ".config/fish".source = ../config/fish;
+    ".config/fish/conf.d".source = ../config/fish/conf.d;
+    ".config/fish/functions".source = ../config/fish/functions;
     ".config/tmux".source = ../config/tmux;
   };
 
