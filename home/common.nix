@@ -74,7 +74,7 @@
         fe = "fetch";
         pl = "pull";
         plr = "!git pull origin $(git branch --show-current)";
-        ps = "!git push origin `git rev-parse --abbrev-ref HEAD`; gh pr create";
+        ps = "!git push origin `git rev-parse --abbrev-ref HEAD`";
         reb = "rebase";
         res = "restore";
         rehead = "!git reset --hard origin/`git rev-parse --abbrev-ref HEAD`";
