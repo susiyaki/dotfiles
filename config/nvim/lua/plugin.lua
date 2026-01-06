@@ -42,6 +42,25 @@ return require('lazy').setup({
   },
 
 
+  -- UI Enhancement
+  {
+    "stevearc/dressing.nvim",
+    lazy = false,
+    priority = 100,
+    opts = {
+      input = {
+        enabled = true,
+        default_prompt = "Input:",
+        win_options = {
+          winblend = 10,
+        },
+      },
+      select = {
+        enabled = false,  -- Use fzf-lua for select
+      },
+    },
+  },
+
   -- Fuzzy Finder
   {
     {

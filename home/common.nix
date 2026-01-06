@@ -93,6 +93,8 @@
   programs.fish = {
     enable = true;
     shellInit = ''
+      fish_vi_key_bindings
+
       set -g fish_greeting
 
       # Set fish_variables to writable location
@@ -100,11 +102,11 @@
     '';
   };
 
-  # Starship prompt
-  programs.starship = {
-    enable = true;
-    enableFishIntegration = true;
-  };
+  # Starship prompt (disabled - using fish default prompt)
+  # programs.starship = {
+  #   enable = true;
+  #   enableFishIntegration = true;
+  # };
 
   # Direnv
   programs.direnv = {
@@ -144,7 +146,11 @@
 
   # Symlink config files
   home.file = {
-    ".config/nvim".source = ../config/nvim;
+    ".config/nvim" = {
+      source = ../config/nvim;
+      recursive = true;
+    };
+
     # Fish is managed by programs.fish, not symlinking
     # ".config/fish".source = ../config/fish;
     ".config/fish/conf.d".source = ../config/fish/conf.d;

@@ -32,3 +32,4 @@ config/karabiner/automatic_backups/
 
 # Claude Code local settings
 **/.claude/
+config/nvim/lazy-lock.json
