@@ -1,0 +1,61 @@
+# ============================================================
+# Alacritty Configuration
+# Common settings for macOS and Linux
+# ============================================================
+
+# ------------------------------------------------------------
+# Terminal Configuration
+# ------------------------------------------------------------
+[terminal.shell]
+program = "fish"
+args = ["-l", "-c", "tmux new-session -A -s main"]
+
+# ------------------------------------------------------------
+# Font Configuration
+# ------------------------------------------------------------
+[font]
+size = 12
+
+[font.offset]
+y = 1
+
+[font.normal]
+family = "Hack Nerd Font Mono"
+
+[font.bold]
+family = "Hack Nerd Font Mono"
+
+[font.italic]
+family = "Hack Nerd Font Mono"
+
+# ------------------------------------------------------------
+# Color Scheme (Gruvbox Dark)
+# https://github.com/eendroroy/alacritty-theme
+# ------------------------------------------------------------
+[colors.primary]
+background = "#282828"  # hard contrast: '#1d2021'
+foreground = "#ebdbb2"  # soft contrast: '#32302f'
+
+[colors.normal]
+black = "#282828"
+red = "#cc241d"
+green = "#98971a"
+yellow = "#d79921"
+blue = "#458588"
+magenta = "#b16286"
+cyan = "#689d6a"
+white = "#a89984"
+
+[colors.bright]
+black = "#928374"
+red = "#fb4934"
+green = "#b8bb26"
+yellow = "#fabd2f"
+blue = "#83a598"
+magenta = "#d3869b"
+cyan = "#8ec07c"
+white = "#ebdbb2"
+
+[colors.cursor]
+text = "#ffffff"
+cursor = "#e649ce"
