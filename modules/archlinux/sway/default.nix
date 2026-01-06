@@ -24,5 +24,51 @@
     grim
     slurp
     kanshi
+    gammastep  # Redshift fork with better Wayland support
   ];
+
+  # Systemd services for Sway session
+  systemd.user.services = {
+    # Kanshi - Dynamic display configuration
+    kanshi = {
+      Unit = {
+        Description = "Dynamic output configuration for Wayland compositors";
+        Documentation = "https://sr.ht/~emersion/kanshi";
+        BindsTo = "sway-session.target";
+        After = "sway-session.target";
+      };
+
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.kanshi}/bin/kanshi";
+        Restart = "always";
+        RestartSec = 5;
+      };
+
+      Install = {
+        WantedBy = [ "sway-session.target" ];
+      };
+    };
+
+    # Gammastep - Display color temperature control (Redshift fork for Wayland)
+    gammastep = {
+      Unit = {
+        Description = "Control display color temperature with gammastep";
+        Documentation = "https://gitlab.com/chinstrap/gammastep";
+        BindsTo = "sway-session.target";
+        After = "sway-session.target";
+      };
+
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.gammastep}/bin/gammastep";
+        Restart = "always";
+        RestartSec = 5;
+      };
+
+      Install = {
+        WantedBy = [ "sway-session.target" ];
+      };
+    };
+  };
 }
