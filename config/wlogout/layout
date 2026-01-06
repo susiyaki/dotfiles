@@ -1,0 +1,25 @@
+{
+  "label" : "lock",
+  "action" : "swaylock -f -C ~/.config/swaylock/config",
+  "text" : "Lock"
+}
+{
+  "label" : "logout",
+  "action" : "swaymsg exit",
+  "text" : "Logout"
+}
+{
+  "label" : "suspend",
+  "action" : "systemctl suspend",
+  "text" : "Suspend"
+}
+{
+  "label" : "shutdown",
+  "action" : "systemctl poweroff",
+  "text" : "Shutdown",
+}
+{
+  "label" : "reboot",
+  "action" : "systemctl reboot",
+  "text" : "Reboot",
+}

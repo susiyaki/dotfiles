@@ -216,4 +216,13 @@
     [general]
     import = ["alacritty.linux.toml"]
   '';
+
+  # Swaylock configuration
+  home.file.".config/swaylock/config".source = ../config/swaylock/config;
+
+  # Wlogout configuration
+  home.file.".config/wlogout" = {
+    source = ../config/wlogout;
+    recursive = true;
+  };
 }

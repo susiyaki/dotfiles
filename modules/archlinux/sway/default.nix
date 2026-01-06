@@ -18,7 +18,6 @@
 
   # Sway-specific packages
   home.packages = with pkgs; [
-    swaylock
     swayidle
     swaybg
     wl-clipboard
