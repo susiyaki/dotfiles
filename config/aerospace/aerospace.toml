@@ -1,0 +1,324 @@
+# ============================================================
+# Aerospace Configuration
+# Based on Sway configuration for Linux
+# ============================================================
+
+# ------------------------------------------------------------
+# General Settings
+# ------------------------------------------------------------
+
+config-version = 2
+start-at-login = true
+
+# Start SketchyBar on startup
+after-startup-command = ['exec-and-forget sketchybar']
+
+# Notify SketchyBar when workspace changes
+exec-on-workspace-change = [
+  '/bin/bash',
+  '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+# -----------------------------------------------------------------------------
+# Normalization
+# -----------------------------------------------------------------------------
+
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# -----------------------------------------------------------------------------
+# Layout Settings
+# -----------------------------------------------------------------------------
+
+accordion-padding = 0
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# Mouse follows focus when focused monitor changes
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+
+# -----------------------------------------------------------------------------
+# Gaps
+# -----------------------------------------------------------------------------
+
+[gaps]
+inner.horizontal = 5
+inner.vertical = 5
+outer.left = 5
+outer.bottom = 5
+outer.top = 45  # Space for SketchyBar (bar height is 40px)
+outer.right = 5
+
+# =============================================================================
+# Key Bindings - Main Mode
+# =============================================================================
+
+[mode.main.binding]
+
+# -----------------------------------------------------------------------------
+# Layout
+# -----------------------------------------------------------------------------
+
+alt-slash = 'layout tiles horizontal vertical'
+alt-comma = 'layout accordion horizontal vertical'
+
+# -----------------------------------------------------------------------------
+# Focus Navigation (Vim-style)
+# -----------------------------------------------------------------------------
+
+alt-h = [
+  'focus left',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-j = [
+  'focus down',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-k = [
+  'focus up',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-l = [
+  'focus right',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+# -----------------------------------------------------------------------------
+# Focus Navigation (Arrow Keys)
+# -----------------------------------------------------------------------------
+
+alt-left = [
+  'focus left',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-down = [
+  'focus down',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-up = [
+  'focus up',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-right = [
+  'focus right',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+# -----------------------------------------------------------------------------
+# Move Windows (Vim-style)
+# -----------------------------------------------------------------------------
+
+alt-shift-h = [
+  'move left',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-shift-j = [
+  'move down',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-shift-k = [
+  'move up',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-shift-l = [
+  'move right',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+# -----------------------------------------------------------------------------
+# Move Windows (Arrow Keys)
+# -----------------------------------------------------------------------------
+
+alt-shift-left = [
+  'move left',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-shift-down = [
+  'move down',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-shift-up = [
+  'move up',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+alt-shift-right = [
+  'move right',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+# -----------------------------------------------------------------------------
+# Workspace Switching
+# -----------------------------------------------------------------------------
+
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-0 = 'workspace 10'
+
+# -----------------------------------------------------------------------------
+# Move Window to Workspace
+# -----------------------------------------------------------------------------
+
+alt-shift-1 = 'move-node-to-workspace 1'
+alt-shift-2 = 'move-node-to-workspace 2'
+alt-shift-3 = 'move-node-to-workspace 3'
+alt-shift-4 = 'move-node-to-workspace 4'
+alt-shift-5 = 'move-node-to-workspace 5'
+alt-shift-6 = 'move-node-to-workspace 6'
+alt-shift-7 = 'move-node-to-workspace 7'
+alt-shift-8 = 'move-node-to-workspace 8'
+alt-shift-9 = 'move-node-to-workspace 9'
+alt-shift-0 = 'move-node-to-workspace 10'
+
+# -----------------------------------------------------------------------------
+# Window Actions
+# -----------------------------------------------------------------------------
+
+# Fullscreen
+alt-f = [
+  'fullscreen',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+# Close window
+alt-shift-q = [
+  'close',
+  'exec-and-forget sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE'
+]
+
+# Reload configuration
+alt-shift-c = 'reload-config'
+
+# Switch between floating and tiling
+alt-shift-equal = 'layout floating tiling'
+
+# -----------------------------------------------------------------------------
+# Application Shortcuts (Ctrl+Alt)
+# -----------------------------------------------------------------------------
+
+ctrl-alt-t = 'exec-and-forget ~/.config/aerospace/scripts/focus_or_open Alacritty'
+ctrl-alt-b = 'exec-and-forget ~/.config/aerospace/scripts/focus_or_open Comet'
+ctrl-alt-s = 'exec-and-forget ~/.config/aerospace/scripts/focus_or_open Slack'
+ctrl-alt-d = 'exec-and-forget ~/.config/aerospace/scripts/focus_or_open Discord'
+ctrl-alt-m = 'exec-and-forget ~/.config/aerospace/scripts/focus_or_open Spotify'
+
+# -----------------------------------------------------------------------------
+# Modes
+# -----------------------------------------------------------------------------
+
+# Enter resize mode
+alt-r = [
+  'mode resize',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=resize'
+]
+
+# Enter service mode
+alt-shift-semicolon = [
+  'mode service',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=service'
+]
+
+# =============================================================================
+# Service Mode
+# =============================================================================
+
+[mode.service.binding]
+
+# Reload config and return to main mode
+esc = [
+  'reload-config',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+
+# Reset layout
+r = [
+  'flatten-workspace-tree',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+
+# Toggle floating/tiling
+f = [
+  'layout floating tiling',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+
+# Close all windows except current
+backspace = [
+  'close-all-windows-but-current',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+
+# Join with adjacent windows
+alt-shift-h = [
+  'join-with left',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+alt-shift-j = [
+  'join-with down',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+alt-shift-k = [
+  'join-with up',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+alt-shift-l = [
+  'join-with right',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+
+# =============================================================================
+# Resize Mode
+# =============================================================================
+
+[mode.resize.binding]
+
+# Vim-style resize
+h = 'resize width -50'
+j = 'resize height +50'
+k = 'resize height -50'
+l = 'resize width +50'
+
+# Arrow keys resize
+left = 'resize width -50'
+down = 'resize height +50'
+up = 'resize height -50'
+right = 'resize width +50'
+
+# Exit resize mode
+enter = [
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+esc = [
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change MODE=main'
+]
+
+# =============================================================================
+# Window Rules
+# =============================================================================
+
+# Float 1Password by default
+[[on-window-detected]]
+if.app-id = 'com.1password.1password'
+run = 'layout floating'
+
+# Add more rules here as needed
+# [[on-window-detected]]
+# if.app-id = 'com.example.app'
+# run = 'move-node-to-workspace 5'

@@ -1,0 +1,96 @@
+{
+  "layer": "top", // Waybar at top layer
+  "position": "top", // Waybar position (top|bottom|left|right)
+  "spacing": 4, // Gaps between modules (4px)
+  "modules-left": ["sway/workspaces", "sway/mode"],
+  "modules-center": ["custom/clock"],
+  "modules-right": ["custom/screencast", "cpu", "memory", "pulseaudio", "backlight", "battery", "tray", "custom/dnd", "idle_inhibitor", "custom/power"],
+  // Modules configuration
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": false,
+    "format": "{index} {icon}",
+    "format-icons": {
+      "focused": "",
+      "default": ""
+    }
+  },
+  "sway/mode": {
+    "format": "<span style=\"italic\">{}</span>"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  },
+  "tray": {
+    "icon-size": 18,
+    "spacing": 4
+  },
+  "custom/clock": {
+    "exec": "echo '  '$(date +'%m-%d ( %a )  %H:%M')'  '",
+    "interval": 5
+  },
+  "cpu": {
+    "format": "   {usage}%",
+    "tooltip": false
+  },
+  "memory": {
+    "format": "   {used:0.1f}G / {total:0.1f}G  ({percentage}%)"
+  },
+  "backlight": {
+    "format": "{icon}   {percent}%",
+    "format-icons": ["", "", "", "", "", "", "", "", ""]
+  },
+  "battery": {
+    "states": {
+      "full": 100,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}% ({power}W)",
+    "format-plugged": " {capacity}% ({power}W)",
+    "format-alt": "{time} {icon}",
+    "format-full": "{icon}  {capacity}%",
+    "format-icons": ["", "", "", "", ""]
+  },
+  "pulseaudio": {
+    "format": "{icon}   {volume}%   {format_source}",
+    "format-bluetooth": " {icon} {volume}% {format_source}",
+    "format-bluetooth-muted": "  {format_source}",
+    "format-muted": " {format_source}",
+    "format-source": " {volume}%",
+    "format-source-muted": " ",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": ["", "", ""]
+    },
+    "on-click": "pavucontrol"
+  },
+  "custom/power": {
+    "format": "⏻",
+    "on-click": "wlogout"
+  },
+  "custom/screencast": {
+    "exec": "~/.config/waybar/scripts/screencast-indicator.sh",
+    "return-type": "json",
+    "interval": 1,
+    "format": "{}",
+    "on-click": "~/.config/sway/scripts/capture-manager.sh screencast"
+  },
+  "custom/dnd": {
+    "exec": "~/.config/waybar/scripts/dnd-indicator.sh",
+    "return-type": "json",
+    "interval": 1,
+    "format": "{}",
+    "on-click": "swaync-client -t -sw"
+  }
+}

@@ -1,0 +1,38 @@
+# DisplayLink 2枚 + DP-2 が見えているとき
+profile desk-triple {
+  output eDP-1 disable
+
+  # 右上: DVI-I-1
+  output DVI-I-1 enable mode 1920x1080 position 1920,0
+
+  # 左: DP-2
+  output DP-2 enable mode 1920x1080 position 0,90
+
+  # 右下: DVI-I-2
+  output DVI-I-2 enable mode 1920x1080 position 1920,1080
+}
+
+# DisplayLink 2枚が見えているとき
+profile desk-triple {
+  output eDP-1 disable
+
+  # 上: DVI-I-3
+  output DVI-I-3 enable mode 1920x1080 position 0,0
+
+  # 下: DVI-I-4
+  output DVI-I-4 enable mode 1920x1080 position 0,1080
+}
+
+# ノート単体（何も外部が無いとき）
+profile laptop-only {
+  output eDP-1 enable mode 2880x1800 position 0,0 scale 1.5
+}
+
+# ポータブニタ1枚 + ノート
+profile desk-dual {
+  # 右
+  output eDP-1 enable mode 2880x1800 position 1920,0 scale 1.66
+
+  # 左
+  output DP-1 enable mode 1920x1080 position 0,0
+}

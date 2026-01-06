@@ -1,0 +1,15 @@
+# ============================================================
+# Alacritty - Linux Specific Configuration
+# ============================================================
+
+import:
+  - alacritty.yml
+
+# Override shell path for Linux (NixOS)
+shell:
+  program: /run/current-system/sw/bin/fish  # NixOS path
+  # or /usr/bin/fish for non-NixOS systems
+  args:
+    - -l
+    - -c
+    - "tmux new-session -A -s main"

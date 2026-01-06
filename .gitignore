@@ -1,0 +1,34 @@
+# Nix
+result
+result-*
+flake.lock
+
+# Direnv
+.direnv/
+.envrc
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Secrets
+secrets/
+*.key
+*.pem
+
+# Fish shell generated files
+config/fish/fish_variables
+config/fish/functions/__*
+config/fish/functions/fisher.fish
+config/fish/functions/fish_*_prompt.fish
+config/fish/completions/fisher.fish
+
+# Karabiner-Elements generated files
+config/karabiner/automatic_backups/
+
+# Claude Code local settings
+**/.claude/

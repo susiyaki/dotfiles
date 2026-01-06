@@ -1,0 +1,12 @@
+#!/bin/sh
+
+focused_window_border_mode="$(swaymsg -t get_tree | jq -r '.. | select(.type?) | select(.focused==true).border')"
+current_workspace="$(swaymsg -t get_workspaces | jq -r '.[] | if .["focused"] then .["name"] else empty end')"
+
+if [ "$focused_window_border_mode" = "none" ]; then
+    new_border_mode="pixel 3"
+else
+    new_border_mode="none"
+fi
+
+swaymsg [workspace=^$current_workspace$] border $new_border_mode

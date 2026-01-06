@@ -1,0 +1,32 @@
+#!/bin/bash
+# Toggle app visibility: focus if not focused, hide if already focused
+
+APP_NAME="$1"
+
+if [ -z "$APP_NAME" ]; then
+    echo "Usage: $0 <app-name>"
+    exit 1
+fi
+
+# Try to find the window and get its ID
+WINDOW_ID=$(aerospace list-windows --all | grep -i "$APP_NAME" | head -n 1 | awk '{print $1}')
+
+if [ -n "$WINDOW_ID" ]; then
+    # Window exists, check if it's currently focused
+    FOCUSED_WINDOW_ID=$(aerospace list-windows --focused 2>/dev/null | head -n 1 | awk '{print $1}')
+
+    if [ "$WINDOW_ID" = "$FOCUSED_WINDOW_ID" ]; then
+        # Window is focused, hide the app (like Hammerspoon's app:hide())
+        osascript -e "tell application \"System Events\" to set visible of application process \"$APP_NAME\" to false" 2>/dev/null
+    else
+        # Window exists but not focused, focus it
+        aerospace focus --window-id "$WINDOW_ID"
+    fi
+else
+    # Window doesn't exist, open the app
+    open -a "$APP_NAME"
+fi
+
+# Update SketchyBar immediately after the operation
+FOCUSED_WORKSPACE=$(aerospace list-workspaces --focused 2>/dev/null)
+sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$FOCUSED_WORKSPACE 2>/dev/null &

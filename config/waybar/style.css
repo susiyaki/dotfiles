@@ -1,0 +1,71 @@
+@import "macchiato.css";
+
+* {
+  /* reference the color by using @color-name */
+  color: @text;
+}
+
+window#waybar {
+  /* you can also GTK3 CSS functions! */
+  background-color: shade(@base, 0.9);
+  border: 2px solid alpha(@crust, 0.3);
+}
+
+#custom-clock,
+#battery,
+#cpu,
+#memory,
+#backlight,
+#pulseaudio,
+#tray,
+#mode,
+#idle_inhibitor,
+#custom_power,
+#custom-screencast,
+#custom-dnd {
+  color: @text;
+  border-radius: 9999px;
+  border: 1px solid @lavender;
+  margin: 4px 0;
+  padding: 4px 8px;
+}
+
+#custom-clock {
+  background-color: @lavender;
+  color: @base;
+}
+
+#custom-power {
+  margin: 4px 8px 4px 0;
+  padding: 0 10px;
+  font-size: 28px;
+  font-weight: bold;
+  border-radius: 9999px;
+  border: 1px solid @lavender;
+}
+
+#idle_inhibitor {
+  padding: 0 10px;
+}
+
+#custom-screencast.recording {
+  color: @red;
+  padding: 0 10px;
+  font-size: 24px;
+  background-color: alpha(@red, 0.2);
+  border-color: @red;
+}
+
+#custom-dnd {
+  padding: 0 9px;
+  font-size: 24px;
+}
+
+#custom-dnd.dnd-on {
+  color: @base;
+  background-color: @lavender;
+}
+
+#custom-dnd.dnd-off {
+  color: @text;
+}

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+app_id=$( swaymsg -t get_tree | jq -r '.. | select(.type?) | select(.focused==true) | .window_properties.class'  )
+if [[ $app_id != "1Password" ]]; then
+    # --no-persist so that we preserve rich text:
+    clipman store --no-persist
+fi
