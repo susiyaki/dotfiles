@@ -7,12 +7,6 @@
     recursive = true;
   };
 
-  # Make scripts and config executable
-  home.activation.makeSketchybarExecutable = config.lib.dag.entryAfter ["writeBoundary"] ''
-    chmod +x ~/.config/sketchybar/sketchybarrc || true
-    chmod +x ~/.config/sketchybar/plugins/* || true
-  '';
-
   # Launchd service to start SketchyBar at login
   launchd.agents.sketchybar = {
     enable = true;
