@@ -30,7 +30,6 @@
     brews = [
       "sketchybar"
       "ni"  # Fast npm alternative
-      "gmp"  # GNU Multiple Precision Arithmetic Library (required for Ruby)
     ];
 
     casks = [
@@ -90,8 +89,8 @@
       NSGlobalDomain = {
         AppleKeyboardUIMode = 3;
         ApplePressAndHoldEnabled = false;
-        InitialKeyRepeat = 15;
-        KeyRepeat = 2;
+        InitialKeyRepeat = 10;
+        KeyRepeat = 1;
         NSAutomaticCapitalizationEnabled = false;
         NSAutomaticDashSubstitutionEnabled = false;
         NSAutomaticPeriodSubstitutionEnabled = false;
