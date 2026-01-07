@@ -7,7 +7,6 @@
     ../modules/archlinux/waybar
     ../modules/archlinux/xremap
     ../modules/archlinux/wofi
-    ../modules/archlinux/tmux
     ../modules/archlinux/wireplumber-watchdog
   ];
 
