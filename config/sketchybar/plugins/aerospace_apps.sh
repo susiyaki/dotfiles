@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Set PATH for launchd environment
+export PATH="/opt/homebrew/bin:$PATH"
+
 # Display all apps in the focused workspace
 # Focused window: full name in bright color
 # Unfocused windows: first letter in dim color
@@ -11,8 +14,8 @@ FOCUSED_WINDOW=$(aerospace list-windows --focused 2>/dev/null | head -n 1 | awk 
 WINDOWS=$(aerospace list-windows --workspace "$FOCUSED_WORKSPACE" 2>/dev/null)
 
 if [ -z "$WINDOWS" ]; then
-    sketchybar --set aerospace_apps_focused label="" label.drawing=off
-    sketchybar --set aerospace_apps_unfocused label="" label.drawing=off
+    /opt/homebrew/bin/sketchybar --set aerospace_apps_focused label="" label.drawing=off
+    /opt/homebrew/bin/sketchybar --set aerospace_apps_unfocused label="" label.drawing=off
 else
     FOCUSED_APP=""
     UNFOCUSED_APPS=""
@@ -33,15 +36,15 @@ else
 
     # Update focused app (bright color)
     if [ -n "$FOCUSED_APP" ]; then
-        sketchybar --set aerospace_apps_focused label="$FOCUSED_APP" label.drawing=on
+        /opt/homebrew/bin/sketchybar --set aerospace_apps_focused label="$FOCUSED_APP" label.drawing=on
     else
-        sketchybar --set aerospace_apps_focused label="" label.drawing=off
+        /opt/homebrew/bin/sketchybar --set aerospace_apps_focused label="" label.drawing=off
     fi
 
     # Update unfocused apps (dim color)
     if [ -n "$UNFOCUSED_APPS" ]; then
-        sketchybar --set aerospace_apps_unfocused label="$UNFOCUSED_APPS" label.drawing=on
+        /opt/homebrew/bin/sketchybar --set aerospace_apps_unfocused label="$UNFOCUSED_APPS" label.drawing=on
     else
-        sketchybar --set aerospace_apps_unfocused label="" label.drawing=off
+        /opt/homebrew/bin/sketchybar --set aerospace_apps_unfocused label="" label.drawing=off
     fi
 fi
