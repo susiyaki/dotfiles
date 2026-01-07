@@ -88,6 +88,9 @@ end, { noremap = true, silent = true, desc = "Toggle ClaudeCode (vertical)" })
 
 -- Claude Code: ,, でポップアップ入力してClaude Codeペインとyankレジスタに反映
 local function prompt_and_send_to_claude()
+  -- 呼び出し元のウィンドウを記録（フローティングウィンドウを開く前）
+  local original_win = vim.api.nvim_get_current_win()
+
   -- フローティングウィンドウの設定
   local width = 80
   local height = 5
@@ -175,7 +178,17 @@ local function prompt_and_send_to_claude()
   -- インサートモードでCtrl+kで送信
   vim.keymap.set('i', '<C-k>', function()
     vim.cmd('stopinsert')
-    vim.schedule(send_input)
+    vim.schedule(function()
+      send_input()
+      -- 元のウィンドウに戻ってinsertモードを開始
+      vim.defer_fn(function()
+        if original_win and vim.api.nvim_win_is_valid(original_win) then
+          vim.api.nvim_set_current_win(original_win)
+          -- nvim_feedkeysを使ってinsertモードに入る（カーソル位置そのまま）
+          vim.api.nvim_feedkeys('i', 'n', false)
+        end
+      end, 10)
+    end)
   end, {
     buffer = buf,
     noremap = true,
