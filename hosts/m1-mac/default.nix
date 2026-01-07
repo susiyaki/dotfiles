@@ -30,6 +30,7 @@
     brews = [
       "sketchybar"
       "ni"  # Fast npm alternative
+      "gmp"  # GNU Multiple Precision Arithmetic Library (required for Ruby)
     ];
 
     casks = [
