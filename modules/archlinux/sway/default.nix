@@ -27,6 +27,17 @@
     gammastep  # Redshift fork with better Wayland support
   ];
 
+  # Systemd target for Sway session
+  systemd.user.targets.sway-session = {
+    Unit = {
+      Description = "Sway compositor session";
+      Documentation = "man:systemd.special";
+      BindsTo = "graphical-session.target";
+      Wants = "graphical-session-pre.target";
+      After = "graphical-session-pre.target";
+    };
+  };
+
   # Systemd services for Sway session
   systemd.user.services = {
     # Kanshi - Dynamic display configuration
