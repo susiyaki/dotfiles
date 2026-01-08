@@ -66,23 +66,13 @@ local function send_selection_with_position(position)
 end
 
 -- キーマッピングを設定
--- ビジュアルモード: 選択テキストをClaudeCodeに送信（フローティング）
-vim.keymap.set('v', ',,', function()
-  send_selection_with_position("float")
-end, { noremap = true, silent = true, desc = "Send selection to ClaudeCode (floating)" })
-
 -- ビジュアルモード: 選択テキストをClaudeCodeに送信（バーティカル）
-vim.keymap.set('v', '<Space>,v', function()
+vim.keymap.set('v', ',,', function()
   send_selection_with_position("vertical")
 end, { noremap = true, silent = true, desc = "Send selection to ClaudeCode (vertical)" })
 
--- ノーマルモード: フローティングでトグル
-vim.keymap.set('n', '<Space>,,', function()
-  toggle_with_position("float")
-end, { noremap = true, silent = true, desc = "Toggle ClaudeCode (floating)" })
-
 -- ノーマルモード: バーティカルでトグル
-vim.keymap.set('n', '<Space>,v', function()
+vim.keymap.set('n', '<Space>,,', function()
   toggle_with_position("vertical")
 end, { noremap = true, silent = true, desc = "Toggle ClaudeCode (vertical)" })
 
@@ -154,8 +144,46 @@ local function prompt_and_send_to_claude()
       end
 
       if claude_chan and claude_chan > 0 then
+        -- Claude Codeのウィンドウが表示されているかチェック
+        local win_id = vim.fn.bufwinid(claude_buf)
+
+        if win_id == -1 then
+          -- バッファは存在するがウィンドウが表示されていない場合は開く
+          local claude_code = require("claude-code")
+          local original_position = claude_code.config.window.position
+          claude_code.config.window.position = "vertical"
+          claude_code.toggle()
+          claude_code.config.window.position = original_position
+        end
+
         -- ターミナルバッファに送信
         vim.api.nvim_chan_send(claude_chan, input .. '\n')
+      else
+        -- Claude Codeが開いていない場合は起動してから送信
+        local claude_code = require("claude-code")
+        local original_position = claude_code.config.window.position
+        claude_code.config.window.position = "vertical"
+        claude_code.toggle()
+        claude_code.config.window.position = original_position
+
+        -- Claude Codeが起動するまで待ってから送信
+        vim.defer_fn(function()
+          -- 再度ターミナルバッファを探す
+          for _, b in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.api.nvim_buf_is_valid(b) then
+              local name = vim.api.nvim_buf_get_name(b)
+              if vim.bo[b].buftype == 'terminal' and name:lower():match('claude') then
+                local chan = vim.bo[b].channel
+                if chan and chan > 0 then
+                  vim.api.nvim_chan_send(chan, input .. '\n')
+                  vim.notify("Claude Code started and text sent", vim.log.levels.INFO)
+                  return
+                end
+              end
+            end
+          end
+          vim.notify("Failed to send text to Claude Code", vim.log.levels.WARN)
+        end, 1000)
       end
     end
   end
@@ -228,4 +256,31 @@ vim.keymap.set('t', ',,', function()
   vim.cmd('stopinsert')  -- ターミナルモードを抜ける
   vim.schedule(prompt_and_send_to_claude)  -- ノーマルモードになってから実行
 end, { noremap = true, silent = false, desc = 'Send input to Claude Code pane from terminal mode' })
+
+-- Neovim起動時にClaude Codeをバックグラウンドで自動起動
+vim.api.nvim_create_autocmd("VimEnter", {
+  pattern = "*",
+  callback = function()
+    -- 少し遅延させてから起動（他のプラグインの初期化を待つ）
+    vim.defer_fn(function()
+      local claude_code = require("claude-code")
+      -- 既にClaude Codeが起動しているかチェック
+      local current_instance = claude_code.claude_code.current_instance
+      local bufnr = current_instance and claude_code.claude_code.instances[current_instance]
+
+      if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
+        -- バックグラウンドで起動（verticalで起動）
+        local original_position = claude_code.config.window.position
+        claude_code.config.window.position = "vertical"
+        claude_code.toggle()
+        -- すぐに非表示にする（バックグラウンド化）
+        vim.defer_fn(function()
+          claude_code.toggle()
+          claude_code.config.window.position = original_position
+        end, 100)
+      end
+    end, 500)
+  end,
+  once = true,  -- 一度だけ実行
+})
 
