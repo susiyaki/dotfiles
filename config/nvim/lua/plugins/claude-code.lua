@@ -208,14 +208,25 @@ local function prompt_and_send_to_claude()
     vim.cmd('stopinsert')
     vim.schedule(function()
       send_input()
-      -- 元のウィンドウに戻ってinsertモードを開始
+      -- Claude Codeのウィンドウに移動してinsertモードを開始
       vim.defer_fn(function()
-        if original_win and vim.api.nvim_win_is_valid(original_win) then
-          vim.api.nvim_set_current_win(original_win)
-          -- nvim_feedkeysを使ってinsertモードに入る（カーソル位置そのまま）
-          vim.api.nvim_feedkeys('i', 'n', false)
+        -- Claude Codeのターミナルバッファを探す
+        for _, b in ipairs(vim.api.nvim_list_bufs()) do
+          if vim.api.nvim_buf_is_valid(b) then
+            local name = vim.api.nvim_buf_get_name(b)
+            if vim.bo[b].buftype == 'terminal' and name:lower():match('claude') then
+              local win_id = vim.fn.bufwinid(b)
+              if win_id ~= -1 then
+                -- Claude Codeのウィンドウに移動
+                vim.api.nvim_set_current_win(win_id)
+                -- ターミナルモードに入る
+                vim.cmd('startinsert')
+                return
+              end
+            end
+          end
         end
-      end, 10)
+      end, 100)
     end)
   end, {
     buffer = buf,
