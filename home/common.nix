@@ -80,6 +80,9 @@
         rehead = "!git reset --hard origin/`git rev-parse --abbrev-ref HEAD`";
         s = "status -s";
         swi = "switch";
+        wt = "worktree";
+        wtl = "worktree list";
+        wtp = "worktree prune";
       };
     };
 
