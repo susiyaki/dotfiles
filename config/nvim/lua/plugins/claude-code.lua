@@ -212,6 +212,34 @@ local function prompt_and_send_to_claude()
     silent = true,
   })
 
+  -- normalモードでCtrl+kで送信
+  vim.keymap.set('n', '<C-k>', function()
+    send_input()
+    -- Claude Codeのウィンドウに移動してinsertモードを開始
+    vim.defer_fn(function()
+      -- Claude Codeのターミナルバッファを探す
+      for _, b in ipairs(vim.api.nvim_list_bufs()) do
+        if vim.api.nvim_buf_is_valid(b) then
+          local name = vim.api.nvim_buf_get_name(b)
+          if vim.bo[b].buftype == 'terminal' and name:lower():match('claude') then
+            local win_id = vim.fn.bufwinid(b)
+            if win_id ~= -1 then
+              -- Claude Codeのウィンドウに移動
+              vim.api.nvim_set_current_win(win_id)
+              -- ターミナルモードに入る
+              vim.cmd('startinsert')
+              return
+            end
+          end
+        end
+      end
+    end, 100)
+  end, {
+    buffer = buf,
+    noremap = true,
+    silent = true,
+  })
+
   -- インサートモードでCtrl+kで送信
   vim.keymap.set('i', '<C-k>', function()
     vim.cmd('stopinsert')
@@ -245,20 +273,6 @@ local function prompt_and_send_to_claude()
 
   -- Escでキャンセル（インサートモードからノーマルモードへ）
   vim.keymap.set('i', '<Esc>', '<Esc>', {
-    buffer = buf,
-    noremap = true,
-    silent = true,
-  })
-
-  -- ノーマルモードでEscでキャンセル
-  vim.keymap.set('n', '<Esc>', cancel_input, {
-    buffer = buf,
-    noremap = true,
-    silent = true,
-  })
-
-  -- qでキャンセル
-  vim.keymap.set('n', 'q', cancel_input, {
     buffer = buf,
     noremap = true,
     silent = true,
