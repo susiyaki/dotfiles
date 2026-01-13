@@ -30,6 +30,9 @@ function git --description 'Git wrapper with worktree enhancements'
       if test "$argv[2]" = "init"
         __git_worktree_init
         return $status
+      else if test "$argv[2]" = "cd"
+        git-worktree-cd
+        return $status
       end
     end
 
@@ -38,6 +41,11 @@ function git --description 'Git wrapper with worktree enhancements'
         # git worktree init - カスタムコマンド
         if test "$argv[2]" = "init"
             __git_worktree_init
+            return $status
+
+        # git worktree cd - worktreeへの移動
+        else if test "$argv[2]" = "cd"
+            git-worktree-cd
             return $status
 
         # git worktree add - 拡張機能
@@ -109,12 +117,65 @@ function __git_worktree_init --description 'Initialize git-worktrees configurati
         echo "✓ git-worktrees/* already in .git/info/exclude"
     end
 
+    # init フックスクリプトのテンプレートを作成
+    set -l init_script "$worktree_dir/init"
+    if not test -f "$init_script"
+        echo "#!/bin/bash
+# Worktree initialization hook
+# This script runs after a new worktree is created
+
+echo \"Running worktree initialization...\"
+
+# Example: Install dependencies
+# npm install
+# pnpm install
+
+# Example: Copy environment files
+# cp .env.example .env.local
+
+echo \"Worktree initialization completed\"
+" > "$init_script"
+        chmod +x "$init_script"
+        echo "✓ Created executable hook: git-worktrees/init"
+    else
+        echo "✓ Hook already exists: git-worktrees/init"
+    end
+
+    # cleanup フックスクリプトのテンプレートを作成
+    set -l cleanup_script "$worktree_dir/cleanup"
+    if not test -f "$cleanup_script"
+        echo "#!/bin/bash
+# Worktree cleanup hook
+# This script runs after a worktree is removed
+# Argument: \$1 = path of the removed worktree
+
+WORKTREE_PATH=\"\$1\"
+
+echo \"Running worktree cleanup for: \$WORKTREE_PATH\"
+
+# Example: Clean up build artifacts
+# rm -rf dist/
+# rm -rf node_modules/
+
+# Example: Notify external services
+# curl -X POST https://api.example.com/worktree-removed
+
+echo \"Worktree cleanup completed\"
+" > "$cleanup_script"
+        chmod +x "$cleanup_script"
+        echo "✓ Created executable hook: git-worktrees/cleanup"
+    else
+        echo "✓ Hook already exists: git-worktrees/cleanup"
+    end
+
     echo ""
     echo "✅ Git worktree configuration initialized!"
     echo ""
     echo "Next steps:"
     echo "  1. Edit git-worktrees/config to specify files to share"
-    echo "  2. Run: git worktree add <path> <branch>"
+    echo "  2. Edit git-worktrees/init for custom initialization"
+    echo "  3. Edit git-worktrees/cleanup for custom cleanup"
+    echo "  4. Run: git worktree add <path> <branch>"
 end
 
 function __git_worktree_add --description 'Add worktree with automatic symlink setup'
@@ -122,6 +183,14 @@ function __git_worktree_add --description 'Add worktree with automatic symlink s
 
     if test -z "$repo_root"
         echo "Error: Not in a git repository"
+        return 1
+    end
+
+    # init フックスクリプトの権限チェック
+    set -l init_script "$repo_root/git-worktrees/init"
+    if test -f "$init_script"; and not test -x "$init_script"
+        echo "Error: git-worktrees/init exists but is not executable"
+        echo "Run: chmod +x git-worktrees/init"
         return 1
     end
 
@@ -188,6 +257,23 @@ function __git_worktree_add --description 'Add worktree with automatic symlink s
         echo "✅ Worktree created with $linked_count symlink(s)"
     else
         echo "✅ Worktree created (no symlinks created)"
+    end
+
+    # init フックスクリプトがあれば実行
+    set -l init_script "$repo_root/git-worktrees/init"
+    if test -f "$init_script"; and test -x "$init_script"
+        echo ""
+        echo "🔧 Running init hook..."
+        cd "$worktree_path"
+        bash "$init_script"
+        set -l init_status $status
+        cd "$repo_root"
+
+        if test $init_status -eq 0
+            echo "✅ Init hook completed successfully"
+        else
+            echo "⚠️  Init hook failed with status $init_status"
+        end
     end
 
     return 0

@@ -6,6 +6,14 @@ function git-wta --description 'Interactive git worktree add'
         return 1
     end
 
+    # init フックスクリプトの権限チェック
+    set -l init_script "$repo_root/git-worktrees/init"
+    if test -f "$init_script"; and not test -x "$init_script"
+        echo "Error: git-worktrees/init exists but is not executable"
+        echo "Run: chmod +x git-worktrees/init"
+        return 1
+    end
+
     set -l worktree_base_dir "$repo_root/git-worktrees"
 
     # ディレクトリ名を入力
@@ -48,9 +56,8 @@ function git-wta --description 'Interactive git worktree add'
             set -l selected_branch (printf "%s\n" $branches | fzf \
                 --height 40% \
                 --reverse \
-                --prompt "Select branch: " \
-                --preview "git log --oneline --graph --color=always {} | head -20" \
-                --preview-window=right:60%:wrap)
+                --preview '' \
+                --prompt "Select branch: ")
 
             if test -z "$selected_branch"
                 echo "Cancelled."
@@ -71,6 +78,8 @@ function git-wta --description 'Interactive git worktree add'
                 # シンボリックリンクを作成（__git_worktree_addの処理を手動実行）
                 __create_worktree_symlinks "$worktree_path"
             end
+
+            cd "$repo_root/git-worktrees/$dir_name"
 
             return $status_code
 
@@ -93,9 +102,8 @@ function git-wta --description 'Interactive git worktree add'
             set -l base_branch (printf "%s\n" $branches | fzf \
                 --height 40% \
                 --reverse \
-                --prompt "Select base branch: " \
-                --preview "git log --oneline --graph --color=always {} | head -20" \
-                --preview-window=right:60%:wrap)
+                --preview '' \
+                --prompt "Select base branch: ")
 
             if test -z "$base_branch"
                 echo "Cancelled."
@@ -117,6 +125,8 @@ function git-wta --description 'Interactive git worktree add'
                 # シンボリックリンクを作成
                 __create_worktree_symlinks "$worktree_path"
             end
+
+            cd "$repo_root/git-worktrees/$dir_name"
 
             return $status_code
 
@@ -176,5 +186,22 @@ function __create_worktree_symlinks --description 'Create symlinks for shared fi
         echo "✅ Worktree created with $linked_count symlink(s)"
     else
         echo "✅ Worktree created (no symlinks created)"
+    end
+
+    # init フックスクリプトがあれば実行
+    set -l init_script "$repo_root/git-worktrees/init"
+    if test -f "$init_script"; and test -x "$init_script"
+        echo ""
+        echo "🔧 Running init hook..."
+        cd "$worktree_path"
+        bash "$init_script"
+        set -l init_status $status
+        cd "$repo_root"
+
+        if test $init_status -eq 0
+            echo "✅ Init hook completed successfully"
+        else
+            echo "⚠️  Init hook failed with status $init_status"
+        end
     end
 end

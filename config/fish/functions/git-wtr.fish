@@ -18,9 +18,8 @@ function git-wtr --description 'Interactive git worktree remove using fzf'
     set -l selected (printf "%s\n" $worktrees | fzf \
         --height 40% \
         --reverse \
-        --prompt "Select worktree to remove: " \
-        --preview "cd {} && git status -s" \
-        --preview-window=right:50%:wrap)
+        --preview '' \
+        --prompt "Select worktree to remove: ")
 
     if test -z "$selected"
         echo "Cancelled."
@@ -37,9 +36,32 @@ function git-wtr --description 'Interactive git worktree remove using fzf'
 
     switch $confirm
         case Y y
+            # cleanup フックスクリプトの権限チェック
+            set -l cleanup_script "$repo_root/git-worktrees/cleanup"
+            if test -f "$cleanup_script"; and not test -x "$cleanup_script"
+                echo "Error: git-worktrees/cleanup exists but is not executable"
+                echo "Run: chmod +x git-worktrees/cleanup"
+                return 1
+            end
+
             command git worktree remove "$selected"
             if test $status -eq 0
                 echo "✅ Worktree removed: $selected"
+
+                # cleanup フックスクリプトがあれば実行
+                set -l cleanup_script "$repo_root/git-worktrees/cleanup"
+                if test -f "$cleanup_script"; and test -x "$cleanup_script"
+                    echo ""
+                    echo "🔧 Running cleanup hook..."
+                    bash "$cleanup_script" "$selected"
+                    set -l cleanup_status $status
+
+                    if test $cleanup_status -eq 0
+                        echo "✅ Cleanup hook completed successfully"
+                    else
+                        echo "⚠️  Cleanup hook failed with status $cleanup_status"
+                    end
+                end
             else
                 echo ""
                 echo "⚠️  Failed to remove. The worktree may have uncommitted changes."
