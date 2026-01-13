@@ -169,6 +169,12 @@
     ".config/fish/conf.d".source = ../config/fish/conf.d;
     ".config/fish/functions".source = ../config/fish/functions;
     # Note: tmux config is handled per-OS in darwin.nix and archlinux.nix
+
+    # Claude Code commands
+    ".claude" = {
+      source = ../config/claude;
+      recursive = true;
+    };
   };
 
   # Note: Alacritty config is handled per-OS in darwin.nix and archlinux.nix
