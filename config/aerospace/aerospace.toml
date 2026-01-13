@@ -60,8 +60,8 @@ outer.right = 5
 # Layout
 # -----------------------------------------------------------------------------
 
-alt-slash = 'layout tiles horizontal vertical'
-alt-comma = 'layout accordion horizontal vertical'
+alt-s = 'layout accordion horizontal vertical'
+alt-e = 'layout tiles horizontal vertical'
 
 # -----------------------------------------------------------------------------
 # Focus Navigation (Vim-style)
