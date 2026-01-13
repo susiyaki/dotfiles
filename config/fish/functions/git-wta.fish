@@ -11,7 +11,8 @@ function git-wta --description 'Interactive git worktree add'
     # ディレクトリ名を入力
     echo "📁 Create new worktree"
     echo ""
-    read -l -P " Directory name (will be created at git-worktrees/[name]): " dir_name
+    echo "Directory name (will be created at git-worktrees/[name]): "
+    read -l -P " › " dir_name
 
     if test -z "$dir_name"
         echo "Cancelled."
@@ -31,7 +32,8 @@ function git-wta --description 'Interactive git worktree add'
     echo "  1) Use existing branch"
     echo "  2) Create new branch"
     echo ""
-    read -l -P " Select mode [1/2]: " branch_mode
+    echo "Select mode [1/2]: "
+    read -l -P " › " branch_mode
 
     switch $branch_mode
         case 1
@@ -75,7 +77,8 @@ function git-wta --description 'Interactive git worktree add'
         case 2
             # 新しいブランチを作成
             echo ""
-            read -l -P "New branch name: " new_branch
+            echo -n "New branch name: "
+            read -l -P " › " new_branch
 
             if test -z "$new_branch"
                 echo "Cancelled."
