@@ -77,7 +77,7 @@ function git-wta --description 'Interactive git worktree add'
         case 2
             # 新しいブランチを作成
             echo ""
-            echo -n "New branch name: "
+            echo "New branch name: "
             read -l -P " › " new_branch
 
             if test -z "$new_branch"

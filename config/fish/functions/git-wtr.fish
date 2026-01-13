@@ -32,7 +32,7 @@ function git-wtr --description 'Interactive git worktree remove using fzf'
     echo "🗑️  About to remove worktree:"
     echo "   $selected"
     echo ""
-    echo -n "Are you sure? [y/N] "
+    echo "Are you sure? [y/N] "
     read -l -P " › " confirm
 
     switch $confirm
