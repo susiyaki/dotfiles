@@ -25,6 +25,14 @@ function git --description 'Git wrapper with worktree enhancements'
         end
     end
 
+    ## git wt initによる初期化
+    if test "$argv[1]" = "wt"
+      if test "$argv[2]" = "init"
+        __git_worktree_init
+        return $status
+      end
+    end
+
     # git worktree サブコマンドの拡張
     if test "$argv[1]" = "worktree"
         # git worktree init - カスタムコマンド
