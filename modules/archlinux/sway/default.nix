@@ -15,6 +15,7 @@
   # Additional sway-related configs
   home.file.".config/swaync".source = ../../../config/swaync;
   home.file.".config/kanshi".source = ../../../config/kanshi;
+  home.file.".config/speak-to-ai".source = ../../../config/speak-to-ai;
 
   # Sway-specific packages
   home.packages = with pkgs; [
@@ -25,6 +26,8 @@
     slurp
     kanshi
     gammastep  # Redshift fork with better Wayland support
+    wtype  # Wayland keyboard input emulator (for speak-to-ai)
+    libnotify  # Desktop notifications (for speak-to-ai)
   ];
 
   # Systemd target for Sway session
@@ -79,6 +82,31 @@
 
       Install = {
         WantedBy = [ "sway-session.target" ];
+      };
+    };
+
+    # Speak to AI - Offline Speech-to-Text Daemon
+    speak-to-ai = {
+      Unit = {
+        Description = "Speak to AI - Offline Speech-to-Text Daemon";
+        Documentation = "https://github.com/speak-to-ai/speak-to-ai";
+        After = [ "pipewire.service" "pipewire-pulse.service" ];
+        Requires = [ "pipewire.service" ];
+      };
+
+      Service = {
+        Type = "simple";
+        ExecStart = "/usr/bin/speak-to-ai -config %h/.config/speak-to-ai/config.yaml";
+        Restart = "on-failure";
+        RestartSec = 5;
+        Environment = [
+          "PULSE_SERVER=unix:/run/user/%U/pulse/native"
+          "PIPEWIRE_RUNTIME_DIR=/run/user/%U"
+        ];
+      };
+
+      Install = {
+        WantedBy = [ "default.target" ];
       };
     };
   };

@@ -44,6 +44,9 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86Display exec systemctl --user is-active redshift.service && systemctl --user stop redshift.service || systemctl --user start redshift.service
 ### notification
 bindsym $super+n exec swaync-client -t -sw
+### Voice input with Speak to AI
+bindsym $super+Shift+v exec bash ~/.config/sway/scripts/speak-to-ai-input.sh
+bindsym --whole-window button2 exec bash ~/.config/sway/scripts/speak-to-ai-input.sh
 
 ## Sway
 ### Use Mouse+$alt to drag floating windows to theier wanted position

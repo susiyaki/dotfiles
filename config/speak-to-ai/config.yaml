@@ -1,0 +1,40 @@
+# Speak to AI Configuration
+# Speech-to-text with Whisper for Wayland/Sway
+
+# General configuration
+general:
+  debug: false
+  whisper_model: "medium-q5_0"
+  temp_audio_path: "/tmp"
+  # Language for speech recognition (ja = Japanese)
+  # IMPORTANT: This must be under "general:" section
+  language: "ja"
+
+# Hotkey configuration (disabled - using Sway keybindings instead)
+hotkeys:
+  start_recording: ""
+  stop_recording: ""
+  show_config: ""
+  reset_to_defaults: ""
+
+# Audio input configuration
+audio:
+  device: "pipewire"
+  sample_rate: 16000
+  format: "s16le"
+  recording_method: "arecord"
+  temp_file_cleanup_time: 30
+
+# Output configuration
+output:
+  # Use active_window mode to let daemon handle typing directly
+  default_mode: "active_window"
+  clipboard_tool: "auto"
+  type_tool: "auto"
+
+# Web server (disabled)
+web_server:
+  enabled: false
+  port: 8080
+  host: "localhost"
+
