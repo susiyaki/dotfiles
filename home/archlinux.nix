@@ -114,7 +114,7 @@
   programs.fish.shellAliases = {
     # System management
     reflectorjp = "sudo reflector --country 'Japan' --age 24 --protocol https --sort rate --save /etc/pacman.d/mirrorlist";
-    hm-switch = "home-manager switch --flake ~/dotfiles-new#susiyaki@thinkpad-p14s";
+    nix-switch = "home-manager switch --flake ~/dotfiles#susiyaki@thinkpad-p14s";
 
     # Common shortcuts
     ls = "eza --icons";

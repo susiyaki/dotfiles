@@ -175,7 +175,13 @@
       source = ../config/claude;
       recursive = true;
     };
-  };
+
+    # Bat (cat replacement)
+    ".config/bat".source = ../config/bat;
+
+    # Lazygit
+    ".config/lazygit".source = ../config/lazygit;
+ };
 
   # Note: Alacritty config is handled per-OS in darwin.nix and archlinux.nix
 }

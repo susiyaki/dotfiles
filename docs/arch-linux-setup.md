@@ -156,14 +156,14 @@ EOF
 
 ```bash
 cd ~
-git clone https://github.com/yourusername/dotfiles-new.git
-cd dotfiles-new
+git clone https://github.com/yourusername/dotfiles.git
+cd dotfiles
 ```
 
 ## 7. home-managerの初回セットアップ
 
 ```bash
-nix run home-manager/master -- switch --flake ~/dotfiles-new#susiyaki@thinkpad-p14s
+nix run home-manager/master -- switch --flake ~/dotfiles#susiyaki@thinkpad-p14s
 ```
 
 ## 8. 日常的な使い方
@@ -173,16 +173,16 @@ nix run home-manager/master -- switch --flake ~/dotfiles-new#susiyaki@thinkpad-p
 dotfilesを編集した後：
 
 ```bash
-home-manager switch --flake ~/dotfiles-new#susiyaki@thinkpad-p14s
+home-manager switch --flake ~/dotfiles#susiyaki@thinkpad-p14s
 
 # または、エイリアス（初回セットアップ後に有効）
-hm-switch
+nix-switch
 ```
 
 ### パッケージを更新
 
 ```bash
-cd ~/dotfiles-new
+cd ~/dotfiles
 nix flake update
 home-manager switch --flake .#susiyaki@thinkpad-p14s
 ```
@@ -239,10 +239,10 @@ ps aux | grep sway
 
 ```bash
 # ビルドのみテスト（適用しない）
-home-manager build --flake ~/dotfiles-new#susiyaki@thinkpad-p14s
+home-manager build --flake ~/dotfiles#susiyaki@thinkpad-p14s
 
 # エラーメッセージを確認
-nix flake check ~/dotfiles-new
+nix flake check ~/dotfiles
 ```
 
 ## 参考リンク

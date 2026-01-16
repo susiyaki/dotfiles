@@ -20,6 +20,11 @@
     ANDROID_SDK_ROOT = "$HOME/Library/Android/sdk";
   };
 
+  # macOS-specific fish aliases
+  programs.fish.shellAliases = {
+    nix-switch = "cd ~/dotfiles && nix build .#darwinConfigurations.m1-mac.system && sudo ./result/sw/bin/darwin-rebuild switch --flake ~/dotfiles#m1-mac";
+  };
+
   # macOS-specific shell config
   programs.fish.loginShellInit = ''
     # Nix paths (must be set early)

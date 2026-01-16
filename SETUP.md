@@ -17,7 +17,7 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 /tmp/setup-nix-darwin.sh
 
 # If successful, apply the configuration
-./result/sw/bin/darwin-rebuild switch --flake /Users/laeno/dotfiles-new#m1-mac
+./result/sw/bin/darwin-rebuild switch --flake /Users/laeno/dotfiles#m1-mac
 ```
 
 ### 3. Verify Installation
@@ -93,10 +93,10 @@ rm -rf ~/.nix-*
 
 ## Updating Configuration
 
-After modifying files in `dotfiles-new/`:
+After modifying files in `dotfiles/`:
 
 ```bash
-cd ~/dotfiles-new
+cd ~/dotfiles
 darwin-rebuild switch --flake .#m1-mac
 ```
 
@@ -117,18 +117,18 @@ Check the error message and ensure:
 ### Config Files Not Updating
 Home Manager manages config files. After changes:
 ```bash
-home-manager switch --flake ~/dotfiles-new#laeno@m1-mac
+home-manager switch --flake ~/dotfiles#laeno@m1-mac
 ```
 
 Or rebuild everything:
 ```bash
-darwin-rebuild switch --flake ~/dotfiles-new#m1-mac
+darwin-rebuild switch --flake ~/dotfiles#m1-mac
 ```
 
 ## Directory Structure
 
 ```
-dotfiles-new/
+dotfiles/
 ├── flake.nix              # Main entry point
 ├── hosts/
 │   ├── m1-mac/           # Machine-specific config
