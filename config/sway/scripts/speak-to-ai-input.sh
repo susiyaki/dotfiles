@@ -47,6 +47,17 @@ is_recording() {
     echo "$status" | grep -qi "Recording: true"
 }
 
+# Restore DND state
+restore_dnd() {
+    if [ -f "$DND_STATE_FILE" ]; then
+        DND_WAS_ON=$(cat "$DND_STATE_FILE")
+        if [ "$DND_WAS_ON" = "false" ]; then
+            swaync-client -df
+        fi
+        rm -f "$DND_STATE_FILE"
+    fi
+}
+
 # Main logic
 main() {
     # Ensure daemon is running
@@ -65,6 +76,7 @@ main() {
         # Check if stop was successful
         if [ $STOP_EXIT -ne 0 ]; then
             notify "エラー: 録音の停止に失敗しました"
+            restore_dnd
             exit 1
         fi
 
@@ -77,6 +89,7 @@ main() {
         # Check if transcript is available
         if [ -z "$TRANSCRIPT" ] || echo "$TRANSCRIPT" | grep -qi "no transcript available"; then
             notify "音声が認識できませんでした（無音または短すぎる録音）"
+            restore_dnd
             exit 0
         fi
 
@@ -90,14 +103,7 @@ main() {
         fi
 
         # Restore DND state
-        if [ -f "$DND_STATE_FILE" ]; then
-            DND_WAS_ON=$(cat "$DND_STATE_FILE")
-            if [ "$DND_WAS_ON" = "false" ]; then
-                # DND was off before, turn it off again
-                swaync-client -df
-            fi
-            rm -f "$DND_STATE_FILE"
-        fi
+        restore_dnd
 
         # In active_window mode, daemon types automatically - no notification needed
     else
@@ -121,13 +127,7 @@ main() {
         if [ $START_EXIT -ne 0 ]; then
             notify "エラー: $(echo "$START_RESULT" | head -n 1)"
             # Restore DND state on error
-            if [ -f "$DND_STATE_FILE" ]; then
-                DND_WAS_ON=$(cat "$DND_STATE_FILE")
-                if [ "$DND_WAS_ON" = "false" ]; then
-                    swaync-client -df
-                fi
-                rm -f "$DND_STATE_FILE"
-            fi
+            restore_dnd
             exit 1
         fi
     fi

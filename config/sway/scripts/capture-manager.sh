@@ -20,6 +20,18 @@ is_double_click() {
     return 1
 }
 
+# Restore DND state
+restore_dnd() {
+    local DND_STATE_FILE="$1"
+    if [ -f "$DND_STATE_FILE" ]; then
+        DND_WAS_ON=$(cat "$DND_STATE_FILE")
+        if [ "$DND_WAS_ON" = "false" ]; then
+            swaync-client -df
+        fi
+        rm -f "$DND_STATE_FILE"
+    fi
+}
+
 # Functions
 screenshot_to_clipboard() {
     local CLICK_FILE="/tmp/screenshot-clipboard-click"
@@ -100,14 +112,7 @@ screencast_toggle() {
         sleep 0.5  # Wait for file to be finalized
 
         # Restore DND state
-        if [ -f "$DND_STATE_FILE" ]; then
-            DND_WAS_ON=$(cat "$DND_STATE_FILE")
-            if [ "$DND_WAS_ON" = "false" ]; then
-                # DND was off before, turn it off again
-                swaync-client -df
-            fi
-            rm -f "$DND_STATE_FILE"
-        fi
+        restore_dnd "$DND_STATE_FILE"
 
         LATEST_FILE=$(ls -t "$SCREENCAST_DIR"/screencast-*.mp4 2>/dev/null | head -n1)
 
@@ -178,13 +183,7 @@ screencast_toggle() {
                 # Recording cancelled, clean up click file
                 rm -f "$CLICK_FILE"
                 # Restore DND state
-                if [ -f "$DND_STATE_FILE" ]; then
-                    DND_WAS_ON=$(cat "$DND_STATE_FILE")
-                    if [ "$DND_WAS_ON" = "false" ]; then
-                        swaync-client -df
-                    fi
-                    rm -f "$DND_STATE_FILE"
-                fi
+                restore_dnd "$DND_STATE_FILE"
                 # Only show cancelled if not a double-click
                 if [ ! -f "$FLAG_FILE" ]; then
                     notify-send -t 2000 "Screen Recording" "Cancelled"
