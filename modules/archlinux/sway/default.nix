@@ -90,7 +90,8 @@
       Unit = {
         Description = "Speak to AI - Offline Speech-to-Text Daemon";
         Documentation = "https://github.com/speak-to-ai/speak-to-ai";
-        After = [ "pipewire.service" "pipewire-pulse.service" ];
+        BindsTo = "sway-session.target";
+        After = [ "sway-session.target" "pipewire.service" "pipewire-pulse.service" ];
         Requires = [ "pipewire.service" ];
       };
 
@@ -106,7 +107,7 @@
       };
 
       Install = {
-        WantedBy = [ "default.target" ];
+        WantedBy = [ "sway-session.target" ];
       };
     };
   };
