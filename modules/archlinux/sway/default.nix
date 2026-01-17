@@ -15,7 +15,7 @@
   # Additional sway-related configs
   home.file.".config/swaync".source = ../../../config/swaync;
   home.file.".config/kanshi".source = ../../../config/kanshi;
-  home.file.".config/speak-to-ai".source = ../../../config/speak-to-ai;
+  home.file.".config/speak-to-ai/config.yaml".source = ../../../config/speak-to-ai/config.yaml;
 
   # Sway-specific packages
   home.packages = with pkgs; [
