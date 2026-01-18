@@ -7,7 +7,6 @@ set -euo pipefail
 # Configuration
 CONFIG_FILE="$HOME/.config/speak-to-ai/config.yaml"
 SOCKET_PATH="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/speak-to-ai.sock"
-DND_STATE_FILE="/tmp/voice-input-dnd-state.lock"
 
 # Notification helper
 notify() {
@@ -47,17 +46,6 @@ is_recording() {
     echo "$status" | grep -qi "Recording: true"
 }
 
-# Restore DND state
-restore_dnd() {
-    if [ -f "$DND_STATE_FILE" ]; then
-        DND_WAS_ON=$(cat "$DND_STATE_FILE")
-        if [ "$DND_WAS_ON" = "false" ]; then
-            swaync-client -df
-        fi
-        rm -f "$DND_STATE_FILE"
-    fi
-}
-
 # Main logic
 main() {
     # Ensure daemon is running
@@ -76,7 +64,6 @@ main() {
         # Check if stop was successful
         if [ $STOP_EXIT -ne 0 ]; then
             notify "エラー: 録音の停止に失敗しました"
-            restore_dnd
             exit 1
         fi
 
@@ -89,7 +76,6 @@ main() {
         # Check if transcript is available
         if [ -z "$TRANSCRIPT" ] || echo "$TRANSCRIPT" | grep -qi "no transcript available"; then
             notify "音声が認識できませんでした（無音または短すぎる録音）"
-            restore_dnd
             exit 0
         fi
 
@@ -102,23 +88,9 @@ main() {
             fi
         fi
 
-        # Restore DND state
-        restore_dnd
-
         # In active_window mode, daemon types automatically - no notification needed
     else
         # Not recording - start recording
-
-        # Save current DND state and enable DND
-        DND_STATUS=$(swaync-client -D)
-        if [ "$DND_STATUS" = "true" ]; then
-            echo "true" > "$DND_STATE_FILE"
-        else
-            echo "false" > "$DND_STATE_FILE"
-            # Enable DND for recording
-            swaync-client -dn
-        fi
-
         set +e  # Temporarily disable exit on error
         START_RESULT=$(speak-to-ai start 2>&1)
         START_EXIT=$?
@@ -126,8 +98,6 @@ main() {
 
         if [ $START_EXIT -ne 0 ]; then
             notify "エラー: $(echo "$START_RESULT" | head -n 1)"
-            # Restore DND state on error
-            restore_dnd
             exit 1
         fi
     fi
