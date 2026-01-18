@@ -265,4 +265,13 @@
 
   # Wlogout configuration
   home.file.".config/wlogout".source = ../config/wlogout;
+
+  # Claude Code configuration (merge common + archlinux settings)
+  home.file.".claude/settings.json".text =
+    let
+      commonSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.common.json);
+      archlinuxSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.archlinux.json);
+      mergedSettings = pkgs.lib.recursiveUpdate commonSettings archlinuxSettings;
+    in
+      builtins.toJSON mergedSettings;
 }

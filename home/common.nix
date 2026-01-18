@@ -171,8 +171,8 @@
     # Note: tmux config is handled per-OS in darwin.nix and archlinux.nix
 
     # Claude Code commands
-    ".claude" = {
-      source = ../config/claude;
+    ".claude/commands" = {
+      source = ../config/claude/commands;
       recursive = true;
     };
 

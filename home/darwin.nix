@@ -95,4 +95,13 @@
     source = ../config/karabiner;
     recursive = true;
   };
+
+  # Claude Code configuration (merge common + darwin settings)
+  home.file.".claude/settings.json".text =
+    let
+      commonSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.common.json);
+      darwinSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.darwin.json);
+      mergedSettings = pkgs.lib.recursiveUpdate commonSettings darwinSettings;
+    in
+      builtins.toJSON mergedSettings;
 }
