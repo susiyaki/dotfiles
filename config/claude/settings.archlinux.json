@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ \"$(tmux display-message -p '#{pane_active}' 2>/dev/null)\" != \"1\" ]; then session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}'); notify-send -a \"Claude Code ($session)\" 'Permission Required' \"From: $tmux_info\"; fi"
+            "command": "session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null || echo 'unknown'); notify-send -a \"Claude Code ($session)\" 'Permission Required' \"From: $tmux_info\""
           }
         ]
       }
@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ \"$(tmux display-message -p '#{pane_active}' 2>/dev/null)\" != \"1\" ]; then session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}'); notify-send -a \"Claude Code ($session)\" 'Input Required' \"From: $tmux_info\"; fi"
+            "command": "session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null || echo 'unknown'); notify-send -a \"Claude Code ($session)\" 'Input Required' \"From: $tmux_info\""
           }
         ]
       }
