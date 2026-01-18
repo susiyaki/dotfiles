@@ -19,6 +19,9 @@
 
   # Linux-specific packages
   home.packages = with pkgs; [
+    # SSH key management
+    keychain     # SSH agent manager with keyring integration
+
     # Wayland utilities
     wl-clipboard
     grim
@@ -139,11 +142,13 @@
       $HOME/.local/bin/mise activate fish | source
     end
 
-    # SSH agent
-    if test -z "$SSH_AUTH_SOCK"
-      eval (ssh-agent -c) > /dev/null
+    # Keychain - SSH key management
+    if type -q keychain
+      keychain --quick --quiet --eval ~/.ssh/github/id_rsa | source
     end
   '';
+
+  # SSH agent is managed by keychain (see programs.fish.shellInit)
 
   # GTK configuration
   gtk = {

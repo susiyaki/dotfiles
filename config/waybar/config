@@ -98,6 +98,6 @@
     "return-type": "json",
     "interval": 1,
     "format": "{}",
-    "on-click": "swaync-client -t -sw"
+    "on-click": "swaync-client -d"
   }
 }
