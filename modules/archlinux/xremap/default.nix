@@ -19,7 +19,7 @@
 
     Service = {
       Type = "simple";
-      ExecStart = "${pkgs.xremap}/bin/xremap %h/.config/xremap/config.yml";
+      ExecStart = "${pkgs.xremap}/bin/xremap --watch=device %h/.config/xremap/config.yml";
       ExecStop = "${pkgs.procps}/bin/pkill xremap";
       Restart = "always";
       RestartSec = 1;

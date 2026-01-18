@@ -45,7 +45,7 @@ bindsym XF86Display exec systemctl --user is-active redshift.service && systemct
 ### notification
 bindsym $super+n exec swaync-client -t -sw
 ### Voice input with Speak to AI
-bindsym $super+Shift+v exec bash ~/.config/sway/scripts/speak-to-ai-input.sh
+bindsym $super+v exec bash ~/.config/sway/scripts/speak-to-ai-input.sh
 bindsym --whole-window button2 exec bash ~/.config/sway/scripts/speak-to-ai-input.sh
 
 ## Sway

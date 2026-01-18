@@ -5,8 +5,8 @@ profile desk-triple {
   # 右上: DVI-I-1
   output DVI-I-1 enable mode 1920x1080 position 1920,0
 
-  # 左: DP-2
-  output DP-2 enable mode 1920x1080 position 0,90
+  # 左下: DP-2
+  output DP-2 enable mode 1920x1080 position 0,900
 
   # 右下: DVI-I-2
   output DVI-I-2 enable mode 1920x1080 position 1920,1080
