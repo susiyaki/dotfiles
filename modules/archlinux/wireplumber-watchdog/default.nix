@@ -7,6 +7,10 @@
     executable = true;
   };
 
+  # WirePlumber microphone priority configuration
+  home.file.".config/wireplumber/wireplumber.conf.d/51-microphone-priority.conf".source =
+    ../../../config/wireplumber/wireplumber.conf.d/51-microphone-priority.conf;
+
   # WirePlumber CPU Watchdog systemd service
   systemd.user.services.wireplumber-watchdog = {
     Unit = {
