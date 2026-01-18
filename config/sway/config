@@ -44,6 +44,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86Display exec systemctl --user is-active redshift.service && systemctl --user stop redshift.service || systemctl --user start redshift.service
 ### notification
 bindsym $super+n exec swaync-client -t -sw
+bindsym $super+d exec swaync-client -d
 ### Voice input with Speak to AI
 bindsym $super+v exec bash ~/.config/sway/scripts/speak-to-ai-input.sh
 bindsym --whole-window button2 exec bash ~/.config/sway/scripts/speak-to-ai-input.sh
