@@ -202,7 +202,7 @@ input type:touchpad {
 
 exec_always "systemctl --user import-environment; systemctl --user start sway-session.target"
 exec swaync
-exec swayidle -w timeout 300 'swaylock -f -C ~/.config/swaylock/config' timeout 1200 'systemctl suspend'
+exec swayidle -w timeout 300 'swaylock -f' timeout 1200 'systemctl suspend'
 exec blueman-applet
 exec_always fcitx5 -d --replace
 exec wl-paste -t text --watch ~/.config/sway/scripts/myclipman
