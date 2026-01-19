@@ -131,10 +131,10 @@ local function prompt_and_send_to_claude()
 
     if input and input ~= '' then
       -- yankレジスタに保存（複数のレジスタに保存）
-      vim.fn.setreg('"', input, 'c')  -- 無名レジスタ
-      vim.fn.setreg('0', input, 'c')  -- yank専用レジスタ
-      vim.fn.setreg('+', input, 'c')  -- システムクリップボード
-      vim.fn.setreg('*', input, 'c')  -- セレクションクリップボード
+      vim.fn.setreg('"', input, 'c') -- 無名レジスタ
+      vim.fn.setreg('0', input, 'c') -- yank専用レジスタ
+      vim.fn.setreg('+', input, 'c') -- システムクリップボード
+      vim.fn.setreg('*', input, 'c') -- セレクションクリップボード
 
       -- Claude Codeのターミナルバッファを探す
       local claude_buf = nil
@@ -282,27 +282,14 @@ local function prompt_and_send_to_claude()
   vim.cmd('startinsert')
 end
 
--- <Space>,, でトグルまたはポップアップ入力
-local function toggle_or_prompt()
+-- <Space>,, でトグル
+local function toggle()
   local claude_code = require("claude-code")
-  local current_instance = claude_code.claude_code.current_instance
-  local bufnr = current_instance and claude_code.claude_code.instances[current_instance]
 
-  -- Claude Codeのウィンドウが表示されているかチェック
-  if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
-    local win_id = vim.fn.bufwinid(bufnr)
-    if win_id ~= -1 then
-      -- 表示されている場合はトグル（閉じる）
-      local original_position = claude_code.config.window.position
-      claude_code.config.window.position = "vertical"
-      claude_code.toggle()
-      claude_code.config.window.position = original_position
-      return
-    end
-  end
-
-  -- 表示されていない場合はポップアップ入力を出す
-  prompt_and_send_to_claude()
+  local original_position = claude_code.config.window.position
+  claude_code.config.window.position = "vertical"
+  claude_code.toggle()
+  claude_code.config.window.position = original_position
 end
 
 -- キーマッピングを設定
@@ -312,14 +299,15 @@ vim.keymap.set('v', ',,', function()
 end, { noremap = true, silent = true, desc = "Send selection to ClaudeCode (vertical)" })
 
 -- ノーマルモード: ,, でポップアップ
-vim.keymap.set('n', ',,', prompt_and_send_to_claude, { noremap = true, silent = false, desc = 'Send input to Claude Code pane and yank register' })
+vim.keymap.set('n', ',,', prompt_and_send_to_claude,
+  { noremap = true, silent = false, desc = 'Send input to Claude Code pane and yank register' })
 
 -- ノーマルモード: <Space>,, でトグルまたはポップアップ入力
-vim.keymap.set('n', '<Space>,,', toggle_or_prompt, { noremap = true, silent = false, desc = 'Toggle Claude Code or send input' })
+vim.keymap.set('n', '<Space>,,', toggle,
+  { noremap = true, silent = false, desc = 'Toggle Claude Code or send input' })
 
 -- ターミナルモード: ,, でポップアップ（ターミナルモードを抜けてから実行）
 vim.keymap.set('t', ',,', function()
-  vim.cmd('stopinsert')  -- ターミナルモードを抜ける
-  vim.schedule(prompt_and_send_to_claude)  -- ノーマルモードになってから実行
+  vim.cmd('stopinsert')                   -- ターミナルモードを抜ける
+  vim.schedule(prompt_and_send_to_claude) -- ノーマルモードになってから実行
 end, { noremap = true, silent = false, desc = 'Send input to Claude Code pane from terminal mode' })
-
