@@ -1,3 +1,26 @@
 {
-  "hooks": {}
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null || echo 'unknown'); terminal-notifier -title \"Claude Code ($session)\" -subtitle 'Permission Required' -message \"From: $tmux_info\" -sender com.apple.Terminal -ignoreDnD"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null || echo 'unknown'); terminal-notifier -title \"Claude Code ($session)\" -subtitle 'Input Required' -message \"From: $tmux_info\" -sender com.apple.Terminal -ignoreDnD"
+          }
+        ]
+      }
+    ]
+  }
 }
