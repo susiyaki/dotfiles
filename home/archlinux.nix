@@ -142,9 +142,17 @@
       $HOME/.local/bin/mise activate fish | source
     end
 
-    # Keychain - SSH key management (only run outside tmux)
-    if type -q keychain; and not set -q TMUX
-      keychain --quick --quiet --eval ~/.ssh/github/id_rsa | source
+    # Keychain - SSH key management
+    if type -q keychain
+      if not set -q TMUX
+        # Outside tmux: start keychain (may prompt for password)
+        keychain --quick --quiet --eval ~/.ssh/github/id_rsa | source
+      else
+        # Inside tmux: only load environment variables (no password prompt)
+        if test -f "$HOME/.keychain/$HOSTNAME-fish"
+          source "$HOME/.keychain/$HOSTNAME-fish"
+        end
+      end
     end
   '';
 
