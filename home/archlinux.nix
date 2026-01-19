@@ -142,8 +142,8 @@
       $HOME/.local/bin/mise activate fish | source
     end
 
-    # Keychain - SSH key management
-    if type -q keychain
+    # Keychain - SSH key management (only run outside tmux)
+    if type -q keychain; and not set -q TMUX
       keychain --quick --quiet --eval ~/.ssh/github/id_rsa | source
     end
   '';

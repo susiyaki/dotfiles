@@ -108,6 +108,12 @@
       gs = "git status";
       gd = "git diff";
     };
+    loginShellInit = ''
+      # Source Home Manager session variables
+      if test -f ~/.nix-profile/etc/profile.d/hm-session-vars.fish
+        source ~/.nix-profile/etc/profile.d/hm-session-vars.fish
+      end
+    '';
     shellInit = ''
       fish_vi_key_bindings
 
