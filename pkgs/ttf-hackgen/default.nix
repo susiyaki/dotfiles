@@ -1,4 +1,4 @@
-{ stdenv, fetchzip }:
+{ lib, stdenv, fetchzip }:
 
 stdenv.mkDerivation rec {
   pname = "ttf-hackgen";
@@ -15,7 +15,7 @@ stdenv.mkDerivation rec {
     cp *.ttf $out/share/fonts/truetype/
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "HackGen - Japanese programming font";
     homepage = "https://github.com/yuru7/HackGen";
     license = licenses.ofl;

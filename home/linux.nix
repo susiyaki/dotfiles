@@ -58,8 +58,8 @@
     thunar
     tumbler      # Thumbnail generator for Thunar
     gvfs         # Virtual filesystem (for Thunar)
-    xfce.thunar-volman  # Removable media manager
-    xfce.thunar-archive-plugin  # Archive support
+    thunar-volman  # Removable media manager
+    thunar-archive-plugin  # Archive support
 
     # Fonts
     noto-fonts
