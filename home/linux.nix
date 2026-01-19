@@ -3,12 +3,12 @@
 {
   imports = [
     ./common.nix
-    ../modules/archlinux/sway
-    ../modules/archlinux/waybar
-    ../modules/archlinux/xremap
-    ../modules/archlinux/wofi
-    ../modules/archlinux/wireplumber-watchdog
-    ../modules/archlinux/speak-to-ai
+    ../modules/linux/sway
+    ../modules/linux/waybar
+    ../modules/linux/xremap
+    ../modules/linux/wofi
+    ../modules/linux/wireplumber-watchdog
+    ../modules/linux/speak-to-ai/archlinux.nix  # Arch Linux用（NixOSではdefault.nixを使用）
   ];
 
   # Standalone home-manager requires these
@@ -66,7 +66,6 @@
     font-awesome
 
     # Applications
-    firefox
     discord
     celluloid    # Video player
     mpv          # Lightweight video player
@@ -112,6 +111,9 @@
 
     # GTK theme
     GTK_THEME = "Adwaita:dark";
+
+    # fzf - Uses Wayland's wl-copy
+    FZF_DEFAULT_OPTS = "--preview 'bat --color=always --theme=gruvbox-dark --style=numbers,header --line-range :100 {}' --bind 'ctrl-y:execute: echo {} | wl-copy' --bind 'ctrl-o:execute: tmux new-window nvim {}'";
   };
 
   # Linux-specific fish aliases
@@ -130,10 +132,6 @@
     g = "git";
     gs = "git status";
     gd = "git diff";
-
-    # Clipboard
-    pbcopy = "wl-copy";
-    pbpaste = "wl-paste";
   };
 
   # Linux-specific shell config

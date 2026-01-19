@@ -18,6 +18,9 @@
     # Android SDK (macOS)
     ANDROID_HOME = "$HOME/Library/Android/sdk";
     ANDROID_SDK_ROOT = "$HOME/Library/Android/sdk";
+
+    # fzf - Uses macOS native pbcopy
+    FZF_DEFAULT_OPTS = "--preview 'bat --color=always --theme=gruvbox-dark --style=numbers,header --line-range :100 {}' --bind 'ctrl-y:execute: echo {} | pbcopy' --bind 'ctrl-o:execute: tmux new-window nvim {}'";
   };
 
   # macOS-specific fish aliases

@@ -81,6 +81,8 @@
     };
 
     # Speak to AI - Offline Speech-to-Text Daemon
+    # NOTE: Arch Linuxでは /usr/bin/speak-to-ai を使用
+    #       NixOSでは modules/linux/speak-to-ai/default.nix を参照
     speak-to-ai = {
       Unit = {
         Description = "Speak to AI - Offline Speech-to-Text Daemon";

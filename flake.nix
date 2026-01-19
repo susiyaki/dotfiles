@@ -1,5 +1,5 @@
 {
-  description = "Laeno's dotfiles for macOS and Linux";
+  description = "susiyaki's dotfiles for macOS and Linux";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -50,7 +50,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              users.susiyaki = import ./home/archlinux.nix;
+              users.susiyaki = import ./home/linux.nix;
               extraSpecialArgs = { inherit inputs; };
             };
           }
@@ -66,7 +66,7 @@
       };
       "susiyaki@thinkpad-p14s" = home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.x86_64-linux;
-        modules = [ ./home/archlinux.nix ];
+        modules = [ ./home/linux.nix ];
       };
     };
   };

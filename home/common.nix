@@ -49,6 +49,12 @@
     EDITOR = "nvim";
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_CACHE_HOME = "$HOME/.cache";
+
+    # fzf - Fuzzy finder
+    FZF_DEFAULT_COMMAND = "rg --files --hidden --follow --no-ignore-vcs --follow -g '!node_modules/*' -g '!.git/*'";
+    FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
+    # FZF_DEFAULT_OPTS is defined in OS-specific configs (darwin.nix/linux.nix)
+    # because it uses OS-specific clipboard commands (pbcopy/wl-copy)
   };
 
   # Git configuration
