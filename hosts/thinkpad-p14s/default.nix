@@ -23,6 +23,12 @@
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
 
+  # Tailscale VPN
+  services.tailscale.enable = true;
+
+  # Firewall exceptions for Tailscale
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+
   # Timezone and locale
   time.timeZone = "Asia/Tokyo";
   i18n.defaultLocale = "en_US.UTF-8";
@@ -194,6 +200,9 @@
       "scanner"
       "lp"
     ];
+    openssh.authorizedKeys.keys = [
+      "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJk87yynVkYEc23+7hM/4/aZ+7yAeZWETcwXUMVRf/jFISb3ONA54NpLHWmsNuJ1+UAwCvq2/+EjjU7zZ2iee2s= #ssh.id - @susiyaki.dev"
+    ];
   };
 
   # Docker support
@@ -211,6 +220,23 @@
 
   # Allow unfree packages (for Discord, Spotify, etc.)
   nixpkgs.config.allowUnfree = true;
+
+  # SSH server configuration
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings = {
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
+      # Only allow key-based authentication
+      PubkeyAuthentication = true;
+      # Security hardening
+      X11Forwarding = false;
+      KbdInteractiveAuthentication = false;
+      # Only allow connections from Tailscale network
+      # ListenAddress can be configured after getting Tailscale IP
+    };
+  };
 
   # This value determines the NixOS release
   system.stateVersion = "24.05";
