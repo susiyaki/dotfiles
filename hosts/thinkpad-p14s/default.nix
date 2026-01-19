@@ -173,6 +173,11 @@
     };
   };
 
+  # uinput device access (for game controllers, remote desktop, etc.)
+  services.udev.extraRules = ''
+    KERNEL=="uinput", GROUP="input", TAG+="uaccess"
+  '';
+
   # Printing support (CUPS)
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [ gutenprint ];
