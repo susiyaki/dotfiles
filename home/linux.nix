@@ -25,12 +25,14 @@
 
     # Wayland utilities
     wl-clipboard
+    clipman      # Clipboard manager for Wayland
     grim
     slurp
     wf-recorder  # Screen recording
     wev          # Wayland event viewer
     wl-mirror    # Screen mirroring
     wlr-randr    # Display configuration
+    wlogout      # Logout menu for Wayland
 
     # Display
     brightnessctl
@@ -59,13 +61,16 @@
     xfce.thunar-volman  # Removable media manager
     xfce.thunar-archive-plugin  # Archive support
 
-    # Fonts (system-level fonts are in system config, but keeping here for reference)
+    # Fonts
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-color-emoji
     font-awesome
+    (pkgs.callPackage ../pkgs/ttf-hackgen { })  # HackGen Japanese programming font
 
     # Applications
+    google-chrome
+    slack
     discord
     celluloid    # Video player
     mpv          # Lightweight video player
@@ -75,6 +80,9 @@
     android-tools
     dbeaver-bin
     postman      # API development
+    watchman     # File watching service (for React Native)
+    termius      # SSH/SFTP client
+    claude-code  # Claude AI coding assistant CLI
 
     # Utilities
     wdisplays    # Display configuration GUI

@@ -10,6 +10,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.systemd-boot.configurationLimit = 10;
 
+  # Kernel - LTS for DisplayLink stability
+  # DisplayLink's evdi module has compatibility issues with kernel 6.12+
+  # Using LTS kernel (6.6.x) for reliable DisplayLink support
+  boot.kernelPackages = pkgs.linuxPackages_6_6;
+
   # Kernel parameters
   boot.kernelParams = [
     "quiet"
@@ -83,6 +88,9 @@
     displayManager.gdm.enable = true;
     displayManager.gdm.wayland = true;
 
+    # DisplayLink support for external monitors
+    videoDrivers = [ "displaylink" "modesetting" ];
+
     # Touchpad support
     libinput = {
       enable = true;
@@ -130,6 +138,7 @@
     enabled = "fcitx5";
     fcitx5.addons = with pkgs; [
       fcitx5-mozc
+      fcitx5-cskk     # SKK input method (alternative to Mozc)
       fcitx5-gtk
       fcitx5-configtool
     ];
@@ -202,6 +211,13 @@
 
   # Enable dconf (required for GTK apps)
   programs.dconf.enable = true;
+
+  # 1Password
+  programs._1password.enable = true;
+  programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [ "susiyaki" ];
+  };
 
   # User account
   users.users.susiyaki = {

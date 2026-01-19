@@ -17,9 +17,9 @@
     "sd_mod"
     "rtsx_pci_sdmmc"
   ];
-  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.initrd.kernelModules = [ "amdgpu" "evdi" ];
   boot.kernelModules = [ "kvm-amd" "uinput" ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [ evdi ];
 
   # Filesystem configuration - Btrfs with subvolumes
   # Note: UUIDs will be regenerated during NixOS installation
