@@ -8,6 +8,7 @@
     ../modules/archlinux/xremap
     ../modules/archlinux/wofi
     ../modules/archlinux/wireplumber-watchdog
+    ../modules/archlinux/speak-to-ai
   ];
 
   # Standalone home-manager requires these
