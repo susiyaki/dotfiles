@@ -281,6 +281,9 @@
   # Wlogout configuration
   home.file.".config/wlogout".source = ../config/wlogout;
 
+  # Thunar volume manager configuration
+  home.file.".config/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml".source = ../config/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml;
+
   # Claude Code configuration (merge common + archlinux settings)
   home.file.".claude/settings.json".text =
     let
