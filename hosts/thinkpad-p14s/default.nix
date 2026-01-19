@@ -161,6 +161,18 @@
   # Thunderbolt support
   services.hardware.bolt.enable = true;
 
+  # Wake-on-Wireless-LAN
+  systemd.services.wowlan = {
+    description = "Enable Wake-on-Wireless-LAN";
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.iw}/bin/iw phy0 wowlan enable magic-packet";
+    };
+  };
+
   # Printing support (CUPS)
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [ gutenprint ];
