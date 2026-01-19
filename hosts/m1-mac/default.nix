@@ -30,6 +30,7 @@
     brews = [
       "sketchybar"
       "ni"  # Fast npm alternative
+      "terminal-notifier"  # macOS notifications for Claude Code
     ];
 
     casks = [
@@ -38,6 +39,7 @@
 
       # Terminal & Editor
       "alacritty"
+      "claude-code"
 
       # Browsers & Communication
       "google-chrome"
