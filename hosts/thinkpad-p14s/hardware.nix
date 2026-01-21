@@ -25,19 +25,19 @@
   # Note: UUIDs will be regenerated during NixOS installation
   # Update these values after running nixos-generate-config
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/fbc0c8fd-f601-4135-a49b-105ad12b5dd7";
+    device = "/dev/disk/by-uuid/7f15bf07-74d7-44b8-8282-87c35c54688d";
     fsType = "btrfs";
     options = [ "subvol=@" "compress=zstd" "noatime" "ssd" "discard=async" "space_cache=v2" ];
   };
 
   fileSystems."/home" = {
-    device = "/dev/disk/by-uuid/fbc0c8fd-f601-4135-a49b-105ad12b5dd7";
+    device = "/dev/disk/by-uuid/7f15bf07-74d7-44b8-8282-87c35c54688d";
     fsType = "btrfs";
     options = [ "subvol=@home" "compress=zstd" "noatime" "ssd" "discard=async" "space_cache=v2" ];
   };
 
   fileSystems."/nix" = {
-    device = "/dev/disk/by-uuid/fbc0c8fd-f601-4135-a49b-105ad12b5dd7";
+    device = "/dev/disk/by-uuid/7f15bf07-74d7-44b8-8282-87c35c54688d";
     fsType = "btrfs";
     options = [ "subvol=@nix" "compress=zstd" "noatime" "ssd" "discard=async" "space_cache=v2" ];
   };
@@ -67,17 +67,7 @@
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [
-      amdvlk
-      rocm-opencl-icd
-      rocm-opencl-runtime
-    ];
   };
-
-  # For 32-bit applications
-  hardware.graphics.extraPackages32 = with pkgs; [
-    driversi686Linux.amdvlk
-  ];
 
   # Bluetooth
   hardware.bluetooth = {
