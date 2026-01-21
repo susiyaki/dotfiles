@@ -98,6 +98,27 @@
                 "type": "basic"
               }
             ]
+          },
+          {
+            "description": "Option+V でWhisper音声入力",
+            "manipulators": [
+              {
+                "from": {
+                  "key_code": "v",
+                  "modifiers": {
+                    "mandatory": [
+                      "option"
+                    ]
+                  }
+                },
+                "to": [
+                  {
+                    "shell_command": "open -a WhisperVoiceInput"
+                  }
+                ],
+                "type": "basic"
+              }
+            ]
           }
         ]
       },

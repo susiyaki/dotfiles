@@ -3,7 +3,7 @@
 {
   # wireplumber-watchdog script
   home.file.".local/bin/wireplumber-watchdog.sh" = {
-    source = ../../../config/scripts/wireplumber-watchdog.sh;
+    source = ../../../scripts/linux/wireplumber-watchdog.sh;
     executable = true;
   };
 

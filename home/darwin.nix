@@ -94,10 +94,13 @@
   '';
 
   # Karabiner-Elements configuration
-  home.file.".config/karabiner" = {
-    source = ../config/karabiner;
-    recursive = true;
-  };
+  # $HOMEを動的に置換して生成
+  home.file.".config/karabiner/karabiner.json".text =
+    let
+      karabinerConfig = builtins.readFile ../config/karabiner/karabiner.json;
+      homeDir = config.home.homeDirectory;
+    in
+      builtins.replaceStrings ["$HOME"] [homeDir] karabinerConfig;
 
   # Claude Code configuration (merge common + darwin settings)
   home.file.".claude/settings.json".text =

@@ -22,7 +22,7 @@ yay -S speak-to-ai
 
 ```bash
 # dotfiles ディレクトリから実行
-./scripts/setup-whisper-model.sh
+./scripts/linux/setup-whisper.sh
 ```
 
 または手動でダウンロード:
