@@ -67,7 +67,6 @@
     ],
     "deny": [
       "Bash(sudo:*)",
-      "Bash(git reset:*)",
       "Bash(git rebase:*)",
       "Bash(git push --force*)",
       "Bash(git push -f*)",
