@@ -4,7 +4,7 @@
   "spacing": 4, // Gaps between modules (4px)
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": ["custom/clock"],
-  "modules-right": ["custom/screencast", "cpu", "memory", "pulseaudio", "backlight", "battery", "tray", "custom/voice", "custom/dnd", "idle_inhibitor", "custom/power"],
+  "modules-right": ["custom/screencast", "cpu", "memory", "pulseaudio", "backlight", "battery", "tray", "custom/voice", "custom/dnd", "idle_inhibitor"],
   // Modules configuration
   "sway/workspaces": {
     "disable-scroll": true,
@@ -74,10 +74,6 @@
       "default": ["", "", ""]
     },
     "on-click": "pavucontrol"
-  },
-  "custom/power": {
-    "format": "⏻",
-    "on-click": "wlogout"
   },
   "custom/screencast": {
     "exec": "bash ~/.config/waybar/scripts/screencast-indicator.sh",

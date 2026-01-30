@@ -20,13 +20,13 @@ window#waybar {
 #tray,
 #mode,
 #idle_inhibitor,
-#custom_power,
 #custom-screencast,
 #custom-voice,
 #custom-dnd {
   color: @text;
   border-radius: 9999px;
   border: 1px solid @lavender;
+  font-size: 14px;
   margin: 4px 0;
   padding: 4px 8px;
 }
@@ -36,29 +36,19 @@ window#waybar {
   color: @base;
 }
 
-#custom-power {
-  margin: 4px 8px 4px 0;
-  padding: 0 10px;
-  font-size: 28px;
-  font-weight: bold;
-  border-radius: 9999px;
-  border: 1px solid @lavender;
-}
-
 #idle_inhibitor {
-  padding: 0 10px;
+  padding: 0 7px;
 }
 
 #custom-screencast.recording {
   color: @red;
   padding: 0 10px;
-  font-size: 24px;
   background-color: alpha(@red, 0.2);
   border-color: @red;
 }
 
 #custom-voice {
-  padding: 0 10px;
+  padding: 0 7px;
 }
 
 #custom-voice.idle {
@@ -78,8 +68,8 @@ window#waybar {
 }
 
 #custom-dnd {
-  padding: 0 9px;
-  font-size: 24px;
+  padding: 0 7px;
+  font-size: 22px;
 }
 
 #custom-dnd.dnd-on {
