@@ -15,11 +15,11 @@
   home.username = "susiyaki";
   home.homeDirectory = "/home/susiyaki";
 
-  # Allow unfree packages (Discord, etc.)
-  nixpkgs.config.allowUnfree = true;
-
   # Linux-specific packages
   home.packages = with pkgs; [
+    # Terminal
+    alacritty
+
     # SSH key management
     keychain     # SSH agent manager with keyring integration
 
@@ -97,6 +97,7 @@
     # System monitoring
     btop         # Better htop
     nvtopPackages.amd  # GPU monitoring for AMD
+    psmisc       # killall, fuser, pstree, etc.
 
     # GTK theme
     adwaita-icon-theme
@@ -128,7 +129,7 @@
   programs.fish.shellAliases = {
     # System management
     reflectorjp = "sudo reflector --country 'Japan' --age 24 --protocol https --sort rate --save /etc/pacman.d/mirrorlist";
-    nix-switch = "home-manager switch --flake ~/dotfiles#susiyaki@thinkpad-p14s";
+    nix-switch = "sudo nixos-rebuild switch --flake ~/dotfiles#thinkpad-p14s";
 
     # Common shortcuts
     ls = "eza --icons";
@@ -241,7 +242,7 @@
 
     # Override shell path for Linux (Nix)
     [terminal.shell]
-    program = "${config.home.homeDirectory}/.nix-profile/bin/fish"
+    program = "${pkgs.fish}/bin/fish"
     args = ["-l", "-c", "tmux new-session -A -s main"]
   '';
 
@@ -267,8 +268,8 @@
     set-environment -g AI_ASSISTANT "gemini"
 
     # Shell configuration (Nix-managed fish)
-    set-option -g default-shell ${config.home.homeDirectory}/.nix-profile/bin/fish
-    set-option -g default-command ${config.home.homeDirectory}/.nix-profile/bin/fish
+    set-option -g default-shell ${pkgs.fish}/bin/fish
+    set-option -g default-command ${pkgs.fish}/bin/fish
 
     # Copy/Paste configuration (Wayland)
     # "y" でヤンク (wl-copy)
@@ -299,4 +300,5 @@
       mergedSettings = pkgs.lib.recursiveUpdate commonSettings archlinuxSettings;
     in
       builtins.toJSON mergedSettings;
+
 }

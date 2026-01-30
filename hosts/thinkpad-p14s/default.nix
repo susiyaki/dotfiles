@@ -5,6 +5,9 @@
     ./hardware.nix
   ];
 
+  # Allow unfree packages (Discord, 1Password, etc.)
+  nixpkgs.config.allowUnfree = true;
+
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -57,7 +60,7 @@
       noto-fonts-cjk-serif
       noto-fonts-color-emoji
       font-awesome
-      (nerdfonts.override { fonts = [ "Hack" "JetBrainsMono" "FiraCode" ]; })
+      nerd-fonts.hack
     ];
     fontconfig = {
       defaultFonts = {
@@ -85,20 +88,29 @@
   # X11 and Wayland
   services.xserver = {
     enable = true;
-    displayManager.gdm.enable = true;
-    displayManager.gdm.wayland = true;
 
     # DisplayLink support for external monitors
-    videoDrivers = [ "displaylink" "modesetting" ];
+    # Note: DisplayLink requires manual download due to EULA
+    # Uncomment after downloading: https://www.synaptics.com/products/displaylink-usb-graphics-software-ubuntu-62
+    videoDrivers = [
+      # "displaylink"
+      "modesetting"
+    ];
+  };
 
-    # Touchpad support
-    libinput = {
-      enable = true;
-      touchpad = {
-        naturalScrolling = true;
-        tapping = true;
-        disableWhileTyping = true;
-      };
+  # Display manager
+  services.displayManager.gdm = {
+    enable = true;
+    wayland = true;
+  };
+
+  # Touchpad support
+  services.libinput = {
+    enable = true;
+    touchpad = {
+      naturalScrolling = true;
+      tapping = true;
+      disableWhileTyping = true;
     };
   };
 
@@ -133,16 +145,6 @@
     jack.enable = true;
   };
 
-  # Input method - Fcitx5 with Mozc (Japanese)
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      fcitx5-mozc
-      fcitx5-cskk     # SKK input method (alternative to Mozc)
-      fcitx5-gtk
-      fcitx5-configtool
-    ];
-  };
 
   # Power management - TLP for laptops
   services.tlp = {
@@ -250,9 +252,6 @@
 
   # Polkit for authentication
   security.polkit.enable = true;
-
-  # Allow unfree packages (for Discord, Spotify, etc.)
-  nixpkgs.config.allowUnfree = true;
 
   # SSH server configuration
   services.openssh = {

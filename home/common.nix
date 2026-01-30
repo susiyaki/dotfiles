@@ -23,8 +23,9 @@
     ruby_3_3
     go
     rustc
-    cargo
+    rustup
     deno  # JavaScript/TypeScript runtime
+    bun
 
     # CLI utilities
     bat

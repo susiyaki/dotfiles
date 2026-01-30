@@ -43,6 +43,7 @@ window#waybar {
 #custom-screencast.recording {
   color: @red;
   padding: 0 10px;
+  font-size: 18px;
   background-color: alpha(@red, 0.2);
   border-color: @red;
 }
