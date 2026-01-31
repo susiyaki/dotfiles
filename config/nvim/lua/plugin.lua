@@ -32,13 +32,12 @@ return require('lazy').setup({
     end
   },
 
+  -- AI Assistant integration (custom, no plugin dependency)
   {
-    "greggh/claude-code.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
+    dir = vim.fn.stdpath("config") .. "/lua/plugins",
+    name = "ai-assistant",
     lazy = false,
-    config = function() require 'plugins.claude-code' end,
+    config = function() require 'plugins.ai-assistant' end,
   },
 
 

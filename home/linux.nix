@@ -253,11 +253,18 @@
 
   # tmux configuration
   home.file.".config/tmux/tmux-base.conf".source = ../config/tmux/tmux-base.conf;
+  home.file.".config/tmux/scripts" = {
+    source = ../config/tmux/scripts;
+    recursive = true;
+  };
 
   # Generate tmux.conf with dynamic username
   home.file.".config/tmux/tmux.conf".text = ''
     # Load base configuration
     source-file ~/.config/tmux/tmux-base.conf
+
+    # AI Assistant (Linux)
+    set-environment -g AI_ASSISTANT "claude"
 
     # Shell configuration (Nix-managed fish)
     set-option -g default-shell ${config.home.homeDirectory}/.nix-profile/bin/fish
