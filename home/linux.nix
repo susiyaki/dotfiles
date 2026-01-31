@@ -83,6 +83,7 @@
     watchman     # File watching service (for React Native)
     termius      # SSH/SFTP client
     claude-code  # Claude AI coding assistant CLI
+    gemini-cli   # Gemini AI coding assistant CLI
 
     # Utilities
     wdisplays    # Display configuration GUI
