@@ -75,8 +75,8 @@ if [ -n "$CURRENT_NVIM_ID" ]; then
 
       # AI コマンドを決定
       case "$ASSISTANT" in
-        claude) CMD="claude code" ;;
-        gemini) CMD="gemini-cli" ;;
+        claude) CMD="claude" ;;
+        gemini) CMD="gemini" ;;
         *) CMD="echo 'AI_ASSISTANT not set'; sleep 5" ;;
       esac
 

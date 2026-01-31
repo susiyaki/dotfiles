@@ -264,7 +264,7 @@
     source-file ~/.config/tmux/tmux-base.conf
 
     # AI Assistant (Linux)
-    set-environment -g AI_ASSISTANT "claude"
+    set-environment -g AI_ASSISTANT "gemini"
 
     # Shell configuration (Nix-managed fish)
     set-option -g default-shell ${config.home.homeDirectory}/.nix-profile/bin/fish
