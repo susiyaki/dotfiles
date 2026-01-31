@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Configuration
 SCREENSHOT_DIR="$HOME/Pictures/Screenshots"

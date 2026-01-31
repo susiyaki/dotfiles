@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if pgrep -x wf-recorder > /dev/null; then
     echo '{"text": "⏺", "class": "recording", "tooltip": "Click to stop recording"}'

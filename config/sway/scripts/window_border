@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 focused_window_border_mode="$(swaymsg -t get_tree | jq -r '.. | select(.type?) | select(.focused==true).border')"
 current_workspace="$(swaymsg -t get_workspaces | jq -r '.[] | if .["focused"] then .["name"] else empty end')"

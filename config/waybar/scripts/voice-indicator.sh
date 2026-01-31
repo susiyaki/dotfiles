@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Check systemd status
 SYSTEMD_STATUS=$(systemctl --user is-active speak-to-ai 2>/dev/null)

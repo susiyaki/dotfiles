@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DND_STATUS=$(swaync-client -D)
 

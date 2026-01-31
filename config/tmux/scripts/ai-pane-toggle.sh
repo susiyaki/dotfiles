@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # AI Assistant をペインで開く/退避させるスクリプト
 # - AI paneの名前にneovim IDを含める
