@@ -112,7 +112,7 @@
     # Note: DisplayLink requires manual download due to EULA
     # Uncomment after downloading: https://www.synaptics.com/products/displaylink-usb-graphics-software-ubuntu-62
     videoDrivers = [
-      # "displaylink"
+      "displaylink"
       "modesetting"
     ];
   };

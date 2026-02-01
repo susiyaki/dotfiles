@@ -67,6 +67,28 @@ return require('lazy').setup({
       dependencies = { "nvim-tree/nvim-web-devicons" },
       config = function()
         require("fzf-lua").setup({
+          winopts = {
+            width = 0.9,
+            preview = {
+              title = true,
+            },
+          },
+          files = {
+            formatter = "path.filename_first",
+            path_shorten = true,
+          },
+          git_files = {
+            formatter = "path.filename_first",
+            path_shorten = true,
+          },
+          grep = {
+            formatter = "path.filename_first",
+            path_shorten = true,
+          },
+          live_grep = {
+            formatter = "path.filename_first",
+            path_shorten = true,
+          },
           keymap = {
             builtin = {
               -- Ctrl-kをプレビューの上移動にバインド

@@ -322,12 +322,21 @@
   # libskk rules for custom keybindings
   home.file.".config/libskk".source = ../config/libskk;
 
-  # Claude Code configuration (merge common + archlinux settings)
+  # Claude Code configuration (merge common + linux settings)
   home.file.".claude/settings.json".text =
     let
       commonSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.common.json);
-      archlinuxSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.archlinux.json);
-      mergedSettings = pkgs.lib.recursiveUpdate commonSettings archlinuxSettings;
+      linuxSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.linux.json);
+      mergedSettings = pkgs.lib.recursiveUpdate commonSettings linuxSettings;
+    in
+      builtins.toJSON mergedSettings;
+
+  # Gemini CLI configuration (merge common + linux settings)
+  home.file.".gemini/settings.json".text =
+    let
+      commonSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.common.json);
+      linuxSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.linux.json);
+      mergedSettings = pkgs.lib.recursiveUpdate commonSettings linuxSettings;
     in
       builtins.toJSON mergedSettings;
 

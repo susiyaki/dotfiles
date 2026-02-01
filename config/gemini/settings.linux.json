@@ -1,0 +1,26 @@
+{
+  "hooks": {
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null || echo 'unknown'); notify-send -a \"Gemini CLI ($session)\" 'Permission Required' \"From: $tmux_info\""
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "idle_prompt",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null || echo 'unknown'); notify-send -a \"Gemini CLI ($session)\" 'Input Required' \"From: $tmux_info\""
+          }
+        ]
+      }
+    ]
+  }
+}

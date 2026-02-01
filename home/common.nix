@@ -224,7 +224,7 @@
     # ".config/fish".source = ../config/fish;
     ".config/fish/conf.d".source = ../config/fish/conf.d;
     ".config/fish/functions".source = ../config/fish/functions;
-    # Note: tmux config is handled per-OS in darwin.nix and archlinux.nix
+    # Note: tmux config is handled per-OS in darwin.nix and linux.nix
 
     # Claude Code commands
     ".claude/commands" = {
@@ -239,5 +239,5 @@
     ".config/lazygit".source = ../config/lazygit;
  };
 
-  # Note: Alacritty config is handled per-OS in darwin.nix and archlinux.nix
+  # Note: Alacritty config is handled per-OS in darwin.nix and linux.nix
 }

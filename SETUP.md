@@ -136,7 +136,7 @@ dotfiles/
 ├── home/
 │   ├── common.nix        # Shared user config
 │   ├── darwin.nix        # macOS user config
-│   └── archlinux.nix     # Linux user config
+│   └── linux.nix     # Linux user config
 ├── modules/
 │   ├── common/           # Shared modules
 │   ├── darwin/           # macOS modules (aerospace, sketchybar)

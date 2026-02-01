@@ -70,7 +70,7 @@ dotfiles/
 ├── home/                  # Home Manager configurations
 │   ├── common.nix        # Shared config
 │   ├── darwin.nix        # macOS-specific
-│   └── archlinux.nix     # Linux-specific
+│   └── linux.nix     # Linux-specific
 ├── modules/               # Feature modules
 │   ├── darwin/           # macOS-only modules
 │   │   ├── aerospace/
@@ -221,7 +221,7 @@ homebrew.casks = [
 2. Add symlink in appropriate module:
    - For shared: `home/common.nix`
    - For macOS: `modules/darwin/<module>/default.nix`
-   - For Linux: `modules/archlinux/<module>/default.nix`
+   - For Linux: `modules/linux/<module>/default.nix`
 
 Example:
 ```nix
