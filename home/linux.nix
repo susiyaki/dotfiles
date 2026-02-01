@@ -24,10 +24,7 @@
     keychain     # SSH agent manager with keyring integration
 
     # Wayland utilities
-    wl-clipboard
     clipman      # Clipboard manager for Wayland
-    grim
-    slurp
     wf-recorder  # Screen recording
     wev          # Wayland event viewer
     wl-mirror    # Screen mirroring
@@ -37,10 +34,8 @@
     # Display
     brightnessctl
     nwg-displays
-    kanshi       # Autorandr for Wayland
 
     # Notification
-    libnotify
     swaynotificationcenter  # Sway notification center
 
     # Bluetooth
@@ -62,10 +57,6 @@
     thunar-archive-plugin  # Archive support
 
     # Fonts
-    noto-fonts
-    noto-fonts-cjk-sans
-    noto-fonts-color-emoji
-    font-awesome
     skkDictionaries.l    # SKK dictionary for skkeleton
     (pkgs.callPackage ../pkgs/ttf-hackgen { })  # HackGen Japanese programming font
 
