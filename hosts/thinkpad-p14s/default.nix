@@ -52,7 +52,6 @@
     LC_TIME = "ja_JP.UTF-8";
   };
 
-  /*
   # Input Method (Fcitx5 + SKK)
   i18n.inputMethod = {
     enable = true;
@@ -65,15 +64,6 @@
       waylandFrontend = true;
     };
   };
-  */
-  
-  # Environment variables for Input Method
-  environment.sessionVariables = {
-    XMODIFIERS = "@im=fcitx";
-  };
-  
-  # Ensure XDG Autostart runs (helpful for Sway + fcitx5)
-  services.xserver.desktopManager.runXdgAutostartIfNone = true;
 
   # Japanese fonts
   fonts = {
