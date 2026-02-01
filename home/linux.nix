@@ -273,17 +273,7 @@
   '';
 
   # tmux configuration
-  home.file.".config/tmux/tmux-base.conf".source = ../config/tmux/tmux-base.conf;
-  home.file.".config/tmux/scripts" = {
-    source = ../config/tmux/scripts;
-    recursive = true;
-  };
-
-  # Generate tmux.conf with dynamic username
-  home.file.".config/tmux/tmux.conf".text = ''
-    # Load base configuration
-    source-file ~/.config/tmux/tmux-base.conf
-
+  programs.tmux.extraConfig = ''
     # AI Assistant (Linux)
     set-environment -g AI_ASSISTANT "gemini"
 
@@ -302,6 +292,13 @@
     # "p"でペースト (wl-paste)
     bind p run "tmux set-buffer \"$(wl-paste)\"; tmux paste-buffer"
   '';
+
+  home.file.".config/tmux/tmux-base.conf".source = ../config/tmux/tmux-base.conf;
+  home.file.".config/tmux/scripts" = {
+    source = ../config/tmux/scripts;
+    recursive = true;
+  };
+
 
   # Swaylock configuration
   home.file.".config/swaylock/config".source = ../config/swaylock/config;

@@ -72,17 +72,7 @@
   '';
 
   # tmux configuration
-  home.file.".config/tmux/tmux-base.conf".source = ../config/tmux/tmux-base.conf;
-  home.file.".config/tmux/scripts" = {
-    source = ../config/tmux/scripts;
-    recursive = true;
-  };
-
-  # Generate tmux.conf with dynamic username
-  home.file.".config/tmux/tmux.conf".text = ''
-    # Load base configuration
-    source-file ~/.config/tmux/tmux-base.conf
-
+  programs.tmux.extraConfig = ''
     # AI Assistant (macOS)
     set-environment -g AI_ASSISTANT "claude"
 
@@ -100,6 +90,12 @@
     # "p"でペースト (pbpaste)
     bind p run "tmux set-buffer \"$(pbpaste)\"; tmux paste-buffer"
   '';
+
+  home.file.".config/tmux/tmux-base.conf".source = ../config/tmux/tmux-base.conf;
+  home.file.".config/tmux/scripts" = {
+    source = ../config/tmux/scripts;
+    recursive = true;
+  };
 
   # Karabiner-Elements configuration
   # $HOMEを動的に置換して生成

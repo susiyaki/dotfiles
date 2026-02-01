@@ -184,8 +184,34 @@
     ]);
   };
 
-  # Tmux (managed via custom config files in OS-specific modules)
-  # programs.tmux is disabled to use custom tmux.conf per OS
+  # Tmux configuration
+  programs.tmux = {
+    enable = true;
+    keyMode = "vi";
+    prefix = "C-q";
+    terminal = "screen-256color";
+    historyLimit = 10000;
+    plugins = with pkgs.tmuxPlugins; [
+      yank
+      prefix-highlight
+      {
+        plugin = power-theme;
+        extraConfig = ''
+          set -g @tmux_power_theme '#93a3a2'
+          set -g @tmux_power_show_upload_speed true
+          set -g @tmux_power_show_download_speed true
+          set -g @tmux_power_prefix_highlight_pos 'R'
+        '';
+      }
+      net-speed
+      resurrect
+      continuum
+    ];
+    extraConfig = ''
+      # Load base configuration
+      source-file ~/.config/tmux/tmux-base.conf
+    '';
+  };
 
   # Symlink config files
   home.file = {

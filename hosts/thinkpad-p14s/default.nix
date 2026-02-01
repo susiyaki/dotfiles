@@ -24,6 +24,12 @@
     "splash"
   ];
 
+  # Increase inotify limits for file watching
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 524288;
+    "fs.inotify.max_user_instances" = 512;
+  };
+
   # Networking
   networking.hostName = "thinkpad-p14s";
   networking.networkmanager.enable = true;
