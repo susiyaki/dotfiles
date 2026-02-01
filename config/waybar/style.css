@@ -15,13 +15,15 @@ window#waybar {
 #battery,
 #cpu,
 #memory,
+#disk,
 #backlight,
 #pulseaudio,
 #tray,
 #mode,
 #idle_inhibitor,
 #custom-screencast,
-#custom-dnd {
+#custom-dnd,
+#custom-whisper {
   color: @text;
   border-radius: 9999px;
   border: 1px solid @lavender;
