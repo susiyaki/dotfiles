@@ -173,12 +173,6 @@ return require('lazy').setup({
     }
   },
   {
-    "skanehira/denops-silicon.vim",
-    dependencies = {
-      { "vim-denops/denops.vim" }
-    }
-  },
-  {
     "morhetz/gruvbox",
     config = function() require('plugins.colorscheme') end
   },

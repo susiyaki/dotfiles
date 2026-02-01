@@ -14,6 +14,7 @@
     # neovim is configured separately below
     lazygit
     lazydocker
+    ni    # Fast npm alternative
     mise  # Version manager for development tools
     tmux  # Terminal multiplexer
 
@@ -128,6 +129,22 @@
 
       # Set fish_variables to writable location
       set -g fish_variables_path $HOME/.local/share/fish/fish_variables
+    '';
+  };
+
+  # Bash shell
+  programs.bash = {
+    enable = true;
+    initExtra = ''
+      # mise (installed via Nix)
+      if command -v mise >/dev/null 2>&1; then
+        eval "$(mise activate bash)"
+      fi
+
+      # Source Home Manager session variables
+      if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+      fi
     '';
   };
 

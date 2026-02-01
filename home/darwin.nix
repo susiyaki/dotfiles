@@ -11,6 +11,7 @@
   home.packages = with pkgs; [
     # Fonts (via Nix)
     # Note: Hack Nerd Font is installed via Homebrew cask for better integration
+    skkDictionaries.l
   ];
 
   # macOS-specific environment variables
@@ -117,4 +118,18 @@
       mergedSettings = pkgs.lib.recursiveUpdate commonSettings darwinSettings;
     in
       builtins.toJSON mergedSettings;
+
+  # Gemini CLI configuration (merge common + darwin settings)
+  home.file.".gemini/settings.json".text =
+    let
+      commonSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.common.json);
+      darwinSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.darwin.json);
+      mergedSettings = pkgs.lib.recursiveUpdate commonSettings darwinSettings;
+    in
+      builtins.toJSON mergedSettings;
+
+  # Neovim skkeleton dictionary path
+  home.file.".config/nvim/lua/skkeleton-dict-path.lua".text = ''
+    return "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L"
+  '';
 }

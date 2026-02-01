@@ -4,7 +4,7 @@
   "spacing": 4, // Gaps between modules (4px)
   "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-center": ["custom/clock"],
-  "modules-right": ["custom/screencast", "cpu", "memory", "pulseaudio", "backlight", "battery", "tray", "custom/voice", "custom/dnd", "idle_inhibitor"],
+  "modules-right": ["custom/screencast", "cpu", "memory", "pulseaudio", "backlight", "battery", "tray", "custom/dnd", "idle_inhibitor"],
   // Modules configuration
   "sway/workspaces": {
     "disable-scroll": true,
@@ -81,13 +81,6 @@
     "interval": 1,
     "format": "{}",
     "on-click": "bash ~/.config/sway/scripts/capture-manager.sh screencast"
-  },
-  "custom/voice": {
-    "exec": "bash ~/.config/waybar/scripts/voice-indicator.sh",
-    "return-type": "json",
-    "interval": 1,
-    "format": "{}",
-    "on-click": "bash ~/.config/sway/scripts/speak-to-ai-input.sh"
   },
   "custom/dnd": {
     "exec": "bash ~/.config/waybar/scripts/dnd-indicator.sh",

@@ -214,6 +214,20 @@
   # Enable dconf (required for GTK apps)
   programs.dconf.enable = true;
 
+  # Enable nix-ld for running unpatched binaries (e.g. from mise, npm)
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    fuse3
+    icu
+    nss
+    openssl
+    curl
+    expat
+    # Add more libraries here as needed for specific tools
+  ];
+
   # 1Password
   programs._1password.enable = true;
   programs._1password-gui = {

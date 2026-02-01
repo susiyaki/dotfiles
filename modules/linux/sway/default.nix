@@ -10,7 +10,6 @@
   # Additional sway-related configs
   home.file.".config/swaync".source = ../../../config/swaync;
   home.file.".config/kanshi".source = ../../../config/kanshi;
-  home.file.".config/speak-to-ai/config.yaml".source = ../../../config/speak-to-ai/config.yaml;
 
   # Sway-specific packages
   home.packages = with pkgs; [
@@ -73,34 +72,6 @@
         ExecStart = "${pkgs.gammastep}/bin/gammastep";
         Restart = "always";
         RestartSec = 5;
-      };
-
-      Install = {
-        WantedBy = [ "sway-session.target" ];
-      };
-    };
-
-    # Speak to AI - Offline Speech-to-Text Daemon
-    # NOTE: Arch Linuxでは /usr/bin/speak-to-ai を使用
-    #       NixOSでは modules/linux/speak-to-ai/default.nix を参照
-    speak-to-ai = {
-      Unit = {
-        Description = "Speak to AI - Offline Speech-to-Text Daemon";
-        Documentation = "https://github.com/speak-to-ai/speak-to-ai";
-        BindsTo = "sway-session.target";
-        After = [ "sway-session.target" "pipewire.service" "pipewire-pulse.service" ];
-        Requires = [ "pipewire.service" ];
-      };
-
-      Service = {
-        Type = "simple";
-        ExecStart = "/usr/bin/speak-to-ai -config %h/.config/speak-to-ai/config.yaml";
-        Restart = "on-failure";
-        RestartSec = 5;
-        Environment = [
-          "PULSE_SERVER=unix:/run/user/%U/pulse/native"
-          "PIPEWIRE_RUNTIME_DIR=/run/user/%U"
-        ];
       };
 
       Install = {

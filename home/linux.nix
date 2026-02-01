@@ -8,7 +8,7 @@
     ../modules/linux/xremap
     ../modules/linux/wofi
     ../modules/linux/wireplumber-watchdog
-    ../modules/linux/speak-to-ai/archlinux.nix  # Arch Linux用（NixOSではdefault.nixを使用）
+    # ../modules/linux/whisper-overlay
   ];
 
   # Standalone home-manager requires these
@@ -66,7 +66,17 @@
     noto-fonts-cjk-sans
     noto-fonts-color-emoji
     font-awesome
+    skkDictionaries.l    # SKK dictionary for skkeleton
     (pkgs.callPackage ../pkgs/ttf-hackgen { })  # HackGen Japanese programming font
+
+    # Input Method
+    (pkgs.qt6Packages.fcitx5-with-addons.override {
+      addons = with pkgs; [
+        fcitx5-skk
+        fcitx5-gtk
+        fcitx5-mozc
+      ];
+    })
 
     # Applications
     google-chrome
@@ -147,8 +157,8 @@
   # Linux-specific shell config
   programs.fish.shellInit = ''
     # mise (Linux)
-    if test -f "$HOME/.local/bin/mise"
-      $HOME/.local/bin/mise activate fish | source
+    if type -q mise
+      mise activate fish | source
     end
 
     # Keychain - SSH key management
@@ -166,6 +176,15 @@
   '';
 
   # SSH agent is managed by keychain (see programs.fish.shellInit)
+
+  # Mouse Cursor
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.adwaita-icon-theme;
+    size = 32;
+    gtk.enable = true;
+    x11.enable = true;
+  };
 
   # GTK configuration
   gtk = {
@@ -292,6 +311,14 @@
 
   # Thunar volume manager configuration
   home.file.".config/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml".source = ../config/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml;
+
+  # Neovim skkeleton dictionary path
+  home.file.".config/nvim/lua/skkeleton-dict-path.lua".text = ''
+    return "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L"
+  '';
+
+  # libskk rules for custom keybindings (e.g., C-F13 instead of C-j)
+  home.file.".config/libskk".source = ../config/libskk;
 
   # Claude Code configuration (merge common + archlinux settings)
   home.file.".claude/settings.json".text =

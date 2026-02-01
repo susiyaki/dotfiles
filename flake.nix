@@ -50,6 +50,7 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
+              backupFileExtension = "backup";
               users.susiyaki = import ./home/linux.nix;
               extraSpecialArgs = { inherit inputs; };
             };

@@ -21,7 +21,6 @@ window#waybar {
 #mode,
 #idle_inhibitor,
 #custom-screencast,
-#custom-voice,
 #custom-dnd {
   color: @text;
   border-radius: 9999px;
@@ -46,26 +45,6 @@ window#waybar {
   font-size: 18px;
   background-color: alpha(@red, 0.2);
   border-color: @red;
-}
-
-#custom-voice {
-  padding: 0 7px;
-}
-
-#custom-voice.idle {
-  color: @text;
-}
-
-#custom-voice.recording {
-  color: @red;
-  background-color: alpha(@red, 0.2);
-  border-color: @red;
-}
-
-#custom-voice.inactive {
-  color: @overlay0;
-  background-color: alpha(@overlay0, 0.3);
-  border-color: @overlay0;
 }
 
 #custom-dnd {
