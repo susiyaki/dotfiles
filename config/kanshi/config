@@ -1,5 +1,5 @@
 # DisplayLink 2枚 + DP-2 が見えているとき
-profile desk-triple {
+profile desk-triple-a {
   output eDP-1 disable
 
   # 右上: DVI-I-1
@@ -12,8 +12,30 @@ profile desk-triple {
   output DVI-I-2 enable mode 1920x1080 position 1920,1080
 }
 
+profile desk-triple-b {
+  output eDP-1 disable
+
+  # 右上: DVI-I-3
+  output DVI-I-3 enable mode 1920x1080 position 1920,0
+
+  # 左下: DP-1
+  output DP-1 enable mode 1920x1080 position 0,900
+
+  # 右下: DVI-I-4
+  output DVI-I-4 enable mode 1920x1080 position 1920,1080
+}
+
 # DisplayLink 2枚が見えているとき
-profile desk-triple {
+profile desk-double-a {
+  output eDP-1 disable
+
+  # 上: DVI-I-2
+  output DVI-I-1 enable mode 1920x1080 position 0,0
+
+  # 下: DVI-I-2
+  output DVI-I-2 enable mode 1920x1080 position 0,1080
+}
+profile desk-double-b {
   output eDP-1 disable
 
   # 上: DVI-I-3
