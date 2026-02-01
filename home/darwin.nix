@@ -40,11 +40,6 @@
   programs.fish.shellInit = ''
     # Homebrew paths
     eval (/opt/homebrew/bin/brew shellenv)
-
-    # mise (installed via Nix)
-    if command -q mise
-      mise activate fish | source
-    end
   '';
 
   # Alacritty configuration
@@ -116,13 +111,16 @@
       builtins.toJSON mergedSettings;
 
   # Gemini CLI configuration (merge common + darwin settings)
-  home.file.".gemini/settings.json".text =
-    let
-      commonSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.common.json);
-      darwinSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.darwin.json);
-      mergedSettings = pkgs.lib.recursiveUpdate commonSettings darwinSettings;
-    in
-      builtins.toJSON mergedSettings;
+  home.file.".gemini/settings.json" = {
+    text =
+      let
+        commonSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.common.json);
+        darwinSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.darwin.json);
+        mergedSettings = pkgs.lib.recursiveUpdate commonSettings darwinSettings;
+      in
+        builtins.toJSON mergedSettings;
+    force = true;
+  };
 
   # Neovim skkeleton dictionary path
   home.file.".config/nvim/lua/skkeleton-dict-path.lua".text = ''

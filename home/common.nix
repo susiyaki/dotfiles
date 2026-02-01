@@ -15,7 +15,6 @@
     lazygit
     lazydocker
     ni    # Fast npm alternative
-    mise  # Version manager for development tools
     tmux  # Terminal multiplexer
 
     # Runtimes (managed by mise per-project, but installed via Nix)
@@ -136,11 +135,6 @@
   programs.bash = {
     enable = true;
     initExtra = ''
-      # mise (installed via Nix)
-      if command -v mise >/dev/null 2>&1; then
-        eval "$(mise activate bash)"
-      fi
-
       # Source Home Manager session variables
       if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
         . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
@@ -184,6 +178,13 @@
     ]);
   };
 
+  # mise - Version manager for development tools
+  programs.mise = {
+    enable = true;
+    enableFishIntegration = true;
+    enableBashIntegration = true;
+  };
+
   # Tmux configuration
   programs.tmux = {
     enable = true;
@@ -192,7 +193,13 @@
     terminal = "screen-256color";
     historyLimit = 10000;
     plugins = with pkgs.tmuxPlugins; [
-      yank
+      {
+        plugin = yank;
+        extraConfig = ''
+          # Load base configuration early
+          source-file ~/.config/tmux/tmux-base.conf
+        '';
+      }
       prefix-highlight
       {
         plugin = power-theme;
@@ -204,13 +211,23 @@
         '';
       }
       net-speed
-      resurrect
-      continuum
+      {
+        plugin = resurrect;
+        extraConfig = ''
+          set -g @resurrect-strategy-nvim 'session'
+          set -g @resurrect-capture-pane-contents 'on'
+        '';
+      }
+      {
+        plugin = continuum;
+        extraConfig = ''
+          set -g @continuum-restore 'on'
+          set -g @continuum-boot 'on'
+          set -g @continuum-save-interval '15'
+        '';
+      }
     ];
-    extraConfig = ''
-      # Load base configuration
-      source-file ~/.config/tmux/tmux-base.conf
-    '';
+    extraConfig = '''';
   };
 
   # Symlink config files

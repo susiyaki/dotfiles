@@ -156,11 +156,6 @@
 
   # Linux-specific shell config
   programs.fish.shellInit = ''
-    # mise (Linux)
-    if type -q mise
-      mise activate fish | source
-    end
-
     # Keychain - SSH key management
     if type -q keychain
       if not set -q TMUX
@@ -332,12 +327,14 @@
       builtins.toJSON mergedSettings;
 
   # Gemini CLI configuration (merge common + linux settings)
-  home.file.".gemini/settings.json".text =
-    let
-      commonSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.common.json);
-      linuxSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.linux.json);
-      mergedSettings = pkgs.lib.recursiveUpdate commonSettings linuxSettings;
-    in
-      builtins.toJSON mergedSettings;
-
+  home.file.".gemini/settings.json" = {
+    text =
+      let
+        commonSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.common.json);
+        linuxSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.linux.json);
+        mergedSettings = pkgs.lib.recursiveUpdate commonSettings linuxSettings;
+      in
+        builtins.toJSON mergedSettings;
+    force = true;
+  };
 }
