@@ -4,20 +4,19 @@
       "selectedType": "oauth-personal"
     }
   },
-  "tools": {
-    "allowed": [
-      "read_file",
-      "write_file",
-      "glob",
-      "grep",
-      "ls_directory",
-      "list_directory",
-      "search_file_content",
-      "web_fetch",
-      "google_web_search",
-      "write_todos"
-    ]
-  },
+  "allowedTools": [
+    "read_file",
+    "write_file",
+    "glob",
+    "grep",
+    "ls_directory",
+    "list_directory",
+    "search_file_content",
+    "web_fetch",
+    "google_web_search",
+    "write_todos",
+    "run_shell_command"
+  ],
   "securityPolicy": {
     "securityMode": "restricted",
     "shellCommandPolicy": {
