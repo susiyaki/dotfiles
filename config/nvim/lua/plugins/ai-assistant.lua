@@ -1,27 +1,10 @@
 -- AI Assistant integration for tmux pane
 -- No plugin dependency required
 
--- AI Assistant の設定取得
-local function get_ai_config()
-  local assistant = vim.env.AI_ASSISTANT
-  if not assistant or assistant == "" then
-    vim.notify("AI_ASSISTANT environment variable is not set. Please set it in your shell or home-manager config.", vim.log.levels.ERROR)
-    error("AI_ASSISTANT not set")
-  end
-
-  local instance_id = vim.env.NVIM_INSTANCE_ID or vim.fn.getpid()
-  local pane_marker = string.format("ai_pane_%s", instance_id)
-
-  return {
-    assistant = assistant,
-    instance_id = instance_id,
-    pane_marker = pane_marker,
-  }
-end
-
 -- AI pane を探す (pane option を使用)
 local function get_ai_pane_id(pane_marker)
-  local cmd = string.format("tmux list-panes -F '#{pane_id} #{@ai_pane_marker}' | grep %s | cut -d' ' -f1", vim.fn.shellescape(pane_marker))
+  -- 末尾に一致するように grep を調整
+  local cmd = string.format("tmux list-panes -F '#{pane_id} #{@ai_pane_marker}' | grep ' %s$' | cut -d' ' -f1", vim.fn.shellescape(pane_marker))
   local pane_id = vim.fn.system(cmd):gsub("%s+$", "")
   return pane_id ~= "" and pane_id or nil
 end
@@ -29,7 +12,20 @@ end
 -- AI Assistant へプロンプトを送信する関数
 -- floating と popup を常にセットで開く
 local function prompt_and_send_to_ai()
-  local config = get_ai_config()
+  local assistant = vim.env.AI_ASSISTANT
+  if not assistant or assistant == "" then
+    vim.notify("AI_ASSISTANT environment variable is not set.", vim.log.levels.ERROR)
+    return
+  end
+
+  local instance_id = vim.env.NVIM_INSTANCE_ID or vim.fn.getpid()
+  local pane_marker = string.format("ai_pane_%s_%s", assistant, instance_id)
+
+  local config = {
+    assistant = assistant,
+    instance_id = instance_id,
+    pane_marker = pane_marker,
+  }
 
   -- フローティングウィンドウの設定
   local ui = vim.api.nvim_list_uis()[1]

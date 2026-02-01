@@ -20,10 +20,11 @@ AI_SESSION="ai-${ASSISTANT}"
 if [ -n "$CURRENT_NVIM_ID" ]; then
 
   # AI paneのマーカー
-  AI_PANE_MARKER="ai_pane_${CURRENT_NVIM_ID}"
+  AI_PANE_MARKER="ai_pane_${ASSISTANT}_${CURRENT_NVIM_ID}"
 
   # まず現在のウィンドウにAI paneがあるかチェック
-  CURRENT_WINDOW_AI_PANE=$(tmux list-panes -F "#{pane_id} #{@ai_pane_marker}" | grep "$AI_PANE_MARKER" | awk '{print $1}')
+  # マーカーが末尾に完全一致するものを探す
+  CURRENT_WINDOW_AI_PANE=$(tmux list-panes -F "#{pane_id} #{@ai_pane_marker}" | grep " ${AI_PANE_MARKER}$" | awk '{print $1}' | head -n 1)
 
   if [ -n "$CURRENT_WINDOW_AI_PANE" ]; then
     if [ "$ACTION" = "open" ]; then
@@ -50,20 +51,18 @@ if [ -n "$CURRENT_NVIM_ID" ]; then
   fi
 
   # AI専用セッションから対応するペインを探す
-  if tmux has-session -t "$AI_SESSION" 2>/dev/null; then
-    AI_PANE_INFO=$(tmux list-panes -a -t "$AI_SESSION" -F "#{session_name} #{window_index} #{pane_id} #{@ai_pane_marker}" 2>/dev/null | grep "$AI_PANE_MARKER")
-  else
-    AI_PANE_INFO=""
-  fi
+  # 全セッションから検索し、マーカーが完全一致するものを見つける
+  AI_PANE_INFO=$(tmux list-panes -a -F "#{session_name} #{window_index} #{pane_id} #{@ai_pane_marker}" 2>/dev/null | grep " ${AI_PANE_MARKER}$" | head -n 1)
 
   if [ -n "$AI_PANE_INFO" ]; then
-    # AI専用セッションに見つかった → 持ってくる
+    # 見つかった → 持ってくる
+    AI_PANE_SESS=$(echo "$AI_PANE_INFO" | awk '{print $1}')
     AI_PANE_WINDOW=$(echo "$AI_PANE_INFO" | awk '{print $2}')
     AI_PANE=$(echo "$AI_PANE_INFO" | awk '{print $3}')
 
     # ペインが実際に存在するか確認
     if tmux list-panes -a -F "#{pane_id}" | grep -q "^${AI_PANE}$"; then
-      tmux join-pane -h -s "${AI_SESSION}:${AI_PANE_WINDOW}.${AI_PANE}" -t "$CURRENT_PANE"
+      tmux join-pane -h -s "${AI_PANE_SESS}:${AI_PANE_WINDOW}.${AI_PANE}" -t "$CURRENT_PANE"
     else
       tmux display-message "Error: AI pane $AI_PANE not found" -d 3000
     fi
