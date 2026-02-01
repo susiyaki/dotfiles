@@ -15,6 +15,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Whisper Overlay (Speech-to-Text)
+    whisper-overlay = {
+      url = "github:oddlama/whisper-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: {

@@ -52,6 +52,29 @@
     LC_TIME = "ja_JP.UTF-8";
   };
 
+  /*
+  # Input Method (Fcitx5 + SKK)
+  i18n.inputMethod = {
+    enable = true;
+    type = "fcitx5";
+    fcitx5 = {
+      addons = with pkgs; [
+        fcitx5-skk
+        fcitx5-gtk
+      ];
+      waylandFrontend = true;
+    };
+  };
+  */
+  
+  # Environment variables for Input Method
+  environment.sessionVariables = {
+    XMODIFIERS = "@im=fcitx";
+  };
+  
+  # Ensure XDG Autostart runs (helpful for Sway + fcitx5)
+  services.xserver.desktopManager.runXdgAutostartIfNone = true;
+
   # Japanese fonts
   fonts = {
     packages = with pkgs; [
@@ -132,6 +155,14 @@
     extraPortals = with pkgs; [
       xdg-desktop-portal-gtk
     ];
+    config = {
+      common = {
+        default = [
+          "wlr"
+          "gtk"
+        ];
+      };
+    };
   };
 
   # Sound

@@ -80,6 +80,7 @@
 
     # Applications
     google-chrome
+    firefox      # Better Wayland/Fcitx5 support
     slack
     discord
     celluloid    # Video player
@@ -134,6 +135,14 @@
 
     # fzf - Uses Wayland's wl-copy
     FZF_DEFAULT_OPTS = "--preview 'bat --color=always --theme=gruvbox-dark --style=numbers,header --line-range :100 {}' --bind 'ctrl-y:execute: echo {} | wl-copy' --bind 'ctrl-o:execute: tmux new-window nvim {}'";
+  
+    # Force Electron apps to use Wayland
+    NIXOS_OZONE_WL = "1";
+    
+    # Input Method Environment Variables
+    XMODIFIERS = "@im=fcitx";
+    GTK_IM_MODULE = "";
+    QT_IM_MODULE = "";
   };
 
   # Linux-specific fish aliases
@@ -152,6 +161,67 @@
     g = "git";
     gs = "git status";
     gd = "git diff";
+    
+    # App aliases with Wayland flags (for CLI launch)
+    google-chrome = "google-chrome-stable --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3";
+    slack = "slack --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3";
+  };
+
+  # Wrapper scripts to ensure Wayland/IME flags are always used, even when called by other scripts
+  home.file.".local/bin/google-chrome-stable" = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+      exec ${pkgs.google-chrome}/bin/google-chrome-stable --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 "$@"
+    '';
+  };
+
+  home.file.".local/bin/slack" = {
+    executable = true;
+    text = ''
+      #!/bin/sh
+      exec ${pkgs.slack}/bin/slack --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 "$@"
+    '';
+  };
+
+  # Chrome/Electron Wayland Flags
+  home.file.".config/chrome-flags.conf".text = ''
+    --enable-features=UseOzonePlatform
+    --ozone-platform=wayland
+    --enable-wayland-ime
+    --wayland-text-input-version=3
+  '';
+
+  home.file.".config/electron-flags.conf".text = ''
+    --enable-features=UseOzonePlatform
+    --ozone-platform=wayland
+    --enable-wayland-ime
+    --wayland-text-input-version=3
+  '';
+
+  # Override desktop entries to ensure flags are passed when launched from wofi/launcher
+  xdg.desktopEntries = {
+    google-chrome = {
+      name = "Google Chrome";
+      genericName = "Web Browser";
+      exec = "google-chrome-stable --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 %U";
+      terminal = false;
+      icon = "google-chrome";
+      type = "Application";
+      categories = [ "Network" "WebBrowser" ];
+      mimeType = [ "text/html" "text/xml" "application/xhtml_xml" "image/webp" "num=x-scheme-handler/http" "x-scheme-handler/https" "x-scheme-handler/ftp" ];
+    };
+    
+    slack = {
+      name = "Slack";
+      genericName = "Slack Client";
+      exec = "slack --ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3 %U";
+      terminal = false;
+      icon = "slack";
+      type = "Application";
+      categories = [ "Network" "InstantMessaging" ];
+      mimeType = [ "x-scheme-handler/slack" ];
+    };
   };
 
   # Linux-specific shell config
@@ -317,7 +387,12 @@
     return "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L"
   '';
 
-  # libskk rules for custom keybindings (e.g., C-F13 instead of C-j)
+  # Fcitx5 configuration (manually managed part, if needed, though NixOS module handles most)
+  # Linking profile to ensure correct input method order (keyboard-us first, then skk)
+  home.file.".config/fcitx5/profile".source = ../config/fcitx5/profile;
+  home.file.".config/fcitx5/conf/skk.conf".source = ../config/fcitx5/conf/skk.conf;
+
+  # libskk rules for custom keybindings
   home.file.".config/libskk".source = ../config/libskk;
 
   # Claude Code configuration (merge common + archlinux settings)
