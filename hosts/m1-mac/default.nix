@@ -42,6 +42,7 @@
       # Terminal & Editor
       "alacritty"
       "claude-code"
+      "copilot-cli"
 
       # Browsers & Communication
       "google-chrome"
