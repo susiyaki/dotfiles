@@ -212,10 +212,23 @@
       }
       net-speed
       {
-        plugin = resurrect;
+        plugin = resurrect.overrideAttrs (old: {
+          version = "unstable-2026-01-15";
+          src = pkgs.fetchFromGitHub {
+            owner = "tmux-plugins";
+            repo = "tmux-resurrect";
+            rev = "cff343cf9e81983d3da0c8562b01616f12e8d548";
+            sha256 = "0djfz7m4l8v2ccn1a97cgss5iljhx9k2p8k9z50wsp534mis7i0m";
+          };
+          postInstall = ''
+            # Remove broken symlinks to test files
+            rm -f $target/tests/run_tests_in_isolation
+            rm -f $target/tests/helpers/helpers.sh
+            rm -f $target/run_tests
+          '';
+        });
         extraConfig = ''
           set -g @resurrect-strategy-nvim 'session'
-          set -g @resurrect-capture-pane-contents 'on'
         '';
       }
       {
