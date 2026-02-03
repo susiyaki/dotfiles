@@ -36,6 +36,9 @@
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
+  networking.firewall.allowedUDPPortRanges = [
+    { from = 60000; to = 61000; }
+  ];
 
   # Tailscale VPN
   services.tailscale.enable = true;
@@ -232,6 +235,7 @@
     htop
     usbutils
     pciutils
+    mosh
   ];
 
   # Yubikey support (optional)
