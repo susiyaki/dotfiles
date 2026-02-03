@@ -3,6 +3,9 @@
 {
   imports = [
     ./common.nix
+    ../profiles/cli.nix
+    ../profiles/dev.nix
+    ../profiles/desktop.nix
     ../modules/linux/sway
     ../modules/linux/waybar
     ../modules/linux/xremap
@@ -15,89 +18,22 @@
   home.username = "susiyaki";
   home.homeDirectory = "/home/susiyaki";
 
-  # Linux-specific packages
+  # Linux-specific packages (keep only what's truly host-specific)
   home.packages = with pkgs; [
-    # Terminal
-    alacritty
-
     # SSH key management
-    keychain     # SSH agent manager with keyring integration
-
-    # Wayland utilities
-    clipman      # Clipboard manager for Wayland
-    wf-recorder  # Screen recording
-    wev          # Wayland event viewer
-    wl-mirror    # Screen mirroring
-    wlr-randr    # Display configuration
-    wlogout      # Logout menu for Wayland
-
-    # Display
-    brightnessctl
-    nwg-displays
-
-    # Notification
-    swaynotificationcenter  # Sway notification center
-
-    # Bluetooth
-    blueman
-
-    # Audio
-    pavucontrol
-    playerctl    # Media player control
-
-    # Launcher
-    wofi
-    rofi         # Launcher (Wayland support built-in)
-
-    # File manager
-    thunar
-    tumbler      # Thumbnail generator for Thunar
-    gvfs         # Virtual filesystem (for Thunar)
-    thunar-volman  # Removable media manager
-    thunar-archive-plugin  # Archive support
+    keychain # SSH agent manager with keyring integration
 
     # Fonts
-    skkDictionaries.l    # SKK dictionary for skkeleton
-    (pkgs.callPackage ../pkgs/ttf-hackgen { })  # HackGen Japanese programming font
-
-    # Applications
-    google-chrome
-    slack
-    discord
-    celluloid    # Video player
-    mpv          # Lightweight video player
-    imv          # Image viewer for Wayland
-
-    # Development
-    android-tools
-    dbeaver-bin
-    postman      # API development
-    watchman     # File watching service (for React Native)
-    termius      # SSH/SFTP client
-    claude-code  # Claude AI coding assistant CLI
-    gemini-cli   # Gemini AI coding assistant CLI
-
-    # Utilities
-    wdisplays    # Display configuration GUI
-    pamixer      # PulseAudio mixer
-    networkmanagerapplet  # Network Manager GUI
-    xarchiver    # Archive manager
-    gnome-calculator
-
-    # Screenshots
-    swappy       # Screenshot editor
-
-    # System monitoring
-    btop         # Better htop
-    nvtopPackages.amd  # GPU monitoring for AMD
-    psmisc       # killall, fuser, pstree, etc.
-
-    # GTK theme
-    adwaita-icon-theme
-    gnome-themes-extra
-    gtk-engine-murrine
-    lxappearance  # GTK theme switcher
+    skkDictionaries.l # SKK dictionary for skkeleton
+    (pkgs.callPackage ../pkgs/ttf-hackgen { }) # HackGen Japanese programming font
   ];
+
+  # Sway configuration
+  my.desktop.sway = {
+    enable = true;
+    fontSize = 14;
+    # terminal = "alacritty"; # This is the default
+  };
 
   # Linux-specific environment variables
   home.sessionVariables = {
@@ -126,17 +62,6 @@
     # System management
     reflectorjp = "sudo reflector --country 'Japan' --age 24 --protocol https --sort rate --save /etc/pacman.d/mirrorlist";
     nix-switch = "sudo nixos-rebuild switch --flake ~/dotfiles#thinkpad-p14s";
-
-    # Common shortcuts
-    ls = "eza --icons";
-    ll = "eza -l --icons";
-    la = "eza -la --icons";
-    cat = "bat";
-
-    # Git shortcuts (in addition to git aliases)
-    g = "git";
-    gs = "git status";
-    gd = "git diff";
   };
 
   # Chrome/Electron Wayland Flags

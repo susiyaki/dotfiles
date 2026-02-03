@@ -136,17 +136,6 @@
     };
   };
 
-  # Sway window manager
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
-    extraPackages = with pkgs; [
-      swayidle
-      swaybg
-      xwayland
-    ];
-  };
-
   # XDG Portal (required for screen sharing on Wayland)
   xdg.portal = {
     enable = true;

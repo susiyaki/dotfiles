@@ -3,6 +3,8 @@
 {
   imports = [
     ./common.nix
+    ../profiles/cli.nix
+    ../profiles/dev.nix
     ../modules/darwin/aerospace
     ../modules/darwin/sketchybar
   ];

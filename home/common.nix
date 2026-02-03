@@ -8,42 +8,6 @@
   # Note: username and homeDirectory are inherited from system configuration
   home.stateVersion = "24.05";
 
-  # Common packages
-  home.packages = with pkgs; [
-    # Development tools
-    # neovim is configured separately below
-    lazygit
-    lazydocker
-    ni    # Fast npm alternative
-    tmux  # Terminal multiplexer
-
-    # Runtimes (managed by mise per-project, but installed via Nix)
-    nodejs_22
-    python312
-    ruby_3_3
-    go
-    rustc
-    rustup
-    deno  # JavaScript/TypeScript runtime
-    bun
-
-    # CLI utilities
-    bat
-    eza
-    ripgrep
-    fd
-    fzf     # Fuzzy finder (fish integration via fisher plugin)
-    jq
-    # zoxide - managed by programs.zoxide
-    starship
-    tree
-    gh      # GitHub CLI
-    htop    # System monitor
-    wget
-    act     # GitHub Actions local runner
-    awscli2 # AWS CLI
-  ];
-
   # Common environment variables
   home.sessionVariables = {
     LANG = "ja_JP.UTF-8";
@@ -51,70 +15,15 @@
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_CACHE_HOME = "$HOME/.cache";
 
-    # fzf - Fuzzy finder
-    FZF_DEFAULT_COMMAND = "rg --files --hidden --follow --no-ignore-vcs --follow -g '!node_modules/*' -g '!.git/*'";
-    FZF_ALT_C_OPTS = "--preview 'tree -C {} | head -200'";
     # FZF_DEFAULT_OPTS is defined in OS-specific configs (darwin.nix/linux.nix)
     # because it uses OS-specific clipboard commands (pbcopy/wl-copy)
-  };
-
-  # Git configuration
-  programs.git = {
-    enable = true;
-
-    settings = {
-      user = {
-        name = "susiyaki";
-        email = "susiyaki.dev@gmail.com";
-      };
-
-      init.defaultBranch = "main";
-      pull.rebase = false;
-      core.pager = "LESSCHARSET=utf-8 less";
-
-      alias = {
-        a = "add";
-        br = "branch";
-        c = "commit";
-        co = "checkout";
-        cp = "cherry-pick";
-        fe = "fetch";
-        pl = "pull";
-        plr = "!git pull origin $(git branch --show-current)";
-        ps = "!git push origin `git rev-parse --abbrev-ref HEAD`";
-        reb = "rebase";
-        res = "restore";
-        rehead = "!git reset --hard origin/`git rev-parse --abbrev-ref HEAD`";
-        s = "status -s";
-        swi = "switch";
-        wt = "worktree";
-        wtl = "worktree list";
-        wtp = "worktree prune";
-      };
-    };
-
-    ignores = [
-      ".DS_Store"
-      "Session.vim"
-      "**/.claude/settings.local.json"
-    ];
   };
 
   # Fish shell
   programs.fish = {
     enable = true;
-    shellAliases = {
-      # Common shortcuts
-      ls = "eza --icons";
-      ll = "eza -l --icons";
-      la = "eza -la --icons";
-      cat = "bat";
-
-      # Git shortcuts
-      g = "git";
-      gs = "git status";
-      gd = "git diff";
-    };
+    # Aliases are now in profiles/cli.nix and profiles/dev.nix
+    shellAliases = { };
     loginShellInit = ''
       # Source Home Manager session variables
       if test -f ~/.nix-profile/etc/profile.d/hm-session-vars.fish
@@ -142,107 +51,6 @@
     '';
   };
 
-  # Starship prompt (disabled - using fish default prompt)
-  # programs.starship = {
-  #   enable = true;
-  #   enableFishIntegration = true;
-  # };
-
-  # fzf (fuzzy finder) - fish integration via static files in config/fish/
-
-  # Direnv
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-  };
-
-  # Zoxide (smarter cd)
-  programs.zoxide = {
-    enable = true;
-    enableFishIntegration = true;
-  };
-
-  # Neovim with proper providers
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-
-    withPython3 = true;
-    withNodeJs = true;
-    withRuby = true;
-
-    extraPython3Packages = (ps: with ps; [
-      pynvim
-    ]);
-  };
-
-  # mise - Version manager for development tools
-  programs.mise = {
-    enable = true;
-    enableFishIntegration = true;
-    enableBashIntegration = true;
-  };
-
-  # Tmux configuration
-  programs.tmux = {
-    enable = true;
-    keyMode = "vi";
-    prefix = "C-q";
-    terminal = "screen-256color";
-    historyLimit = 10000;
-    plugins = with pkgs.tmuxPlugins; [
-      {
-        plugin = yank;
-        extraConfig = ''
-          # Load base configuration early
-          source-file ~/.config/tmux/tmux-base.conf
-        '';
-      }
-      prefix-highlight
-      {
-        plugin = power-theme;
-        extraConfig = ''
-          set -g @tmux_power_theme '#93a3a2'
-          set -g @tmux_power_show_upload_speed true
-          set -g @tmux_power_show_download_speed true
-          set -g @tmux_power_prefix_highlight_pos 'R'
-        '';
-      }
-      net-speed
-      {
-        plugin = resurrect.overrideAttrs (old: {
-          version = "unstable-2026-01-15";
-          src = pkgs.fetchFromGitHub {
-            owner = "tmux-plugins";
-            repo = "tmux-resurrect";
-            rev = "cff343cf9e81983d3da0c8562b01616f12e8d548";
-            sha256 = "0djfz7m4l8v2ccn1a97cgss5iljhx9k2p8k9z50wsp534mis7i0m";
-          };
-          postInstall = ''
-            # Remove broken symlinks to test files
-            rm -f $target/tests/run_tests_in_isolation
-            rm -f $target/tests/helpers/helpers.sh
-            rm -f $target/run_tests
-          '';
-        });
-        extraConfig = ''
-          set -g @resurrect-strategy-nvim 'session'
-        '';
-      }
-      {
-        plugin = continuum;
-        extraConfig = ''
-          set -g @continuum-restore 'on'
-          set -g @continuum-boot 'on'
-          set -g @continuum-save-interval '15'
-        '';
-      }
-    ];
-    extraConfig = '''';
-  };
-
   # Symlink config files
   home.file = {
     ".config/nvim" = {
@@ -267,7 +75,7 @@
 
     # Lazygit
     ".config/lazygit".source = ../config/lazygit;
- };
+  };
 
   # Note: Alacritty config is handled per-OS in darwin.nix and linux.nix
 }
