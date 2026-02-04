@@ -52,7 +52,7 @@
 
     # fzf - Uses Wayland's wl-copy
     FZF_DEFAULT_OPTS = "--preview 'bat --color=always --theme=gruvbox-dark --style=numbers,header --line-range :100 {}' --bind 'ctrl-y:execute: echo {} | wl-copy' --bind 'ctrl-o:execute: tmux new-window nvim {}'";
-  
+
     # Force Electron apps to use Wayland
     NIXOS_OZONE_WL = "1";
   };
@@ -249,7 +249,7 @@
       linuxSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.linux.json);
       mergedSettings = pkgs.lib.recursiveUpdate commonSettings linuxSettings;
     in
-      builtins.toJSON mergedSettings;
+    builtins.toJSON mergedSettings;
 
   # Gemini CLI configuration (merge common + linux settings)
   home.file.".gemini/settings.json" = {
@@ -259,7 +259,7 @@
         linuxSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.linux.json);
         mergedSettings = pkgs.lib.recursiveUpdate commonSettings linuxSettings;
       in
-        builtins.toJSON mergedSettings;
+      builtins.toJSON mergedSettings;
     force = true;
   };
 }

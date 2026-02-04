@@ -36,9 +36,9 @@ in
       grim
       slurp
       kanshi
-      gammastep  # Redshift fork with better Wayland support
-      wtype      # Wayland keyboard input emulator
-      libnotify  # Desktop notifications
+      gammastep # Redshift fork with better Wayland support
+      wtype # Wayland keyboard input emulator
+      libnotify # Desktop notifications
     ];
 
     # This replaces the home.file link to the sway config dir

@@ -28,6 +28,7 @@
     termius
     claude-code
     gemini-cli
+    nixpkgs-fmt
   ];
 
   programs.fish.shellAliases = {
@@ -35,6 +36,7 @@
     g = "git";
     gs = "git status";
     gd = "git diff";
+    nix-format = "nix fmt ~/dotfiles";
   };
 
   # Git configuration

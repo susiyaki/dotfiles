@@ -101,7 +101,7 @@
       karabinerConfig = builtins.readFile ../config/karabiner/karabiner.json;
       homeDir = config.home.homeDirectory;
     in
-      builtins.replaceStrings ["$HOME"] [homeDir] karabinerConfig;
+    builtins.replaceStrings [ "$HOME" ] [ homeDir ] karabinerConfig;
 
   # Claude Code configuration (merge common + darwin settings)
   home.file.".claude/settings.json".text =
@@ -110,7 +110,7 @@
       darwinSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.darwin.json);
       mergedSettings = pkgs.lib.recursiveUpdate commonSettings darwinSettings;
     in
-      builtins.toJSON mergedSettings;
+    builtins.toJSON mergedSettings;
 
   # Gemini CLI configuration (merge common + darwin settings)
   home.file.".gemini/settings.json" = {
@@ -120,7 +120,7 @@
         darwinSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.darwin.json);
         mergedSettings = pkgs.lib.recursiveUpdate commonSettings darwinSettings;
       in
-        builtins.toJSON mergedSettings;
+      builtins.toJSON mergedSettings;
     force = true;
   };
 

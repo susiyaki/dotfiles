@@ -21,7 +21,7 @@ in
   home.packages = [
     whisper-overlay-pkg
   ];
-  
+
   # Ensure user is in 'input' group for evdev access (handled in system config, but good to note)
   # Users must be in 'input' group to use global hotkeys via evdev.
 }
