@@ -12,6 +12,6 @@ return {
   },
   on_attach = function(client, bufnr)
     require 'plugins.lsp.keys' (client, bufnr)
-    require 'plugins.lsp.settings'.on_attach(bufnr)
+    require 'plugins.lsp.settings'.on_attach(client, bufnr)
   end,
 }
