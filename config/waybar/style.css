@@ -22,8 +22,7 @@ window#waybar {
 #mode,
 #idle_inhibitor,
 #custom-screencast,
-#custom-dnd,
-#custom-whisper {
+#custom-dnd {
   color: @text;
   border-radius: 9999px;
   border: 1px solid @lavender;

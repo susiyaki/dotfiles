@@ -31,7 +31,6 @@
       "sketchybar"
       "ni" # Fast npm alternative
       "terminal-notifier" # macOS notifications for Claude Code
-      "whisper-cpp" # Whisper音声認識
       "sox" # 音声録音ツール
     ];
 

@@ -11,7 +11,6 @@
     ../modules/linux/xremap
     ../modules/linux/wofi
     ../modules/linux/wireplumber-watchdog
-    # ../modules/linux/whisper-overlay
   ];
 
   # Standalone home-manager requires these

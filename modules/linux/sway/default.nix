@@ -89,9 +89,6 @@ in
       ### notification
       bindsym $super+n exec swaync-client -t -sw
       bindsym $super+d exec swaync-client -d
-      ### Voice input with Whisper Overlay
-      # bindsym $super+v exec whisper-overlay overlay
-      # bindsym --whole-window button2 exec whisper-overlay overlay
 
       ## Sway
       ### Use Mouse+$alt to drag floating windows to theier wanted position
