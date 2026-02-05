@@ -4,6 +4,9 @@
   # Determinate に Nix の管理を任せる
   nix.enable = false;
 
+  # Allow unfree packages (e.g., claude-code)
+  nixpkgs.config.allowUnfree = true;
+
   system.primaryUser = "laeno";
 
   environment.systemPackages = with pkgs; [
