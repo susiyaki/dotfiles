@@ -120,10 +120,20 @@
     ];
   };
 
-  # Display manager
-  services.displayManager.gdm = {
+  # Display manager (greetd with agreety)
+  services.greetd = {
     enable = true;
-    wayland = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.sway}/bin/sway";
+      };
+    };
+  };
+
+  # Enable sway program at the system level so greetd can find it
+  programs.sway = {
+    enable = true;
+    extraOptions = [ "--unsupported-gpu" ];
   };
 
   # Touchpad support

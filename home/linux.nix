@@ -78,21 +78,7 @@
     --wayland-text-input-version=3
   '';
 
-  # Linux-specific shell config
-  programs.fish.shellInit = ''
-    # Keychain - SSH key management
-    if type -q keychain
-      if not set -q TMUX
-        # Outside tmux: start keychain (may prompt for password)
-        keychain --quick --quiet --eval ~/.ssh/github/id_rsa | source
-      else
-        # Inside tmux: only load environment variables (no password prompt)
-        if test -f "$HOME/.keychain/$HOSTNAME-fish"
-          source "$HOME/.keychain/$HOSTNAME-fish"
-        end
-      end
-    end
-  '';
+  programs.fish.shellInit = "";
 
   # SSH agent is managed by keychain (see programs.fish.shellInit)
 
