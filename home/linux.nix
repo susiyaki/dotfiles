@@ -21,6 +21,9 @@
   home.packages = with pkgs; [
     # SSH key management
     keychain # SSH agent manager with keyring integration
+    # Network tools
+    iw
+    ethtool
 
     # Fonts
     skkDictionaries.l # SKK dictionary for skkeleton

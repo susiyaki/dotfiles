@@ -129,7 +129,7 @@
       # and then execute the specified command.
       # In this case, it launches the user's default shell.
       default_session = {
-        command = "${pkgs.greetd}/bin/agreety --cmd $SHELL";
+        command = "${pkgs.greetd}/bin/agreety --cmd sway";
         user = "greeter"; # It is common practice to run greeters as a dedicated 'greeter' user
       };
     };
@@ -213,13 +213,25 @@
   # Wake-on-Wireless-LAN
   systemd.services.wowlan = {
     description = "Enable Wake-on-Wireless-LAN";
-    after = [ "network.target" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
-      ExecStart = "${pkgs.iw}/bin/iw phy0 wowlan enable magic-packet";
     };
+    path = with pkgs; [ iw gawk gnugrep ];
+    script = ''
+      # Find the phy associated with wlp2s0
+      PHY=$(iw dev wlp2s0 info | grep wiphy | awk '{print "phy"$2}')
+      if [ -n "$PHY" ]; then
+        iw $PHY wowlan enable magic-packet
+        echo "Enabled WoWLAN on $PHY (wlp2s0)"
+      else
+        echo "Could not find phy for wlp2s0"
+        exit 1
+      fi
+    '';
   };
 
   # uinput device access (for game controllers, remote desktop, etc.)
