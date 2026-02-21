@@ -16,7 +16,6 @@
     rustup
     deno
     bun
-    gh
     act
     awscli2
 
@@ -28,6 +27,14 @@
     gemini-cli
     nixpkgs-fmt
   ];
+
+  # GitHub CLI
+  programs.gh = {
+    enable = true;
+    extensions = with pkgs; [
+      gh-markdown-preview
+    ];
+  };
 
   programs.fish.shellAliases = {
     # Git shortcuts
