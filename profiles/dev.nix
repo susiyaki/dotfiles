@@ -23,9 +23,7 @@
     # From linux.nix (useful on both)
     android-tools
     dbeaver-bin
-    postman
     watchman
-    termius
     claude-code
     gemini-cli
     nixpkgs-fmt
