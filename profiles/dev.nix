@@ -115,6 +115,7 @@
     prefix = "C-q";
     terminal = "screen-256color";
     historyLimit = 10000;
+    shell = "${pkgs.fish}/bin/fish";
     plugins = with pkgs.tmuxPlugins; [
       {
         plugin = yank;
@@ -163,6 +164,5 @@
         '';
       }
     ];
-    extraConfig = '''';
   };
 }

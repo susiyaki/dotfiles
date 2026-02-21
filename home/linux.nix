@@ -180,14 +180,9 @@
     import = ["alacritty.linux.toml"]
   '';
 
-  # tmux configuration
   programs.tmux.extraConfig = ''
     # AI Assistant (Linux)
     set-environment -g AI_ASSISTANT "gemini"
-
-    # Shell configuration (Nix-managed fish)
-    set-option -g default-shell ${pkgs.fish}/bin/fish
-    set-option -g default-command ${pkgs.fish}/bin/fish
 
     # Copy/Paste configuration (Wayland)
     # "y" でヤンク (wl-copy)

@@ -68,14 +68,9 @@
     import = ["alacritty.macos.toml"]
   '';
 
-  # tmux configuration
   programs.tmux.extraConfig = ''
     # AI Assistant (macOS)
     set-environment -g AI_ASSISTANT "claude"
-
-    # Shell configuration (Nix-managed fish)
-    set-option -g default-shell /etc/profiles/per-user/${config.home.username}/bin/fish
-    set-option -g default-command /etc/profiles/per-user/${config.home.username}/bin/fish
 
     # Copy/Paste configuration (macOS)
     # "y" でヤンク (pbcopy)
