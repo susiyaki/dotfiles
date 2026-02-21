@@ -124,17 +124,21 @@
   services.greetd = {
     enable = true;
     settings = {
+      # This is the login prompt (greeter)
+      initial_session = {
+        command = "${pkgs.agreety}/bin/agreety";
+        user = "greeter";
+      };
+
+      # This is the session started after login
       default_session = {
-        command = "${pkgs.sway}/bin/sway";
+        command = "${pkgs.sway}/bin/sway --config /home/susiyaki/.config/sway/config --unsupported-gpu";
       };
     };
   };
 
   # Enable sway program at the system level so greetd can find it
-  programs.sway = {
-    enable = true;
-    extraOptions = [ "--unsupported-gpu" ];
-  };
+  programs.sway.enable = true;
 
   # Touchpad support
   services.libinput = {
