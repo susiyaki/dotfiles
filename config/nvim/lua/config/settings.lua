@@ -5,6 +5,9 @@ local vars = {
   loaded_matchparen = 1
 }
 
+-- Load Nix-managed host programs if they exist
+pcall(require, 'nix-hosts')
+
 for var, val in pairs(vars) do
   api.nvim_set_var(var, val)
 end

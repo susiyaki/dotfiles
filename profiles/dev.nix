@@ -108,6 +108,12 @@
     ]);
   };
 
+  # Neovim host programs provided by Nix
+  home.file.".config/nvim/lua/nix-hosts.lua".text = ''
+    vim.g.python3_host_prog = "${pkgs.python3.withPackages (ps: with ps; [ pynvim ])}/bin/python3"
+    vim.g.node_host_prog = "${pkgs.nodePackages.neovim}/bin/neovim-node-host"
+  '';
+
   # mise - Version manager for development tools
   programs.mise = {
     enable = true;
