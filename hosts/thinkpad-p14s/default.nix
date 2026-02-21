@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, lib, inputs, ... }:
 
 {
   imports = [
@@ -124,17 +124,22 @@
   services.greetd = {
     enable = true;
     settings = {
-      # This is the login prompt (greeter)
-      initial_session = {
-        command = "${pkgs.agreety}/bin/agreety";
-        user = "greeter";
-      };
-
-      # This is the session started after login
+      # Use agreety as the greeter.
+      # agreety will prompt for username and password,
+      # and then execute the specified command.
+      # In this case, it launches the user's default shell.
       default_session = {
-        command = "${pkgs.sway}/bin/sway --config /home/susiyaki/.config/sway/config --unsupported-gpu";
+        command = "${pkgs.greetd}/bin/agreety --cmd $SHELL";
+        user = "greeter"; # It is common practice to run greeters as a dedicated 'greeter' user
       };
     };
+  };
+
+  # Ensure that the greetd PAM service is configured.
+  # This allows greetd to authenticate users.
+  security.pam.services.greetd = {
+    allowNullPassword = lib.mkForce false;
+    startSession = true;
   };
 
   # Enable sway program at the system level so greetd can find it
