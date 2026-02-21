@@ -59,7 +59,7 @@ in
       # output eDP-1 scale 1.5
 
       # Font
-      font pango:monospace ${toString cfg.fontSize}
+      font pango:HackGen ${toString cfg.fontSize}
 
       # Wallpaper
       output "*" bg ~/.config/sway/wallpaper.png fill

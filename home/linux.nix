@@ -33,7 +33,7 @@
   # Sway configuration
   my.desktop.sway = {
     enable = true;
-    fontSize = 14;
+    fontSize = 10;
     # terminal = "alacritty"; # This is the default
   };
 
