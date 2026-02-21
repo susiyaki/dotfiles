@@ -29,7 +29,7 @@ utils.map('n', '<ESC><ESC>', ':<C-u>set nohlsearch!<CR>', { noremap = true, sile
 utils.map('n', '<Leader>w', ':w<CR>')
 utils.map('n', '<Leader>q', ':q!<CR>')
 utils.map('n', '<Leader>ee', ':e!<CR>', { noremap = true, silent = true })
-utils.map('n', '<Leader>pmd', ':!gh markdown-preview %<CR>', { noremap = true, silent = true })
+utils.map('n', '<Leader>pmd', '<CMD>lua require("utils").markdown_preview()<CR>', { noremap = true, silent = true })
 
 utils.map('n', 'q', 'qq<ESC>')
 utils.map('n', '@', "reg_recording() == '' ? '@q' : ''", { expr = true })
