@@ -249,6 +249,8 @@
   # System packages
   environment.systemPackages = with pkgs; [
     vim
+    gcc
+    gnumake
     git
     wget
     curl
