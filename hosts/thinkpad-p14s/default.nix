@@ -259,6 +259,8 @@
     usbutils
     pciutils
     mosh
+    zip
+    unzip
   ];
 
   # Yubikey support (optional)
