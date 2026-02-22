@@ -251,6 +251,7 @@
     vim
     gcc
     gnumake
+    gnupg
     git
     wget
     curl
