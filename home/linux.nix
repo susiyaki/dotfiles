@@ -22,11 +22,15 @@ in
     ../modules/linux/xremap
     ../modules/linux/wofi
     ../modules/linux/wireplumber-watchdog
+    ../modules/linux/syncthing
   ];
 
   # Standalone home-manager requires these
   home.username = "susiyaki";
   home.homeDirectory = "/home/susiyaki";
+
+  # Syncthing configuration
+  my.services.syncthing.enable = true;
 
   # Linux-specific packages (keep only what's truly host-specific)
   home.packages = with pkgs; [
