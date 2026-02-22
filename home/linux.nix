@@ -1,5 +1,16 @@
-{ config, pkgs, ... }:
+{ config, pkgs, android-nixpkgs, ... }:
 
+let
+  androidSdk = android-nixpkgs.sdk.${pkgs.system} (
+    sdkPkgs: with sdkPkgs; [
+      cmdline-tools-latest
+      build-tools-34-0-0
+      platform-tools
+      platforms-android-34
+      emulator
+    ]
+  );
+in
 {
   imports = [
     ./common.nix
@@ -28,7 +39,13 @@
     # Fonts
     skkDictionaries.l # SKK dictionary for skkeleton
     (pkgs.callPackage ../pkgs/ttf-hackgen { }) # HackGen Japanese programming font
+
+    # Android SDK
+    androidSdk
   ];
+
+  # Symlink Android SDK to a standard location for tools that expect it
+  home.file."Android/Sdk".source = "${androidSdk}/share/android-sdk";
 
   # Sway configuration
   my.desktop.sway = {

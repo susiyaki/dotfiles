@@ -15,9 +15,14 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    android-nixpkgs = {
+      url = "github:tadfisher/android-nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nix-darwin, home-manager, android-nixpkgs, ... }@inputs:
     let
       supportedSystems = [ "aarch64-darwin" "x86_64-linux" ];
       forAllSystems = function: nixpkgs.lib.genAttrs supportedSystems (system: function system);
@@ -36,7 +41,7 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 users.laeno = import ./home/darwin.nix;
-                extraSpecialArgs = { inherit inputs; };
+                extraSpecialArgs = { inherit inputs android-nixpkgs; };
               };
             }
           ];
@@ -57,7 +62,7 @@
                 useUserPackages = true;
                 backupFileExtension = "backup";
                 users.susiyaki = import ./home/linux.nix;
-                extraSpecialArgs = { inherit inputs; };
+                extraSpecialArgs = { inherit inputs android-nixpkgs; };
               };
             }
           ];
@@ -69,10 +74,12 @@
         "laeno@m1-mac" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-darwin;
           modules = [ ./home/darwin.nix ];
+          extraSpecialArgs = { inherit inputs android-nixpkgs; };
         };
         "susiyaki@thinkpad-p14s" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           modules = [ ./home/linux.nix ];
+          extraSpecialArgs = { inherit inputs android-nixpkgs; };
         };
       };
 
