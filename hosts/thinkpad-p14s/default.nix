@@ -303,9 +303,8 @@
       "scanner"
       "lp"
     ];
-    openssh.authorizedKeys.keys = [
-      "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJk87yynVkYEc23+7hM/4/aZ+7yAeZWETcwXUMVRf/jFISb3ONA54NpLHWmsNuJ1+UAwCvq2/+EjjU7zZ2iee2s= #ssh.id - @susiyaki.dev"
-    ];
+    openssh.authorizedKeys.keyFiles =
+      lib.optional (builtins.pathExists ./secrets/authorized_keys) ./secrets/authorized_keys;
   };
 
   # Docker support

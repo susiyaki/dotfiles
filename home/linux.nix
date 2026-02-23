@@ -1,7 +1,7 @@
 { config, pkgs, android-nixpkgs, ... }:
 
 let
-  androidSdk = android-nixpkgs.sdk.${pkgs.system} (
+  androidSdk = android-nixpkgs.sdk.${pkgs.stdenv.hostPlatform.system} (
     sdkPkgs: with sdkPkgs; [
       cmdline-tools-latest
       build-tools-34-0-0
@@ -25,9 +25,7 @@ in
     ../modules/linux/syncthing
   ];
 
-  # Standalone home-manager requires these
-  home.username = "susiyaki";
-  home.homeDirectory = "/home/susiyaki";
+  # Standalone home-manager user/homeDirectory should live in home/local.nix
 
   # Syncthing configuration
   my.services.syncthing.enable = true;
@@ -169,60 +167,11 @@ in
           AddKeysToAgent = "yes";
         };
       };
-      "github.com" = {
-        hostname = "github.com";
-        identityFile = "~/.ssh/github/id_rsa";
-        user = "git";
-      };
     };
   };
 
-  # Alacritty configuration
-  home.file.".config/alacritty/alacritty-base.toml".source = ../config/alacritty/alacritty-base.toml;
-
-  # Generate alacritty.linux.toml with dynamic username
-  home.file.".config/alacritty/alacritty.linux.toml".text = ''
-    # ============================================================
-    # Alacritty - Linux Specific Configuration
-    # ============================================================
-
-    [general]
-    import = ["alacritty-base.toml"]
-
-    # Override shell path for Linux (Nix)
-    [terminal.shell]
-    program = "${pkgs.fish}/bin/fish"
-    args = ["-l", "-c", "tmux new-session -A -s main"]
-  '';
-
-  # Set Linux-specific alacritty config as default
-  home.file.".config/alacritty/alacritty.toml".text = ''
-    [general]
-    import = ["alacritty.linux.toml"]
-  '';
-
-  programs.tmux.extraConfig = ''
-    # AI Assistant (Linux)
-    set-environment -g AI_ASSISTANT "codex"
-
-    # Copy/Paste configuration (Wayland)
-    # "y" でヤンク (wl-copy)
-    set -s copy-command 'wl-copy'
-    bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'wl-copy'
-
-    # "Y" で行ヤンク
-    bind -T copy-mode-vi Y send -X copy-line
-
-    # "p"でペースト (wl-paste)
-    bind p run "tmux set-buffer \"$(wl-paste)\"; tmux paste-buffer"
-  '';
-
-  home.file.".config/tmux/tmux-base.conf".source = ../config/tmux/tmux-base.conf;
-  home.file.".config/tmux/scripts" = {
-    source = ../config/tmux/scripts;
-    recursive = true;
-  };
-
+  # Local-only SSH config (kept out of git)
+  home.file.".ssh/config".source = lib.mkIf (builtins.pathExists ./secrets/ssh-config) ./secrets/ssh-config;
 
   # Swaylock configuration
   home.file.".config/swaylock/config".source = ../config/swaylock/config;
@@ -233,11 +182,6 @@ in
   # Thunar volume manager configuration
   home.file.".config/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml".source = ../config/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml;
 
-  # Neovim skkeleton dictionary path
-  home.file.".config/nvim/lua/skkeleton-dict-path.lua".text = ''
-    return "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L"
-  '';
-
   # Fcitx5 configuration (manually managed part, if needed, though NixOS module handles most)
   # Linking profile to ensure correct input method order (keyboard-us first, then skk)
   home.file.".config/fcitx5/profile".source = ../config/fcitx5/profile;
@@ -246,24 +190,4 @@ in
   # libskk rules for custom keybindings
   home.file.".config/libskk".source = ../config/libskk;
 
-  # Claude Code configuration (merge common + linux settings)
-  home.file.".claude/settings.json".text =
-    let
-      commonSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.common.json);
-      linuxSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.linux.json);
-      mergedSettings = pkgs.lib.recursiveUpdate commonSettings linuxSettings;
-    in
-    builtins.toJSON mergedSettings;
-
-  # Gemini CLI configuration (merge common + linux settings)
-  home.file.".gemini/settings.json" = {
-    text =
-      let
-        commonSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.common.json);
-        linuxSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.linux.json);
-        mergedSettings = pkgs.lib.recursiveUpdate commonSettings linuxSettings;
-      in
-      builtins.toJSON mergedSettings;
-    force = true;
-  };
 }
