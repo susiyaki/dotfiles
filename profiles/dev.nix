@@ -14,7 +14,7 @@
     go
     rustc
     rustup
-    deno
+    # Temporarily disabled to avoid long source builds during rebuilds.
     bun
     act
     awscli2

@@ -49,8 +49,10 @@
     xarchiver
 
     # Media
-    celluloid
-    mpv
+    # Temporarily disabled to avoid deno build via mpv/yt-dlp.
+    # celluloid
+    # mpv
+    vlc
     imv
 
     # Misc GUI Apps
