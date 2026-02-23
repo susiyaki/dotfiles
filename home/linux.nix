@@ -12,18 +12,20 @@ let
   );
 in
 {
-  imports = [
-    ./common.nix
-    ../profiles/cli.nix
-    ../profiles/dev.nix
-    ../profiles/desktop.nix
-    ../modules/linux/sway
-    ../modules/linux/waybar
-    ../modules/linux/xremap
-    ../modules/linux/wofi
-    ../modules/linux/wireplumber-watchdog
-    ../modules/linux/syncthing
-  ];
+  imports =
+    [
+      ./common.nix
+      ../profiles/cli.nix
+      ../profiles/dev.nix
+      ../profiles/desktop.nix
+      ../modules/linux/sway
+      ../modules/linux/waybar
+      ../modules/linux/xremap
+      ../modules/linux/wofi
+      ../modules/linux/wireplumber-watchdog
+      ../modules/linux/syncthing
+    ]
+    ++ lib.optional (builtins.pathExists ./local.nix) ./local.nix;
 
   # Standalone home-manager user/homeDirectory should live in home/local.nix
 
@@ -161,6 +163,9 @@ in
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
+    extraConfig = ''
+      Include ~/dotfiles/secrets/ssh-config
+    '';
     matchBlocks = {
       "*" = {
         extraOptions = {
@@ -170,8 +175,7 @@ in
     };
   };
 
-  # Local-only SSH config (kept out of git)
-  home.file.".ssh/config".source = lib.mkIf (builtins.pathExists ./secrets/ssh-config) ./secrets/ssh-config;
+  # Local-only SSH config is included via programs.ssh.extraConfig.
 
   # Swaylock configuration
   home.file.".config/swaylock/config".source = ../config/swaylock/config;

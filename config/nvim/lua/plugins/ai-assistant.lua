@@ -34,11 +34,16 @@ local function prompt_and_send_to_ai()
 
   -- 画面幅の98%を使用（tmux popup と揃える）
   local width = math.floor(win_width * 0.98)
-  local height = 15
+  local height = 13
   local buf = vim.api.nvim_create_buf(false, true)
 
   local col = math.floor((win_width - width) / 2)  -- 横は中央
-  local row = win_height - height - 2  -- 下部に配置（2行のマージン）
+  -- Keep clear of statusline/cmdline/tabline so file name isn't covered.
+  local statusline = (vim.o.laststatus and vim.o.laststatus > 0) and 1 or 0
+  local cmdline = vim.o.cmdheight or 0
+  local tabline = (vim.o.showtabline and vim.o.showtabline > 0) and 1 or 0
+  local reserved = statusline + cmdline + tabline + 1
+  local row = win_height - height - reserved
 
   local opts = {
     relative = 'editor',
@@ -148,4 +153,3 @@ end, { noremap = true, silent = false, desc = 'Send prompt to AI Assistant from 
 -- AI Assistant 切り替え: <Space>,,
 vim.keymap.set('n', '<Space>,,', switch_ai_assistant,
   { noremap = true, silent = false, desc = 'Switch AI Assistant' })
-
