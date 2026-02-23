@@ -19,6 +19,7 @@ flake.lock
 secrets/
 *.key
 *.pem
+hosts/thinkpad-p14s/secrets/
 
 # Fish shell generated files
 config/fish/fish_variables

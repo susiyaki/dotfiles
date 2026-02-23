@@ -312,6 +312,7 @@
       "scanner"
       "lp"
     ];
+    # Use host-specific secrets (flake-local path, no --impure needed).
     openssh.authorizedKeys.keyFiles =
       lib.optional (builtins.pathExists ./secrets/authorized_keys) ./secrets/authorized_keys;
   };
