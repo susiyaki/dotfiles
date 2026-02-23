@@ -24,6 +24,7 @@
     dbeaver-bin
     watchman
     claude-code
+    codex
     gemini-cli
     nixpkgs-fmt
   ];

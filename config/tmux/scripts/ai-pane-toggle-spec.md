@@ -8,7 +8,7 @@
 
 ### 入力パラメータ
 
-- `AI_ASSISTANT`: 使用するAI Assistant（`claude` または `gemini`）
+- `AI_ASSISTANT`: 使用するAI Assistant（`claude` `gemini` または `codex`）
   - 未設定の場合は `tmux show-environment -g AI_ASSISTANT` から取得
 - `AI_ACTION`: 実行するアクション（デフォルト: `toggle`）
   - `toggle`: AIペインの表示/非表示を切り替え
