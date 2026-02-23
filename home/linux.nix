@@ -1,7 +1,7 @@
-{ config, pkgs, android-nixpkgs, ... }:
+{ config, pkgs, lib, android-nixpkgs, ... }:
 
 let
-  androidSdk = android-nixpkgs.sdk.${pkgs.stdenv.hostPlatform.system} (
+  androidSdk = android-nixpkgs.sdk.${pkgs.stdenv.system} (
     sdkPkgs: with sdkPkgs; [
       cmdline-tools-latest
       build-tools-34-0-0
