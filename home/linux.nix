@@ -1,7 +1,7 @@
 { config, pkgs, android-nixpkgs, ... }:
 
 let
-  androidSdk = android-nixpkgs.sdk.${pkgs.system} (
+  androidSdk = android-nixpkgs.sdk.${pkgs.stdenv.hostPlatform.system} (
     sdkPkgs: with sdkPkgs; [
       cmdline-tools-latest
       build-tools-34-0-0
@@ -25,9 +25,7 @@ in
     ../modules/linux/syncthing
   ];
 
-  # Standalone home-manager requires these
-  home.username = "susiyaki";
-  home.homeDirectory = "/home/susiyaki";
+  # Standalone home-manager user/homeDirectory should live in home/local.nix
 
   # Syncthing configuration
   my.services.syncthing.enable = true;
@@ -72,6 +70,9 @@ in
 
     # GTK theme
     GTK_THEME = "Adwaita:dark";
+
+    # fzf - Uses Wayland's wl-copy
+    FZF_DEFAULT_OPTS = "--preview 'bat --color=always --theme=gruvbox-dark --style=numbers,header --line-range :100 {}' --bind 'ctrl-y:execute: echo {} | wl-copy' --bind 'ctrl-o:execute: tmux new-window nvim {}'";
 
     # Force Electron apps to use Wayland
     NIXOS_OZONE_WL = "1";
@@ -166,13 +167,11 @@ in
           AddKeysToAgent = "yes";
         };
       };
-      "github.com" = {
-        hostname = "github.com";
-        identityFile = "~/.ssh/github/id_rsa";
-        user = "git";
-      };
     };
   };
+
+  # Local-only SSH config (kept out of git)
+  home.file.".ssh/config".source = lib.mkIf (builtins.pathExists ./secrets/ssh-config) ./secrets/ssh-config;
 
   # Swaylock configuration
   home.file.".config/swaylock/config".source = ../config/swaylock/config;

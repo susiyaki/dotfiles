@@ -60,7 +60,6 @@
   };
 
   # CPU configuration - AMD
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # Graphics - AMD Radeon 780M

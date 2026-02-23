@@ -1,11 +1,10 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
   osLabel = if isDarwin then "macOS" else "Linux";
   fzfCopyCmd = if isDarwin then "pbcopy" else "wl-copy";
   tmuxPasteCmd = if isDarwin then "pbpaste" else "wl-paste";
-  alacrittySuffix = if isDarwin then "macos" else "linux";
   shellProgram =
     if isDarwin then "/etc/profiles/per-user/${config.home.username}/bin/fish"
     else "${pkgs.fish}/bin/fish";
@@ -18,6 +17,11 @@ let
   aiAssistant = if isDarwin then "claude" else "codex";
   fzfDefaultOpts = "--preview 'bat --color=always --theme=gruvbox-dark --style=numbers,header --line-range :100 {}' --bind 'ctrl-y:execute: echo {} | ${fzfCopyCmd}' --bind 'ctrl-o:execute: tmux new-window nvim {}'";
   tmuxCopyCommandLine = if isDarwin then "" else "set -s copy-command 'wl-copy'\n";
+  alacrittyBase = builtins.fromTOML (builtins.readFile ../config/alacritty/alacritty-base.toml);
+  alacrittyShell = {
+    terminal.shell.program = shellProgram;
+    terminal.shell.args = [ "-l" "-c" "tmux new-session -A -s main" ];
+  };
 in
 {
   # Let Home Manager install and manage itself
@@ -79,7 +83,6 @@ in
     # ".config/fish".source = ../config/fish;
     ".config/fish/conf.d".source = ../config/fish/conf.d;
     ".config/fish/functions".source = ../config/fish/functions;
-    # Tmux config is handled here (shared across OS)
 
     # Claude Code commands
     ".claude/commands" = {
@@ -92,26 +95,6 @@ in
 
     # Lazygit
     ".config/lazygit".source = ../config/lazygit;
-
-    # Alacritty configuration
-    ".config/alacritty/alacritty-base.toml".source = ../config/alacritty/alacritty-base.toml;
-    ".config/alacritty/alacritty.${alacrittySuffix}.toml".text = ''
-      # ============================================================
-      # Alacritty - ${osLabel} Specific Configuration
-      # ============================================================
-
-      [general]
-      import = ["alacritty-base.toml"]
-
-      # Override shell path for ${osLabel} (Nix)
-      [terminal.shell]
-      program = "${shellProgram}"
-      args = ["-l", "-c", "tmux new-session -A -s main"]
-    '';
-    ".config/alacritty/alacritty.toml".text = ''
-      [general]
-      import = ["alacritty.${alacrittySuffix}.toml"]
-    '';
 
     # Tmux configuration
     ".config/tmux/tmux-base.conf".source = ../config/tmux/tmux-base.conf;
@@ -162,4 +145,8 @@ in
     # "p"でペースト
     bind p run "tmux set-buffer \"\$(${tmuxPasteCmd})\"; tmux paste-buffer"
   '';
+
+  programs.alacritty = lib.mkIf config.programs.alacritty.enable {
+    settings = lib.recursiveUpdate alacrittyBase alacrittyShell;
+  };
 }
