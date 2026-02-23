@@ -118,7 +118,7 @@ end
 
 -- AI Assistant の切り替え関数
 local function switch_ai_assistant()
-  local assistants = {"claude", "gemini"}
+  local assistants = {"claude", "gemini", "codex"}
   local current = vim.env.AI_ASSISTANT or "claude"
 
   vim.ui.select(assistants, {

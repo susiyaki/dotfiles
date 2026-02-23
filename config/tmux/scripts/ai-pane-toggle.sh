@@ -13,7 +13,7 @@ CURRENT_SESSION=$(tmux display -p '#{session_name}')
 CURRENT_NVIM_ID=$(tmux display -p '#{@nvim_instance_id}')
 CURRENT_AI_MARKER=$(tmux display -p '#{@ai_pane_marker}')
 
-# AI専用セッション名の形式: ai-claude, ai-gemini
+# AI専用セッション名の形式: ai-claude, ai-gemini, codex
 AI_SESSION="ai-${ASSISTANT}"
 
 # 現在のペインがneovimペインの場合
@@ -76,6 +76,7 @@ if [ -n "$CURRENT_NVIM_ID" ]; then
       case "$ASSISTANT" in
         claude) CMD="claude" ;;
         gemini) CMD="gemini" ;;
+        codex)  CMD="codex" ;;
         *) CMD="echo 'AI_ASSISTANT not set'; sleep 5" ;;
       esac
 
