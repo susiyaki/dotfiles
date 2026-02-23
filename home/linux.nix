@@ -203,7 +203,7 @@ in
 
   programs.tmux.extraConfig = ''
     # AI Assistant (Linux)
-    set-environment -g AI_ASSISTANT "gemini"
+    set-environment -g AI_ASSISTANT "codex"
 
     # Copy/Paste configuration (Wayland)
     # "y" でヤンク (wl-copy)
