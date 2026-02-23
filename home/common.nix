@@ -1,5 +1,24 @@
 { config, pkgs, ... }:
 
+let
+  isDarwin = pkgs.stdenv.isDarwin;
+  osLabel = if isDarwin then "macOS" else "Linux";
+  fzfCopyCmd = if isDarwin then "pbcopy" else "wl-copy";
+  tmuxPasteCmd = if isDarwin then "pbpaste" else "wl-paste";
+  alacrittySuffix = if isDarwin then "macos" else "linux";
+  shellProgram =
+    if isDarwin then "/etc/profiles/per-user/${config.home.username}/bin/fish"
+    else "${pkgs.fish}/bin/fish";
+  claudeSettingsPath =
+    if isDarwin then ../config/claude/settings.darwin.json
+    else ../config/claude/settings.linux.json;
+  geminiSettingsPath =
+    if isDarwin then ../config/gemini/settings.darwin.json
+    else ../config/gemini/settings.linux.json;
+  aiAssistant = if isDarwin then "claude" else "codex";
+  fzfDefaultOpts = "--preview 'bat --color=always --theme=gruvbox-dark --style=numbers,header --line-range :100 {}' --bind 'ctrl-y:execute: echo {} | ${fzfCopyCmd}' --bind 'ctrl-o:execute: tmux new-window nvim {}'";
+  tmuxCopyCommandLine = if isDarwin then "" else "set -s copy-command 'wl-copy'\n";
+in
 {
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
@@ -14,9 +33,7 @@
     EDITOR = "nvim";
     XDG_CONFIG_HOME = "$HOME/.config";
     XDG_CACHE_HOME = "$HOME/.cache";
-
-    # FZF_DEFAULT_OPTS is defined in OS-specific configs (darwin.nix/linux.nix)
-    # because it uses OS-specific clipboard commands (pbcopy/wl-copy)
+    FZF_DEFAULT_OPTS = fzfDefaultOpts;
   };
 
   # Fish shell
@@ -62,7 +79,7 @@
     # ".config/fish".source = ../config/fish;
     ".config/fish/conf.d".source = ../config/fish/conf.d;
     ".config/fish/functions".source = ../config/fish/functions;
-    # Note: tmux config is handled per-OS in darwin.nix and linux.nix
+    # Tmux config is handled here (shared across OS)
 
     # Claude Code commands
     ".claude/commands" = {
@@ -75,7 +92,74 @@
 
     # Lazygit
     ".config/lazygit".source = ../config/lazygit;
+
+    # Alacritty configuration
+    ".config/alacritty/alacritty-base.toml".source = ../config/alacritty/alacritty-base.toml;
+    ".config/alacritty/alacritty.${alacrittySuffix}.toml".text = ''
+      # ============================================================
+      # Alacritty - ${osLabel} Specific Configuration
+      # ============================================================
+
+      [general]
+      import = ["alacritty-base.toml"]
+
+      # Override shell path for ${osLabel} (Nix)
+      [terminal.shell]
+      program = "${shellProgram}"
+      args = ["-l", "-c", "tmux new-session -A -s main"]
+    '';
+    ".config/alacritty/alacritty.toml".text = ''
+      [general]
+      import = ["alacritty.${alacrittySuffix}.toml"]
+    '';
+
+    # Tmux configuration
+    ".config/tmux/tmux-base.conf".source = ../config/tmux/tmux-base.conf;
+    ".config/tmux/scripts" = {
+      source = ../config/tmux/scripts;
+      recursive = true;
+    };
+
+    # Neovim skkeleton dictionary path
+    ".config/nvim/lua/skkeleton-dict-path.lua".text = ''
+      return "${pkgs.skkDictionaries.l}/share/skk/SKK-JISYO.L"
+    '';
   };
 
-  # Note: Alacritty config is handled per-OS in darwin.nix and linux.nix
+  # Claude Code configuration (merge common + OS settings)
+  home.file.".claude/settings.json".text =
+    let
+      commonSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.common.json);
+      osSettings = builtins.fromJSON (builtins.readFile claudeSettingsPath);
+      mergedSettings = pkgs.lib.recursiveUpdate commonSettings osSettings;
+    in
+    builtins.toJSON mergedSettings;
+
+  # Gemini CLI configuration (merge common + OS settings)
+  home.file.".gemini/settings.json" = {
+    text =
+      let
+        commonSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.common.json);
+        osSettings = builtins.fromJSON (builtins.readFile geminiSettingsPath);
+        mergedSettings = pkgs.lib.recursiveUpdate commonSettings osSettings;
+      in
+      builtins.toJSON mergedSettings;
+    force = true;
+  };
+
+  programs.tmux.extraConfig = ''
+    # AI Assistant (${osLabel})
+    set-environment -g AI_ASSISTANT "${aiAssistant}"
+
+    # Copy/Paste configuration (${osLabel})
+    # "y" でヤンク
+    ${tmuxCopyCommandLine}
+    bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel '${fzfCopyCmd}'
+
+    # "Y" で行ヤンク
+    bind -T copy-mode-vi Y send -X copy-line
+
+    # "p"でペースト
+    bind p run "tmux set-buffer \"\$(${tmuxPasteCmd})\"; tmux paste-buffer"
+  '';
 }
