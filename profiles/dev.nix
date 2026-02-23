@@ -1,5 +1,5 @@
 # profiles/dev.nix
-{ pkgs, lib, ... }:
+{ pkgs, pkgsStable, lib, ... }:
 
 {
   home.packages = with pkgs; [
@@ -14,6 +14,7 @@
     go
     rustc
     rustup
+    pkgsStable.deno
     # Temporarily disabled to avoid long source builds during rebuilds.
     bun
     act

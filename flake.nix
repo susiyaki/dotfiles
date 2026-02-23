@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
 
     # macOS system management
     nix-darwin = {
@@ -22,10 +23,14 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, android-nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-stable, nix-darwin, home-manager, android-nixpkgs, ... }@inputs:
     let
       supportedSystems = [ "aarch64-darwin" "x86_64-linux" ];
       forAllSystems = function: nixpkgs.lib.genAttrs supportedSystems (system: function system);
+      pkgsStableFor = system: import nixpkgs-stable {
+        inherit system;
+        config.allowUnfree = true;
+      };
     in
     {
       # macOS system (nix-darwin)
@@ -41,7 +46,10 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 users.laeno = import ./home/darwin.nix;
-                extraSpecialArgs = { inherit inputs android-nixpkgs; };
+                extraSpecialArgs = {
+                  inherit inputs android-nixpkgs;
+                  pkgsStable = pkgsStableFor "aarch64-darwin";
+                };
               };
             }
           ];
@@ -62,7 +70,10 @@
                 useUserPackages = true;
                 backupFileExtension = "backup";
                 users.susiyaki = import ./home/linux.nix;
-                extraSpecialArgs = { inherit inputs android-nixpkgs; };
+                extraSpecialArgs = {
+                  inherit inputs android-nixpkgs;
+                  pkgsStable = pkgsStableFor "x86_64-linux";
+                };
               };
             }
           ];
@@ -74,12 +85,18 @@
         "laeno@m1-mac" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.aarch64-darwin;
           modules = [ ./home/darwin.nix ];
-          extraSpecialArgs = { inherit inputs android-nixpkgs; };
+          extraSpecialArgs = {
+            inherit inputs android-nixpkgs;
+            pkgsStable = pkgsStableFor "aarch64-darwin";
+          };
         };
         "susiyaki@thinkpad-p14s" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages.x86_64-linux;
           modules = [ ./home/linux.nix ];
-          extraSpecialArgs = { inherit inputs android-nixpkgs; };
+          extraSpecialArgs = {
+            inherit inputs android-nixpkgs;
+            pkgsStable = pkgsStableFor "x86_64-linux";
+          };
         };
       };
 
