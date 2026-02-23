@@ -27,6 +27,7 @@
     codex
     gemini-cli
     nixpkgs-fmt
+    uv
   ];
 
   # GitHub CLI

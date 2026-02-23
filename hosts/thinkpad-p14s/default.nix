@@ -111,11 +111,9 @@
   services.xserver = {
     enable = true;
 
-    # DisplayLink support for external monitors
-    # Note: DisplayLink requires manual download due to EULA
+    # DisplayLink support for external monitors (requires manual download due to EULA).
     # Uncomment after downloading: https://www.synaptics.com/products/displaylink-usb-graphics-software-ubuntu-62
     videoDrivers = [
-      "displaylink"
       "modesetting"
     ];
   };
