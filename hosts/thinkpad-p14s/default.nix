@@ -268,6 +268,8 @@
     mosh
     zip
     unzip
+    whisper-cpp
+    stdenv.cc.cc.lib
   ];
 
   # Yubikey support (optional)

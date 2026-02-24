@@ -4,7 +4,7 @@
   "spacing": 4, // Gaps between modules (4px)
   "modules-left": ["sway/workspaces", "sway/mode", "cpu", "memory", "disk"],
   "modules-center": ["custom/clock"],
-  "modules-right": ["custom/screencast", "pulseaudio", "backlight", "battery", "tray", "custom/dnd", "idle_inhibitor"],
+  "modules-right": ["custom/voice", "custom/screencast", "pulseaudio", "backlight", "battery", "tray", "custom/dnd", "idle_inhibitor"],
   // Modules configuration
   "sway/workspaces": {
     "disable-scroll": true,
@@ -86,6 +86,12 @@
     "interval": 1,
     "format": "{}",
     "on-click": "bash ~/.config/sway/scripts/capture-manager.sh screencast"
+  },
+  "custom/voice": {
+    "exec": "bash ~/.config/waybar/scripts/voice-indicator.sh",
+    "return-type": "json",
+    "interval": 1,
+    "format": "{}"
   },
   "custom/dnd": {
     "exec": "bash ~/.config/waybar/scripts/dnd-indicator.sh",
