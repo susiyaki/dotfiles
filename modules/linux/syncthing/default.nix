@@ -14,7 +14,10 @@ in
       tray.enable = true;
       settings = {
         devices = {
-          "smartphone" = { id = "GBP6QY7-YK5ILLN-A2ODNQT-TNBQSCJ-E5GCCLP-PLGNQYV-WUEOHNF-PIJEZQ4"; };
+          "smartphone" = {
+            id = "GBP6QY7-YK5ILLN-A2ODNQT-TNBQSCJ-E5GCCLP-PLGNQYV-WUEOHNF-PIJEZQ4";
+            addresses = [ "tcp://100.94.98.31:22000" ];
+          };
         };
         folders = {
           "Syncthing" = {
