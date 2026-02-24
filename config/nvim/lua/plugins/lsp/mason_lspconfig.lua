@@ -35,3 +35,10 @@ mason_lspconfig.setup({
   },
   automatic_installation = true,
 })
+
+-- 【推奨案】rust-analyzer を mise ラッパー経由で起動
+-- mise exec により、プロジェクトの mise.toml で指定された toolchain が使われる
+vim.lsp.config('rust_analyzer', {
+  cmd = { vim.fn.stdpath('config') .. '/bin/rust-analyzer-mise' },
+  root_markers = { 'Cargo.toml', 'rust-toolchain.toml' },
+})

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Neovim LSP wrapper for rust-analyzer with mise environment
+#
+# This script ensures rust-analyzer runs with the correct Rust toolchain
+# managed by mise, without hardcoding absolute paths.
+
+# Get the actual rust-analyzer binary from mason
+MASON_RA="$HOME/.local/share/nvim/mason/bin/rust-analyzer"
+
+# Check if mason's rust-analyzer exists
+if [ ! -f "$MASON_RA" ]; then
+  echo "Error: rust-analyzer not found at $MASON_RA" >&2
+  echo "Please install it via :MasonInstall rust_analyzer" >&2
+  exit 1
+fi
+
+# Execute rust-analyzer within mise environment
+# mise exec ensures cargo/rustc from the project's mise.toml are used
+exec mise exec -- "$MASON_RA" "$@"
