@@ -22,7 +22,8 @@ window#waybar {
 #mode,
 #idle_inhibitor,
 #custom-screencast,
-#custom-dnd {
+#custom-dnd,
+#custom-voice {
   color: @text;
   border-radius: 9999px;
   border: 1px solid @lavender;
@@ -51,6 +52,33 @@ window#waybar {
 #custom-dnd {
   padding: 0 7px;
   font-size: 22px;
+}
+
+#custom-voice {
+  padding: 0 10px;
+  font-size: 18px;
+}
+
+#custom-voice.recording {
+  color: @red;
+  background-color: alpha(@red, 0.2);
+  border-color: @red;
+}
+
+#custom-voice.transcribing {
+  color: @yellow;
+  background-color: alpha(@yellow, 0.15);
+  border-color: @yellow;
+}
+
+#custom-voice.error {
+  color: @maroon;
+  background-color: alpha(@maroon, 0.2);
+  border-color: @maroon;
+}
+
+#custom-voice.idle {
+  color: @text;
 }
 
 #custom-dnd.dnd-on {
