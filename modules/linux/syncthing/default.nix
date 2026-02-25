@@ -24,6 +24,10 @@ in
             path = "${config.home.homeDirectory}/Syncthing";
             devices = [ "smartphone" ];
           };
+          "High Climb" = {
+            path = "${config.home.homeDirectory}/Workspaces/susiyaki/high_climb/Syncthing";
+            devices = [ "smartphone" ];
+          };
         };
       };
     };
