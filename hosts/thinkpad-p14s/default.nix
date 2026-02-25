@@ -1,5 +1,11 @@
 { config, pkgs, lib, inputs, ... }:
 
+let
+  displaylink = pkgs.displaylink.override {
+    evdi = config.boot.kernelPackages.evdi;
+  };
+in
+
 {
   imports = [
     ./hardware.nix
@@ -125,6 +131,50 @@
     videoDrivers = [
       "modesetting"
     ];
+  };
+
+  # DisplayLink (manual enable since this nixpkgs doesn't accept "displaylink" in videoDrivers)
+  environment.etc."X11/xorg.conf.d/40-displaylink.conf".text = ''
+    Section "OutputClass"
+      Identifier  "DisplayLink"
+      MatchDriver "evdi"
+      Driver      "modesetting"
+      Option      "TearFree" "true"
+      Option      "AccelMethod" "none"
+    EndSection
+  '';
+
+  services.udev.packages = [ displaylink ];
+
+  powerManagement.powerDownCommands = ''
+    # flush any bytes in pipe
+    while read -n 1 -t 1 SUSPEND_RESULT < /tmp/PmMessagesPort_out; do : ; done;
+
+    # suspend DisplayLinkManager
+    echo "S" > /tmp/PmMessagesPort_in
+
+    # wait until suspend of DisplayLinkManager finish
+    if [ -f /tmp/PmMessagesPort_out ]; then
+      read -n 1 -t 10 SUSPEND_RESULT < /tmp/PmMessagesPort_out
+    fi
+  '';
+
+  powerManagement.resumeCommands = ''
+    # resume DisplayLinkManager
+    echo "R" > /tmp/PmMessagesPort_in
+  '';
+
+  systemd.services.dlm = {
+    description = "DisplayLink Manager Service";
+    after = [ "display-manager.service" ];
+    conflicts = [ "getty@tty7.service" ];
+
+    serviceConfig = {
+      ExecStart = "${displaylink}/bin/DisplayLinkManager";
+      Restart = "always";
+      RestartSec = 5;
+      LogsDirectory = "displaylink";
+    };
   };
 
   # Display manager (greetd with agreety)
@@ -273,8 +323,6 @@
   ];
 
   # Yubikey support (optional)
-  services.udev.packages = with pkgs; [ yubikey-personalization ];
-  services.pcscd.enable = true;
 
   # Enable dconf (required for GTK apps)
   programs.dconf.enable = true;

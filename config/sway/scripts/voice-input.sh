@@ -5,7 +5,8 @@ model="${VOICE_INPUT_MODEL:-${XDG_DATA_HOME:-$HOME/.local/share}/whisper/ggml-sm
 # Expand literal $HOME in env-provided path (home.sessionVariables does not expand it)
 model="${model//\$HOME/$HOME}"
 lang="${VOICE_INPUT_LANGUAGE:-ja}"
-duration="${VOICE_INPUT_DURATION:-8}"
+duration="${VOICE_INPUT_DURATION:-20}"
+warn_before="${VOICE_INPUT_WARN_BEFORE:-5}"
 
 runtime_dir="${XDG_RUNTIME_DIR:-/tmp}"
 state_dir="${runtime_dir}/voice-input"
@@ -89,7 +90,15 @@ echo $! > "$pidfile"
 
 # Safety: stop recording automatically after duration
 (
-  sleep "$duration"
+  if [[ "$duration" -gt "$warn_before" ]]; then
+    sleep "$((duration - warn_before))"
+    if [[ -f "$pidfile" ]] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+      notify-send "Voice input" "あと${warn_before}秒で停止します"
+    fi
+    sleep "$warn_before"
+  else
+    sleep "$duration"
+  fi
   if [[ -f "$pidfile" ]]; then
     if kill -0 "$(cat "$pidfile")" 2>/dev/null; then
       kill "$(cat "$pidfile")" >/dev/null 2>&1 || true

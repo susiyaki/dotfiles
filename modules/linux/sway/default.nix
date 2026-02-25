@@ -46,7 +46,8 @@ in
     home.sessionVariables = {
       # Voice input defaults (used by ~/.config/sway/scripts/voice-input.sh)
       VOICE_INPUT_LANGUAGE = "ja";
-      VOICE_INPUT_DURATION = "8";
+      VOICE_INPUT_DURATION = "20";
+      VOICE_INPUT_WARN_BEFORE = "5";
       VOICE_INPUT_MODEL = "$HOME/.local/share/whisper/ggml-small-q5_1.bin";
     };
 
