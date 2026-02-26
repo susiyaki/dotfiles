@@ -11,9 +11,6 @@ let
   claudeSettingsPath =
     if isDarwin then ../config/claude/settings.darwin.json
     else ../config/claude/settings.linux.json;
-  geminiSettingsPath =
-    if isDarwin then ../config/gemini/settings.darwin.json
-    else ../config/gemini/settings.linux.json;
   aiAssistant = if isDarwin then "claude" else "codex";
   fzfDefaultOpts = "--preview 'bat --color=always --theme=gruvbox-dark --style=numbers,header --line-range :100 {}' --bind 'ctrl-y:execute: echo {} | ${fzfCopyCmd}' --bind 'ctrl-o:execute: tmux new-window nvim {}'";
   tmuxCopyCommandLine = if isDarwin then "" else "set -s copy-command 'wl-copy'\n";
@@ -124,18 +121,6 @@ in
       mergedSettings = pkgs.lib.recursiveUpdate commonSettings osSettings;
     in
     builtins.toJSON mergedSettings;
-
-  # Gemini CLI configuration (merge common + OS settings)
-  home.file.".gemini/settings.json" = {
-    text =
-      let
-        commonSettings = builtins.fromJSON (builtins.readFile ../config/gemini/settings.common.json);
-        osSettings = builtins.fromJSON (builtins.readFile geminiSettingsPath);
-        mergedSettings = pkgs.lib.recursiveUpdate commonSettings osSettings;
-      in
-      builtins.toJSON mergedSettings;
-    force = true;
-  };
 
   programs.tmux.extraConfig = ''
     # AI Assistant (${osLabel})
