@@ -36,12 +36,6 @@
     options = [ "subvol=@home" "compress=zstd" "noatime" "ssd" "discard=async" "space_cache=v2" ];
   };
 
-#  fileSystems."/nix" = {
-#    device = "/dev/disk/by-uuid/f0f21530-8b95-43f9-81e5-423f5bc1f478";
-#    fsType = "btrfs";
-#    options = [ "subvol=@nix" "compress=zstd" "noatime" "ssd" "discard=async" "space_cache=v2" ];
-#  };
-
   fileSystems."/swap" = {
     device = "/dev/disk/by-uuid/f0f21530-8b95-43f9-81e5-423f5bc1f478";
     fsType = "btrfs";
