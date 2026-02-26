@@ -1,10 +1,10 @@
 { config, pkgs, lib, inputs, ... }:
 
-let
-  displaylink = pkgs.displaylink.override {
-    evdi = config.boot.kernelPackages.evdi;
-  };
-in
+#let
+#  displaylink = pkgs.displaylink.override {
+#    evdi = config.boot.kernelPackages.evdi;
+#  };
+#in
 
 {
   imports = [
@@ -144,7 +144,7 @@ in
     EndSection
   '';
 
-  services.udev.packages = [ displaylink ];
+#  services.udev.packages = [ displaylink ];
 
   powerManagement.powerDownCommands = ''
     # flush any bytes in pipe
@@ -164,18 +164,18 @@ in
     echo "R" > /tmp/PmMessagesPort_in
   '';
 
-  systemd.services.dlm = {
-    description = "DisplayLink Manager Service";
-    after = [ "display-manager.service" ];
-    conflicts = [ "getty@tty7.service" ];
-
-    serviceConfig = {
-      ExecStart = "${displaylink}/bin/DisplayLinkManager";
-      Restart = "always";
-      RestartSec = 5;
-      LogsDirectory = "displaylink";
-    };
-  };
+#  systemd.services.dlm = {
+ #   description = "DisplayLink Manager Service";
+#    after = [ "display-manager.service" ];
+ #   conflicts = [ "getty@tty7.service" ];
+#
+ #   serviceConfig = {
+  #    ExecStart = "${displaylink}/bin/DisplayLinkManager";
+   #   Restart = "always";
+    #  RestartSec = 5;
+     # LogsDirectory = "displaylink";
+   # };
+ # };
 
   # Display manager (greetd with agreety)
   services.greetd = {
