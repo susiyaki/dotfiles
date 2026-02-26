@@ -1,0 +1,15 @@
+network_access = true
+
+[features]
+experimental_use_rmcp_client = true
+
+[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
+
+[mcp_servers.linear]
+url = "https://mcp.linear.app/mcp"
+
+[tui]
+notifications = ["approval-requested", "agent-turn-complete"]
+
+notify = ["/bin/sh", "-lc", "~/.codex/notify.sh"]
