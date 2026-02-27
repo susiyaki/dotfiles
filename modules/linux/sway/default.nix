@@ -32,6 +32,7 @@ in
       # Packages from the old module
       swayidle
       swaybg
+      swaylock-effects
       wl-clipboard
       grim
       slurp

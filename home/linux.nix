@@ -85,6 +85,7 @@ in
     # System management
     reflectorjp = "sudo reflector --country 'Japan' --age 24 --protocol https --sort rate --save /etc/pacman.d/mirrorlist";
     nix-switch = "sudo nixos-rebuild switch --flake ~/dotfiles#thinkpad-p14s";
+    nix-update = "nix flake update --commit-lock-file";
   };
 
   # Chrome/Electron Wayland Flags
