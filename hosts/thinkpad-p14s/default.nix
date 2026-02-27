@@ -23,6 +23,7 @@
   boot.kernelParams = [
     "quiet"
     "splash"
+    "amdgpu.gpu_recovery=1"
   ];
 
   # Increase inotify limits for file watching

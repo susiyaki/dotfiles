@@ -1,6 +1,6 @@
 {
   "label" : "lock",
-  "action" : "swaylock -f",
+  "action" : "env LC_TIME=C swaylock -f",
   "text" : "Lock"
 }
 {

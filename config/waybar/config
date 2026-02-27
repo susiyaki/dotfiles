@@ -30,7 +30,7 @@
     "spacing": 4
   },
   "custom/clock": {
-    "exec": "echo '  '$(date +'%m-%d ( %a )  %H:%M')'  '",
+    "exec": "echo '  '$(LC_TIME=C date +'%-m/%-d %a.  %H:%M')'  '",
     "interval": 5
   },
   "cpu": {
