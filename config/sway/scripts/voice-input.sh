@@ -85,7 +85,10 @@ transcribe() {
   wtype -M ctrl -P v -p v -m ctrl
 
   notify-send "Voice input" "入力しました（クリップボードにもコピー済み）。"
-  # Don't set status to idle here, because a new recording might be in progress
+  # Only return to idle if no new recording started while transcribing
+  if [[ ! -f "$pidfile" ]]; then
+    set_status "idle"
+  fi
   return 0
 }
 
@@ -94,6 +97,7 @@ stop_and_transcribe() {
   if ! kill -0 "$(cat "$pidfile")" 2>/dev/null; then
     # Process is already gone
     rm -f "$pidfile"
+    set_status "idle"
     return
   fi
   kill "$(cat "$pidfile")" >/dev/null 2>&1 || true
@@ -101,6 +105,7 @@ stop_and_transcribe() {
   sleep 0.2 # Give it a moment to finalize the file
 
   if [[ ! -f "$wavfile" ]]; then
+    set_status "idle"
     return # No file to transcribe
   fi
 
