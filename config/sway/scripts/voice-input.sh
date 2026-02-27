@@ -40,19 +40,34 @@ if [[ ! -f "$statusfile" ]]; then
 fi
 
 transcribe() {
-  if ! mkdir "$lockfile" 2>/dev/null; then
+  local target_wavfile="$1"
+  if [[ -z "$target_wavfile" || ! -f "$target_wavfile" ]]; then
+    return 1 # Exit if no file is provided
+  fi
+
+  local base_name
+  base_name="$(basename "$target_wavfile" .wav)"
+  local unique_lockfile="${state_dir}/${base_name}.lock"
+
+  # Use a lock to prevent multiple transcriptions of the *same* file
+  if ! mkdir "$unique_lockfile" 2>/dev/null; then
     return 0
   fi
-  set_status "transcribing"
-  notify-send "Voice input" "Transcribing..."
-  tmpdir="$(mktemp -d)"
-  trap 'rm -rf "$tmpdir"; rmdir "$lockfile" 2>/dev/null || true' EXIT
 
-  whisper-cli -m "$model" -l "$lang" -f "$wavfile" -otxt -of "$tmpdir/out" >/dev/null 2>&1
+  # This trap ensures cleanup even if the script fails
+  trap 'rm -f "$target_wavfile" "$unique_lockfile"' EXIT
+
+  set_status "transcribing" # Update main status, though it will be quickly overwritten
+  notify-send "Voice input" "文字起こしを開始しました..."
+
+  tmpdir="$(mktemp -d)"
+  trap 'rm -rf "$tmpdir"; rm -f "$target_wavfile" "$unique_lockfile"' EXIT
+
+  whisper-cli -m "$model" -l "$lang" -f "$target_wavfile" -otxt -of "$tmpdir/out" >/dev/null 2>&1
 
   if [[ ! -f "$tmpdir/out.txt" ]]; then
     notify-send "Voice input" "文字起こしに失敗しました。"
-    set_status "error"
+    set_status "error" # This will be the last status if it fails
     return 1
   fi
 
@@ -65,26 +80,50 @@ transcribe() {
   fi
 
   printf '%s' "$text" | wl-copy
-  wtype -- "$text"
+
+  # Simulate a paste action (Ctrl+V) which is much more robust than typing.
+  wtype -M ctrl -P v -p v -m ctrl
 
   notify-send "Voice input" "入力しました（クリップボードにもコピー済み）。"
-  set_status "idle"
+  # Don't set status to idle here, because a new recording might be in progress
   return 0
 }
 
-if [[ -f "$pidfile" ]]; then
-  if kill -0 "$(cat "$pidfile")" 2>/dev/null; then
-    kill "$(cat "$pidfile")" >/dev/null 2>&1 || true
+# This function stops the recording and starts transcription in the background
+stop_and_transcribe() {
+  if ! kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+    # Process is already gone
+    rm -f "$pidfile"
+    return
   fi
+  kill "$(cat "$pidfile")" >/dev/null 2>&1 || true
   rm -f "$pidfile"
-  sleep 0.2
-  transcribe
+  sleep 0.2 # Give it a moment to finalize the file
+
+  if [[ ! -f "$wavfile" ]]; then
+    return # No file to transcribe
+  fi
+
+  # Move the recorded file to a unique name to allow a new recording to start
+  unique_wavfile="${wavfile%.wav}-$(date +%s%N).wav"
+  mv "$wavfile" "$unique_wavfile"
+
+  # Transcribe in the background
+  transcribe "$unique_wavfile" &
+  disown "$!"
+}
+
+# Main logic
+if [[ -f "$pidfile" ]]; then
+  # Recording in progress: stop it and transcribe
+  stop_and_transcribe
   exit 0
 fi
 
+# No recording in progress: start a new one
 notify-send "Voice input" "Recording... (もう一度押すと停止)"
 set_status "recording"
-# Record WAV (s16, 16kHz) for whisper-cli
+
 pw-record --channels 1 --rate 16000 --format s16 "$wavfile" 2>/dev/null &
 echo $! > "$pidfile"
 
@@ -99,14 +138,12 @@ echo $! > "$pidfile"
   else
     sleep "$duration"
   fi
+  
   if [[ -f "$pidfile" ]]; then
-    if kill -0 "$(cat "$pidfile")" 2>/dev/null; then
-      kill "$(cat "$pidfile")" >/dev/null 2>&1 || true
-    fi
-    rm -f "$pidfile"
-    sleep 0.2
-    transcribe
+    # Use the same stop_and_transcribe logic
+    stop_and_transcribe
   fi
 ) &
+disown "$!"
 
 exit 0

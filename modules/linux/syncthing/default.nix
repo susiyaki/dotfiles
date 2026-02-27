@@ -15,7 +15,7 @@ in
       settings = {
         devices = {
           "smartphone" = {
-            id = "GBP6QY7-YK5ILLN-A2ODNQT-TNBQSCJ-E5GCCLP-PLGNQYV-WUEOHNF-PIJEZQ4";
+            id = "HDMXDYP-VTTKVSJ-YTK5ONQ-Q36KJ5S-7RQRHY2-2HHSDML-7MV54BV-YZWJNQ4";
             addresses = [ "tcp://100.94.98.31:22000" ];
           };
         };
