@@ -13,3 +13,9 @@ url = "https://mcp.linear.app/mcp"
 notifications = ["approval-requested", "agent-turn-complete"]
 
 notify = ["/bin/sh", "-lc", "~/.codex/notify.sh"]
+
+[projects."/home/susiyaki/Workspaces"]
+trust_level = "trusted"
+
+[projects."/home/susiyaki/dotfiles"]
+trust_level = "trusted"
