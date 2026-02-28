@@ -11,7 +11,7 @@ let
   claudeSettingsPath =
     if isDarwin then ../config/claude/settings.darwin.json
     else ../config/claude/settings.linux.json;
-  aiAssistant = if isDarwin then "claude" else "codex";
+  aiAssistant = if isDarwin then "claude" else "claude";
   fzfDefaultOpts = "--preview 'bat --color=always --theme=gruvbox-dark --style=numbers,header --line-range :100 {}' --bind 'ctrl-y:execute: echo {} | ${fzfCopyCmd}' --bind 'ctrl-o:execute: tmux new-window nvim {}'";
   tmuxCopyCommandLine = if isDarwin then "" else "set -s copy-command 'wl-copy'\n";
   alacrittyBase = builtins.fromTOML (builtins.readFile ../config/alacritty/alacritty-base.toml);

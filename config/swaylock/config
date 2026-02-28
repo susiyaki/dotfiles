@@ -5,8 +5,8 @@ fade-in=0.2
 
 font=Iosevka
 font-size=24
-indicator-radius=120
-indicator-thickness=8
+indicator-radius=160
+indicator-thickness=12
 
 timestr=%H:%M
 datestr=%-m/%-d %a.

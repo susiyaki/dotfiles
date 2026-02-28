@@ -113,12 +113,38 @@ local function prompt_and_send_to_ai()
     vim.fn.jobstart(script_path, {
       env = {
         AI_ASSISTANT = config.assistant,
+        AI_ARGS = vim.env.AI_ARGS or "",
         NVIM_INSTANCE_ID = tostring(config.instance_id),
         NVIM_CWD = vim.fn.getcwd(),
         AI_ACTION = "open",
       },
     })
   end, 100)
+end
+
+-- AI Assistant の引数を切り替える関数
+local function switch_ai_args()
+  local assistant = vim.env.AI_ASSISTANT or "claude"
+  local args_presets = {
+    claude = {"", "--fast", "--debug", "--dangerously-skip-permissions"},
+    gemini = {"", "--thinking", "--debug"},
+    codex = {"", "--debug"},
+  }
+  local current_args = vim.env.AI_ARGS or ""
+  local options = args_presets[assistant] or {""}
+
+  vim.ui.select(options, {
+    prompt = string.format("Select arguments for %s:", assistant:upper()),
+    format_item = function(item)
+      if item == "" then return "(none)" end
+      return item == current_args and item .. " (current)" or item
+    end,
+  }, function(choice)
+    if choice ~= nil then
+      vim.env.AI_ARGS = choice
+      vim.notify(string.format("AI Args for %s set to: %s", assistant:upper(), choice == "" and "(none)" or choice), vim.log.levels.INFO)
+    end
+  end)
 end
 
 -- AI Assistant の切り替え関数
@@ -134,6 +160,8 @@ local function switch_ai_assistant()
   }, function(choice)
     if choice then
       vim.env.AI_ASSISTANT = choice
+      -- アシスタントを切り替えたら引数をリセット
+      vim.env.AI_ARGS = ""
       vim.notify(string.format("AI Assistant switched to: %s", choice:upper()), vim.log.levels.INFO)
     end
   end)
@@ -153,3 +181,8 @@ end, { noremap = true, silent = false, desc = 'Send prompt to AI Assistant from 
 -- AI Assistant 切り替え: <Space>,,
 vim.keymap.set('n', '<Space>,,', switch_ai_assistant,
   { noremap = true, silent = false, desc = 'Switch AI Assistant' })
+
+-- AI Assistant 引数切り替え: <Space>,<Space>
+vim.keymap.set('n', '<Space>, ', switch_ai_args,
+  { noremap = true, silent = false, desc = 'Switch AI Assistant Arguments' })
+

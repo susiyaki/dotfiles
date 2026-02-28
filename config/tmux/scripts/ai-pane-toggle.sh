@@ -73,16 +73,18 @@ if [ -n "$CURRENT_NVIM_ID" ]; then
       WORKING_DIR="${NVIM_CWD:-$(tmux display -p '#{pane_current_path}')}"
 
       # AI コマンドを決定
+      AI_ARGS="${AI_ARGS:-}"
       case "$ASSISTANT" in
-        claude) CMD="claude" ;;
-        gemini) CMD="gemini" ;;
-        codex)  CMD="codex" ;;
+        claude) CMD="claude $AI_ARGS" ;;
+        gemini) CMD="gemini $AI_ARGS" ;;
+        codex)  CMD="codex $AI_ARGS" ;;
         *) CMD="echo 'AI_ASSISTANT not set'; sleep 5" ;;
       esac
 
       NEW_PANE=$(tmux split-window -h -p 50 -c "$WORKING_DIR" \
         -e NVIM_INSTANCE_ID="$CURRENT_NVIM_ID" \
         -e AI_ASSISTANT="$ASSISTANT" \
+        -e AI_ARGS="$AI_ARGS" \
         -P -F "#{pane_id}" \
         "$CMD")
 
