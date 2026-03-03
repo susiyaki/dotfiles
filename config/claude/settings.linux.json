@@ -2,11 +2,20 @@
   "hooks": {
     "PermissionRequest": [
       {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/guard_read.sh"
+          }
+        ]
+      },
+      {
         "matcher": "*",
         "hooks": [
           {
             "type": "command",
-            "command": "session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null || echo 'unknown'); notify-send -a \"Claude Code ($session)\" 'Permission Required' \"From: $tmux_info\""
+            "command": "~/.claude/hooks/notify.sh permission"
           }
         ]
       }
@@ -17,7 +26,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "session=$(tmux display-message -p '#{session_name}' 2>/dev/null || echo 'unknown'); tmux_info=$(tmux display-message -p '#{session_name}:#{window_index}.#{pane_index}' 2>/dev/null || echo 'unknown'); notify-send -a \"Claude Code ($session)\" 'Input Required' \"From: $tmux_info\""
+            "command": "~/.claude/hooks/notify.sh idle"
           }
         ]
       }

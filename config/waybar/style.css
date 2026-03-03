@@ -41,6 +41,12 @@ window#waybar {
   padding: 0 7px;
 }
 
+#idle_inhibitor.activated {
+  color: @base;
+  background-color: @lavender;
+  border: 1px solid @base;
+}
+
 #custom-screencast.recording {
   color: @red;
   padding: 0 10px;

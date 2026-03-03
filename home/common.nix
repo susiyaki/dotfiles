@@ -87,6 +87,13 @@ in
       recursive = true;
     };
 
+    # Claude Code hooks
+    ".claude/hooks" = {
+      source = ../config/claude/hooks;
+      recursive = true;
+      executable = true;
+    };
+
     # Codex configuration
     ".codex/config.toml".source = ../config/codex/config.toml;
     ".codex/notify.sh" = {

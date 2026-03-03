@@ -7,6 +7,7 @@
 
 # PATH
 set -gx PATH /usr/local/sbin $PATH
+set -gx PATH $HOME/.local/bin $PATH
 
 # Go
 test -d $HOME/go/bin && set -gx PATH $HOME/go/bin $PATH

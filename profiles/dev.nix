@@ -24,7 +24,6 @@
     android-tools
     dbeaver-bin
     watchman
-    claude-code
     gemini-cli
     nixpkgs-fmt
     uv

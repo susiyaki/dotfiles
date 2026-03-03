@@ -6,6 +6,8 @@
   },
   "permissions": {
     "allow": [
+      "Bash(cd:*)",
+      "Bash(cd *)",
       "Bash(awk:*)",
       "Bash(sed:*)",
       "Bash(mkdir:*)",
@@ -117,6 +119,7 @@
   },
 
   "defaultModel": "sonnet",
+  "remoteControl": true,
 
   "rules": [
     {
