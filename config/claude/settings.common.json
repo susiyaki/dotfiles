@@ -119,6 +119,7 @@
   },
 
   "defaultModel": "sonnet",
+  "enableToolSearch": true,
   "remoteControl": true,
 
   "rules": [

@@ -96,10 +96,6 @@ in
 
     # Codex configuration
     ".codex/config.toml".source = ../config/codex/config.toml;
-    ".codex/notify.sh" = {
-      source = ../config/codex/notify.sh;
-      executable = true;
-    };
 
     # Bat (cat replacement)
     ".config/bat".source = ../config/bat;
