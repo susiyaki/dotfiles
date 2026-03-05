@@ -24,6 +24,7 @@
     "quiet"
     "splash"
     "amdgpu.gpu_recovery=1"
+    "amdgpu.s0ix=1"       # Enable S0ix for proper s2idle on AMD
   ];
 
   # Increase inotify limits for file watching
@@ -145,6 +146,11 @@
   powerManagement.resumeCommands = ''
     # resume DisplayLinkManager
     echo "R" > /tmp/PmMessagesPort_in
+
+    # Reload ath11k after resume to fix WiFi not reconnecting
+    if ${pkgs.kmod}/bin/lsmod | grep -q ath11k_pci; then
+      ${pkgs.kmod}/bin/modprobe -r ath11k_pci && ${pkgs.kmod}/bin/modprobe ath11k_pci
+    fi
   '';
 
   # Display manager (greetd with agreety)
