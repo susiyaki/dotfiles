@@ -41,11 +41,17 @@
       powersave = false;
       scanRandMacAddress = false;
     };
+    # Debug logging for SUSPEND/WIFI to diagnose random disconnects
+    logLevel = "INFO";
   };
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
+  networking.firewall.allowedTCPPortRanges = [
+    { from = 1714; to = 1764; } # KDE Connect
+  ];
   networking.firewall.allowedUDPPortRanges = [
+    { from = 1714; to = 1764; } # KDE Connect
     { from = 60000; to = 61000; }
   ];
 
@@ -151,6 +157,10 @@
     if ${pkgs.kmod}/bin/lsmod | grep -q ath11k_pci; then
       ${pkgs.kmod}/bin/modprobe -r ath11k_pci && ${pkgs.kmod}/bin/modprobe ath11k_pci
     fi
+
+    # Force NetworkManager back online after resume
+    ${pkgs.networkmanager}/bin/nmcli networking on || true
+    ${pkgs.networkmanager}/bin/nmcli radio wifi on || true
   '';
 
   # Display manager (greetd with agreety)
@@ -306,6 +316,9 @@
 
   # Enable dconf (required for GTK apps)
   programs.dconf.enable = true;
+
+  # KDE Connect (phone integration)
+  programs.kdeconnect.enable = true;
 
   # Enable nix-ld for running unpatched binaries (e.g. from mise, npm)
   programs.nix-ld.enable = true;
