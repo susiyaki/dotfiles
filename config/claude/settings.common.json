@@ -98,7 +98,6 @@
       "Read(**/.env*)",
       "Read(**/*token*)",
       "Read(**/*secret*)",
-      "Read(**/*key*)",
       "Read(**/*password*)",
       "Read(**/credentials*)",
       "Read(**/.aws/credentials*)",
@@ -109,7 +108,6 @@
       "Write(**/secrets/**)",
       "Write(**/*token*)",
       "Write(**/*secret*)",
-      "Write(**/*key*)",
       "Write(**/*password*)",
       "Write(**/credentials*)",
       "Write(**/.aws/credentials*)",
@@ -120,7 +118,6 @@
 
   "defaultModel": "sonnet",
   "enableToolSearch": true,
-  "remoteControl": true,
 
   "rules": [
     {
