@@ -34,7 +34,13 @@
 
   # Networking
   networking.hostName = "thinkpad-p14s";
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi = {
+      powersave = false;
+      scanRandMacAddress = false;
+    };
+  };
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
@@ -219,6 +225,10 @@
       CPU_MAX_PERF_ON_AC = 100;
       CPU_MIN_PERF_ON_BAT = 0;
       CPU_MAX_PERF_ON_BAT = 60;
+
+      # WiFi power saving off to prevent random disconnects (ath11k)
+      WIFI_PWR_ON_AC = "off";
+      WIFI_PWR_ON_BAT = "off";
 
       START_CHARGE_THRESH_BAT0 = 85;
       STOP_CHARGE_THRESH_BAT0 = 90;

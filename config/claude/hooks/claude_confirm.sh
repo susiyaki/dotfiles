@@ -42,8 +42,8 @@ _cc_check_deps || exit 1
 #  設定
 # ============================================================
 
-: "${HA_WEBHOOK_URL:=http://homeassistant:8123/api/webhook/claude_code_hook}"
-: "${CLAUDE_CONFIRM_RESULT_FILE:=/tmp/claude_confirm_result.json}"
+: "${HA_WEBHOOK_URL:=http://100.96.43.9:8123/api/webhook/claude_code_hook}"
+: "${CLAUDE_CONFIRM_RESULT_FILE:=/volume1/docker/projects/homeassistant/config/claude_confirm_result.json}"
 : "${CLAUDE_CONFIRM_TIMEOUT_SEC:=300}"
 : "${CLAUDE_CONFIRM_POLL_SEC:=5}"
 
@@ -261,33 +261,3 @@ confirm_exec() {
       ;;
   esac
 }
-
-# ============================================================
-#  デモ (直接実行時のみ)
-# ============================================================
-
-_cc_demo() {
-  echo "=== claude_confirm.sh デモ ==="
-  echo ""
-  echo "設定:"
-  echo "  HA_WEBHOOK_URL             = $HA_WEBHOOK_URL"
-  echo "  CLAUDE_CONFIRM_RESULT_FILE = $CLAUDE_CONFIRM_RESULT_FILE"
-  echo "  CLAUDE_CONFIRM_TIMEOUT_SEC = $CLAUDE_CONFIRM_TIMEOUT_SEC"
-  echo "  CLAUDE_CONFIRM_POLL_SEC    = $CLAUDE_CONFIRM_POLL_SEC"
-  echo ""
-
-  local result
-  result="$(request_user_confirmation \
-    "READ_FILE" \
-    "high-climb/app.config.ts を読んでよいですか？" \
-    "high-climb/app.config.ts"
-  )" || true
-
-  echo ""
-  echo "結果: $result"
-}
-
-# source されたときはデモを実行しない
-if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
-  _cc_demo
-fi
