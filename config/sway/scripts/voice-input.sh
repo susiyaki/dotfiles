@@ -7,6 +7,7 @@ model="${model//\$HOME/$HOME}"
 lang="${VOICE_INPUT_LANGUAGE:-ja}"
 duration="${VOICE_INPUT_DURATION:-20}"
 warn_before="${VOICE_INPUT_WARN_BEFORE:-5}"
+input_mode="${VOICE_INPUT_INPUT_MODE:-type}"
 
 runtime_dir="${XDG_RUNTIME_DIR:-/tmp}"
 state_dir="${runtime_dir}/voice-input"
@@ -23,6 +24,11 @@ fi
 
 if ! command -v whisper-cli >/dev/null 2>&1; then
   notify-send "Voice input" "whisper-cli が見つかりません。"
+  exit 1
+fi
+
+if ! command -v wtype >/dev/null 2>&1; then
+  notify-send "Voice input" "wtype が見つかりません。"
   exit 1
 fi
 
@@ -71,7 +77,12 @@ transcribe() {
     return 1
   fi
 
-  text="$(tr -d '\r' < "$tmpdir/out.txt" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+  # Normalize whitespace and remove control characters so unintended Enter is never sent.
+  text="$(
+    tr '\r\n\t' '   ' < "$tmpdir/out.txt" \
+      | LC_ALL=C tr -d '\000-\010\013\014\016-\037\177' \
+      | sed -e 's/  */ /g' -e 's/^ //' -e 's/ $//'
+  )"
 
   if [[ -z "$text" ]]; then
     notify-send "Voice input" "認識結果が空でした。"
@@ -81,8 +92,15 @@ transcribe() {
 
   printf '%s' "$text" | wl-copy
 
-  # Simulate a paste action (Ctrl+V) which is much more robust than typing.
-  wtype -M ctrl -P v -p v -m ctrl
+  case "$input_mode" in
+    paste)
+      wtype -M ctrl -P v -p v -m ctrl
+      ;;
+    type|*)
+      # Default: type recognized text directly to avoid Ctrl+V not being accepted.
+      wtype "$text"
+      ;;
+  esac
 
   notify-send "Voice input" "入力しました（クリップボードにもコピー済み）。"
   # Only return to idle if no new recording started while transcribing
