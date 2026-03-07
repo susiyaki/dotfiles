@@ -94,9 +94,6 @@ in
       executable = true;
     };
 
-    # Codex configuration
-    ".codex/config.toml".source = ../config/codex/config.toml;
-
     # Bat (cat replacement)
     ".config/bat".source = ../config/bat;
 

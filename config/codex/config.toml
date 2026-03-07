@@ -1,7 +1,0 @@
-network_access = true
-
-[features]
-experimental_use_rmcp_client = true
-
-[projects."/home/susiyaki/Workspaces/susiyaki/high_climb/main"]
-trust_level = "trusted"
