@@ -2,6 +2,10 @@
 
 let
   isDarwin = pkgs.stdenv.isDarwin;
+  addresses = import ../config/network/addresses.nix;
+  nasIp = addresses.tailscale.nas;
+  smartphoneIp = addresses.tailscale.smartphone;
+  thinkpadP14sIp = addresses.tailscale.thinkpadP14s;
   osLabel = if isDarwin then "macOS" else "Linux";
   fzfCopyCmd = if isDarwin then "pbcopy" else "wl-copy";
   tmuxPasteCmd = if isDarwin then "pbpaste" else "wl-paste";
@@ -93,6 +97,14 @@ in
       recursive = true;
       executable = true;
     };
+
+    ".claude/ha.env".text = ''
+      NAS_TAILSCALE_IP=${nasIp}
+      SMARTPHONE_TAILSCALE_IP=${smartphoneIp}
+      THINKPAD_P14S_TAILSCALE_IP=${thinkpadP14sIp}
+      HA_WEBHOOK_URL=http://${nasIp}:8123/api/webhook/claude_code_hook
+      CLAUDE_CONFIRM_RESULT_FILE=/mnt/nas-docker/projects/homeassistant/config/claude_confirm_result.json
+    '';
 
     # Bat (cat replacement)
     ".config/bat".source = ../config/bat;

@@ -1,5 +1,9 @@
 { config, pkgs, lib, inputs, ... }:
 
+let
+  addresses = import ../../config/network/addresses.nix;
+  nasIp = addresses.tailscale.nas;
+in
 {
   imports = [
     ./hardware.nix
@@ -60,6 +64,29 @@
 
   # Firewall exceptions for Tailscale
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
+
+  # SMB mount for Synology docker share (auto-mount on access)
+  boot.supportedFilesystems = [ "cifs" ];
+  fileSystems."/mnt/nas-docker" = {
+    device = "//${nasIp}/docker";
+    fsType = "cifs";
+    options = [
+      "credentials=/etc/nixos/secrets/smb-docker-cred"
+      "uid=1000"
+      "gid=100"
+      "file_mode=0664"
+      "dir_mode=0775"
+      "vers=3.0"
+      "_netdev"
+      "nofail"
+      "noauto"
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=300"
+    ];
+  };
+  systemd.tmpfiles.rules = [
+    "d /mnt/nas-docker 0775 root users -"
+  ];
 
   # Timezone and locale
   time.timeZone = "Asia/Tokyo";

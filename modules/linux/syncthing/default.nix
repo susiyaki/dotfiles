@@ -2,6 +2,8 @@
 
 let
   cfg = config.my.services.syncthing;
+  addresses = import ../../../config/network/addresses.nix;
+  smartphoneIp = addresses.tailscale.smartphone;
 in
 {
   options.my.services.syncthing = {
@@ -16,7 +18,7 @@ in
         devices = {
           "smartphone" = {
             id = "HDMXDYP-VTTKVSJ-YTK5ONQ-Q36KJ5S-7RQRHY2-2HHSDML-7MV54BV-YZWJNQ4";
-            addresses = [ "tcp://100.94.98.31:22000" ];
+            addresses = [ "tcp://${smartphoneIp}:22000" ];
           };
         };
         folders = {

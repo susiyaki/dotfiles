@@ -1,0 +1,7 @@
+{
+  tailscale = {
+    nas = "";
+    smartphone = "";
+    thinkpadP14s = "";
+  };
+}

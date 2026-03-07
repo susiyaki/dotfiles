@@ -39,3 +39,4 @@ config/karabiner/automatic_backups/
 config/nvim/lazy-lock.json
 # Local-only home-manager overrides
 home/local.nix
+config/network/local.nix

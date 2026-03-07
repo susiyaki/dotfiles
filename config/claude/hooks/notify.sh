@@ -6,8 +6,15 @@ set -euo pipefail
 #   event_type: "permission" or "idle"
 
 EVENT_TYPE="${1:-unknown}"
-HA_WEBHOOK_URL="http://100.96.43.9:8123/api/webhook/claude_code_hook"
-CLAUDE_CONFIRM_RESULT_FILE="${CLAUDE_CONFIRM_RESULT_FILE:-/volume1/docker/projects/homeassistant/config/claude_confirm_result.json}"
+
+if [[ -f "$HOME/.claude/ha.env" ]]; then
+  # shellcheck disable=SC1090
+  source "$HOME/.claude/ha.env"
+fi
+
+: "${NAS_TAILSCALE_IP:=100.96.43.9}"
+: "${HA_WEBHOOK_URL:=http://${NAS_TAILSCALE_IP}:8123/api/webhook/claude_code_hook}"
+: "${CLAUDE_CONFIRM_RESULT_FILE:=/mnt/nas-docker/projects/homeassistant/config/claude_confirm_result.json}"
 CLAUDE_CONFIRM_TIMEOUT_SEC="${CLAUDE_CONFIRM_TIMEOUT_SEC:-300}"
 CLAUDE_CONFIRM_POLL_INTERVAL_SEC="${CLAUDE_CONFIRM_POLL_INTERVAL_SEC:-5}"
 
