@@ -140,12 +140,19 @@ in
     set -g status-left "#[fg=#262626,bg=#93a3a2,bold]  ${config.home.username}@#h #[fg=#93a3a2,bg=#3a3a3a,nobold]#[fg=#93a3a2,bg=#3a3a3a]  #S #($HOME/.config/tmux/scripts/status-ai-segment.sh #{window_id})"
 
     # Copy/Paste configuration (${osLabel})
+    # Clipboard integration
+    set -g set-clipboard on
+    set -g allow-passthrough on
+
     # "y" でヤンク
     ${tmuxCopyCommandLine}
     bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel '${fzfCopyCmd}'
 
-    # "Y" で行ヤンク
-    bind -T copy-mode-vi Y send -X copy-line
+    # "V" で行選択 (行頭起点)
+    bind -T copy-mode-vi V send -X start-of-line \; send -X select-line
+
+    # "Y" で行ヤンク (行頭起点 + system clipboard)
+    bind -T copy-mode-vi Y send -X start-of-line \; send -X select-line \; send -X copy-pipe-and-cancel '${fzfCopyCmd}'
 
     # "p"でペースト
     bind p run "tmux set-buffer \"\$(${tmuxPasteCmd})\"; tmux paste-buffer"
