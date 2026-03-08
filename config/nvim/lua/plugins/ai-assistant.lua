@@ -19,11 +19,16 @@ local function prompt_and_send_to_ai()
   end
 
   local instance_id = vim.env.NVIM_INSTANCE_ID or vim.fn.getpid()
-  local pane_marker = string.format("ai_pane_%s_%s", assistant, instance_id)
+  local window_id = vim.fn.system("tmux display-message -p '#{window_id}'"):gsub("%s+$", "")
+  if window_id == "" then
+    window_id = tostring(instance_id)
+  end
+  local pane_marker = string.format("ai_pane_%s_%s", window_id, assistant)
 
   local config = {
     assistant = assistant,
     instance_id = instance_id,
+    window_id = window_id,
     pane_marker = pane_marker,
   }
 
@@ -160,6 +165,11 @@ local function switch_ai_assistant()
   }, function(choice)
     if choice then
       vim.env.AI_ASSISTANT = choice
+      if vim.env.TMUX then
+        vim.fn.jobstart({"tmux", "set-environment", "AI_ASSISTANT", choice})
+        vim.fn.jobstart({"tmux", "set-option", "-wq", "@ai_assistant", choice})
+        vim.fn.jobstart({"tmux", "refresh-client", "-S"})
+      end
       -- アシスタントを切り替えたら引数をリセット
       vim.env.AI_ARGS = ""
       vim.notify(string.format("AI Assistant switched to: %s", choice:upper()), vim.log.levels.INFO)
@@ -185,4 +195,3 @@ vim.keymap.set('n', '<Space>,,', switch_ai_assistant,
 -- AI Assistant 引数切り替え: <Space>,<Space>
 vim.keymap.set('n', '<Space>, ', switch_ai_args,
   { noremap = true, silent = false, desc = 'Switch AI Assistant Arguments' })
-

@@ -137,6 +137,7 @@ in
   programs.tmux.extraConfig = ''
     # AI Assistant (${osLabel})
     set-environment -g AI_ASSISTANT "${aiAssistant}"
+    set -g status-left "#[fg=#262626,bg=#93a3a2,bold]  ${config.home.username}@#h #[fg=#93a3a2,bg=#3a3a3a,nobold]#[fg=#93a3a2,bg=#3a3a3a]  #S #($HOME/.config/tmux/scripts/status-ai-segment.sh #{window_id})"
 
     # Copy/Paste configuration (${osLabel})
     # "y" でヤンク

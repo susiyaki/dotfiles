@@ -143,12 +143,11 @@
         plugin = power-theme;
         extraConfig = ''
           set -g @tmux_power_theme '#93a3a2'
-          set -g @tmux_power_show_upload_speed true
-          set -g @tmux_power_show_download_speed true
+          set -g @tmux_power_show_upload_speed false
+          set -g @tmux_power_show_download_speed false
           set -g @tmux_power_prefix_highlight_pos 'R'
         '';
       }
-      net-speed
       {
         plugin = resurrect.overrideAttrs (old: {
           version = "unstable-2026-01-15";
