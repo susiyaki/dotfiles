@@ -85,7 +85,7 @@ local function prompt_and_send_to_ai()
       end
 
       -- tmux の AI pane にプロンプトを送信 + Enter を自動実行
-      local send_cmd = string.format("tmux send-keys -t %s %s Enter",
+      local send_cmd = string.format("tmux send-keys -t %s %s",
         vim.fn.shellescape(ai_pane_id),
         vim.fn.shellescape(input))
 
