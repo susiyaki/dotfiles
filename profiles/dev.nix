@@ -166,6 +166,7 @@
         });
         extraConfig = ''
           set -g @resurrect-strategy-nvim 'session'
+          set -g @resurrect-hook-post-restore-all 'bash $HOME/.config/tmux/scripts/resurrect-post-restore.sh'
         '';
       }
       {
