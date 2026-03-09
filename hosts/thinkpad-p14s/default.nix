@@ -45,6 +45,7 @@ in
     };
   };
   networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
+  networking.networkmanager.dns = "none";
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
