@@ -7,7 +7,7 @@ in
 {
   imports = [
     ./hardware.nix
-  ] ++ lib.optional false ./displaylink.nix;
+  ] ++ lib.optional true ./displaylink.nix;
 
   # Allow unfree packages (Discord, 1Password, etc.)
   nixpkgs.config.allowUnfree = true;

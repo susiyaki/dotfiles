@@ -68,6 +68,8 @@ in
 
       # Display
       # output eDP-1 scale 1.5
+      bindswitch --reload --locked lid:on  output eDP-1 disable
+      bindswitch --reload --locked lid:off output eDP-1 enable
 
       # Font
       font pango:HackGen ${toString cfg.fontSize}
