@@ -44,6 +44,7 @@ in
       scanRandMacAddress = false;
     };
   };
+  networking.nameservers = [ "1.1.1.1" "8.8.8.8" ];
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
