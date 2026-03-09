@@ -143,10 +143,9 @@ in
     set -g status-left "#[fg=#262626,bg=#93a3a2,bold]  ${config.home.username}@#h #[fg=#93a3a2,bg=#3a3a3a,nobold]#[fg=#93a3a2,bg=#3a3a3a]  #S #{?#{||:#{||:#{!=:#{@nvim_instance_id},},#{!=:#{@ai_pane_marker},}},#{||:#{==:#{pane_current_command},nvim},#{==:#{pane_current_command},vim}}},#{E:@status_left_tail_ai},#{E:@status_left_tail_no_ai}}"
 
     # ウィンドウ表示のカスタマイズ（power-themeのフォーマットを上書き）
-    set -g @winfmt_bell "#[fg=#262626#{comma}bg=#fabd2f#{comma}bold] #I #[default]"
-    set -g @winfmt_normal "#[fg=#93a3a2#{comma}bg=#3a3a3a] #I #[default]"
-    set -g window-status-format "#{?window_bell_flag,#{E:@winfmt_bell},#{E:@winfmt_normal}}"
-    set -g window-status-current-format "#[fg=#262626,bg=#93a3a2,bold] #I #[default]"
+    set -g window-status-format "#[fg=#93a3a2]#[bg=#3a3a3a] #I #[default]"
+    set -g window-status-current-format "#[fg=#262626]#[bg=#93a3a2]#[bold] #I #[default]"
+    set -g window-status-separator ""
 
     # Copy/Paste configuration (${osLabel})
     # Clipboard integration
