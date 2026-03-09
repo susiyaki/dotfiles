@@ -257,8 +257,11 @@ in
       exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
       exec_always "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP; systemctl --user start sway-session.target"
       exec swaync
-      # Temporary stability setting: lock only, avoid automatic suspend.
-      exec swayidle -w timeout 300 'env LC_TIME=C swaylock -f'
+      exec swayidle -w \
+        timeout 300 'env LC_TIME=C swaylock -f' \
+        timeout 330 'swaymsg "output * dpms off"' \
+             resume 'swaymsg "output * dpms on"' \
+        before-sleep 'env LC_TIME=C swaylock -f'
       exec blueman-applet
       exec wl-paste -t text --watch ~/.config/sway/scripts/myclipman.sh
       exec nm-applet --indicator
