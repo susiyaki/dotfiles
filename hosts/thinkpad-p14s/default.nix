@@ -45,8 +45,6 @@ in
       powersave = false;
       scanRandMacAddress = false;
     };
-    # Debug logging for SUSPEND/WIFI to diagnose random disconnects
-    logLevel = "INFO";
   };
   networking.networkmanager.dispatcherScripts = [
     {
@@ -58,8 +56,13 @@ in
     }
   ];
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ ];
-  networking.firewall.allowedUDPPorts = [ ];
+  networking.firewall.allowedTCPPorts = [
+    22000 # Syncthing sync
+  ];
+  networking.firewall.allowedUDPPorts = [
+    22000 # Syncthing QUIC
+    21027 # Syncthing local discovery
+  ];
   networking.firewall.allowedTCPPortRanges = [
     { from = 1714; to = 1764; } # KDE Connect
   ];
@@ -70,6 +73,13 @@ in
 
   # Tailscale VPN
   services.tailscale.enable = true;
+
+  # Keep network/session alive when laptop lid is closed
+  services.logind = {
+    lidSwitch = "ignore";
+    lidSwitchExternalPower = "ignore";
+    lidSwitchDocked = "ignore";
+  };
 
   # Firewall exceptions for Tailscale
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
