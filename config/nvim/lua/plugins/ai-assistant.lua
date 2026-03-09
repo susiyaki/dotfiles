@@ -122,6 +122,8 @@ local function prompt_and_send_to_ai()
         NVIM_INSTANCE_ID = tostring(config.instance_id),
         NVIM_CWD = vim.fn.getcwd(),
         AI_ACTION = "open",
+        TMUX_TARGET_PANE = vim.env.TMUX_PANE or "",
+        TMUX_TARGET_WINDOW = config.window_id,
       },
     })
   end, 100)

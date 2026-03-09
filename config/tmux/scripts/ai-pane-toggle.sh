@@ -8,11 +8,22 @@
 ACTION="${AI_ACTION:-toggle}"
 AI_SESSION="ai-assistant"
 
-CURRENT_PANE=$(tmux display -p '#{pane_id}')
-CURRENT_WINDOW_ID=$(tmux display -p '#{window_id}')
-CURRENT_NVIM_ID=$(tmux display -p '#{@nvim_instance_id}')
-CURRENT_COMMAND=$(tmux display -p '#{pane_current_command}')
-CURRENT_AI_MARKER=$(tmux display -p '#{@ai_pane_marker}')
+# Prefer explicit targets passed from nvim (jobstart subprocess may not resolve tmux context correctly)
+if [ -n "$TMUX_TARGET_PANE" ]; then
+  CURRENT_PANE="$TMUX_TARGET_PANE"
+else
+  CURRENT_PANE=$(tmux display -p '#{pane_id}')
+fi
+
+if [ -n "$TMUX_TARGET_WINDOW" ]; then
+  CURRENT_WINDOW_ID="$TMUX_TARGET_WINDOW"
+else
+  CURRENT_WINDOW_ID=$(tmux display -p '#{window_id}')
+fi
+
+CURRENT_NVIM_ID=$(tmux display -p -t "$CURRENT_PANE" '#{@nvim_instance_id}')
+CURRENT_COMMAND=$(tmux display -p -t "$CURRENT_PANE" '#{pane_current_command}')
+CURRENT_AI_MARKER=$(tmux display -p -t "$CURRENT_PANE" '#{@ai_pane_marker}')
 CURRENT_WINDOW_ASSISTANT=$(tmux show-options -wqv -t "$CURRENT_WINDOW_ID" @ai_assistant 2>/dev/null)
 
 ASSISTANT="${AI_ASSISTANT:-$CURRENT_WINDOW_ASSISTANT}"
@@ -22,7 +33,7 @@ fi
 [ -z "$ASSISTANT" ] && ASSISTANT="claude"
 
 if [ -n "$CURRENT_AI_MARKER" ]; then
-  CURRENT_PANE_ASSISTANT=$(tmux display -p '#{@ai_assistant}')
+  CURRENT_PANE_ASSISTANT=$(tmux display -p -t "$CURRENT_PANE" '#{@ai_assistant}')
   [ -n "$CURRENT_PANE_ASSISTANT" ] && ASSISTANT="$CURRENT_PANE_ASSISTANT"
 fi
 
@@ -65,7 +76,7 @@ create_new_ai_pane() {
   cmd=$(build_ai_cmd)
 
   local new_pane
-  new_pane=$(tmux split-window -h -p 50 -c "$working_dir" \
+  new_pane=$(tmux split-window -h -p 50 -t "$CURRENT_PANE" -c "$working_dir" \
     -e NVIM_INSTANCE_ID="$CURRENT_NVIM_ID" \
     -e AI_ASSISTANT="$ASSISTANT" \
     -e AI_ARGS="${AI_ARGS:-}" \
@@ -87,7 +98,7 @@ find_target_pane_anywhere() {
 }
 
 find_any_ai_pane_in_current_window() {
-  tmux list-panes -F "#{pane_id} #{@ai_pane_marker}" 2>/dev/null \
+  tmux list-panes -t "$CURRENT_WINDOW_ID" -F "#{pane_id} #{@ai_pane_marker}" 2>/dev/null \
     | grep " ${WINDOW_MARKER_PREFIX}" \
     | awk '{print $1}' \
     | head -n 1
@@ -101,7 +112,7 @@ fi
 if [ "$is_nvim_context" = true ]; then
   tmux set-option -wq -t "$CURRENT_WINDOW_ID" @ai_assistant "$ASSISTANT"
 
-  TARGET_IN_WINDOW=$(tmux list-panes -F "#{pane_id} #{@ai_pane_marker}" 2>/dev/null | grep " ${TARGET_MARKER}$" | awk '{print $1}' | head -n 1)
+  TARGET_IN_WINDOW=$(tmux list-panes -t "$CURRENT_WINDOW_ID" -F "#{pane_id} #{@ai_pane_marker}" 2>/dev/null | grep " ${TARGET_MARKER}$" | awk '{print $1}' | head -n 1)
 
   if [ -n "$TARGET_IN_WINDOW" ]; then
     if [ "$ACTION" = "open" ]; then
