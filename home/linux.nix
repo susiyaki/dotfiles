@@ -187,6 +187,12 @@ in
   # Thunar volume manager configuration
   home.file.".config/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml".source = ../config/xfce4/xfconf/xfce-perchannel-xml/thunar-volman.xml;
 
+  # SKK dictionary sync script (skkeleton <-> fcitx5-skk)
+  home.file.".local/bin/skk-dict-sync.sh" = {
+    source = ../scripts/linux/skk-dict-sync.sh;
+    executable = true;
+  };
+
   # Fcitx5 configuration (manually managed part, if needed, though NixOS module handles most)
   # Linking profile to ensure correct input method order (keyboard-us first, then skk)
   home.file.".config/fcitx5/profile".source = ../config/fcitx5/profile;
@@ -194,5 +200,30 @@ in
 
   # libskk rules for custom keybindings
   home.file.".config/libskk".source = ../config/libskk;
+
+  systemd.user.services.skk-dict-sync = {
+    Unit = {
+      Description = "Sync SKK user dictionary between skkeleton and fcitx5-skk";
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.bash}/bin/bash %h/.local/bin/skk-dict-sync.sh";
+    };
+  };
+
+  systemd.user.timers.skk-dict-sync = {
+    Unit = {
+      Description = "Periodic SKK dictionary sync";
+    };
+    Timer = {
+      OnBootSec = "30s";
+      OnUnitActiveSec = "1m";
+      Persistent = true;
+      Unit = "skk-dict-sync.service";
+    };
+    Install = {
+      WantedBy = [ "timers.target" ];
+    };
+  };
 
 }

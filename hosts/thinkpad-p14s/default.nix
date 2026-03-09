@@ -49,20 +49,30 @@ in
   networking.networkmanager.dispatcherScripts = [
     {
       source = pkgs.writeShellScript "nm-wifi-stability" ''
-        if [ "$1" = "wlp2s0" ] && [ "$2" = "up" ]; then
+        iface="$1"
+        state="$2"
+
+        [ "$iface" = "wlp2s0" ] || exit 0
+
+        # Keep powersave disabled for ath11k stability once interface is up.
+        if [ "$state" = "up" ]; then
           ${pkgs.iw}/bin/iw dev wlp2s0 set power_save off || true
         fi
       '';
     }
   ];
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [
-    22000 # Syncthing sync
-  ];
-  networking.firewall.allowedUDPPorts = [
-    22000 # Syncthing QUIC
-    21027 # Syncthing local discovery
-  ];
+  networking.firewall.allowedTCPPorts = [ ];
+  networking.firewall.allowedUDPPorts = [ ];
+  networking.firewall.interfaces."tailscale0" = {
+    allowedTCPPorts = [
+      22000 # Syncthing sync (tailscale only)
+    ];
+    allowedUDPPorts = [
+      22000 # Syncthing QUIC (tailscale only)
+      21027 # Syncthing local discovery (tailscale only)
+    ];
+  };
   networking.firewall.allowedTCPPortRanges = [
     { from = 1714; to = 1764; } # KDE Connect
   ];
@@ -81,8 +91,8 @@ in
     lidSwitchDocked = "ignore";
   };
 
-  # Firewall exceptions for Tailscale
-  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  # Do not fully trust tailscale0; only allow specific service ports above.
+  networking.firewall.trustedInterfaces = [ ];
 
   # SMB mount for Synology docker share (auto-mount on access)
   # Define explicit systemd mount/automount units to avoid generator timing issues
@@ -106,7 +116,6 @@ in
         "noauto"
         "x-systemd.mount-timeout=10s"
       ];
-      wantedBy = [ "multi-user.target" ];
       unitConfig = {
         After = [ "network-online.target" ];
         Wants = [ "network-online.target" ];
@@ -220,14 +229,11 @@ in
       ${pkgs.coreutils}/bin/timeout 1 ${pkgs.bash}/bin/bash -c 'echo "R" > /tmp/PmMessagesPort_in' || true
     fi
 
-    # Reload ath11k after resume to fix WiFi not reconnecting
-    if ${pkgs.kmod}/bin/lsmod | grep -q ath11k_pci; then
-      ${pkgs.kmod}/bin/modprobe -r ath11k_pci && ${pkgs.kmod}/bin/modprobe ath11k_pci || true
-    fi
-
-    # Force NetworkManager back online after resume
+    # Keep resume simple/stable and let NetworkManager autoconnect.
     ${pkgs.networkmanager}/bin/nmcli networking on || true
     ${pkgs.networkmanager}/bin/nmcli radio wifi on || true
+    ${pkgs.networkmanager}/bin/nmcli device set wlp2s0 managed yes || true
+    ${pkgs.iw}/bin/iw dev wlp2s0 set power_save off || true
   '';
 
   # Display manager (greetd with agreety)

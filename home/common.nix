@@ -137,7 +137,8 @@ in
   programs.tmux.extraConfig = ''
     # AI Assistant (${osLabel})
     set-environment -g AI_ASSISTANT "${aiAssistant}"
-    set -g status-left "#[fg=#262626,bg=#93a3a2,bold]  ${config.home.username}@#h #[fg=#93a3a2,bg=#3a3a3a,nobold]#[fg=#93a3a2,bg=#3a3a3a]  #S #($HOME/.config/tmux/scripts/status-ai-segment.sh #{window_id})"
+    set -g @ai_assistant "${aiAssistant}"
+    set -g status-left "#[fg=#262626,bg=#93a3a2,bold]  ${config.home.username}@#h #[fg=#93a3a2,bg=#3a3a3a,nobold]#[fg=#93a3a2,bg=#3a3a3a]  #S #{?#{||:#{||:#{==:#{pane_current_command},nvim},#{==:#{pane_current_command},vim}},#{!=:#{@ai_pane_marker},}},#[fg=#3a3a3a,bg=#93a3a2,nobold]#[fg=#262626,bg=#93a3a2,nobold] 󰚩 #{@ai_assistant} #[fg=#93a3a2,bg=#262626,nobold],#[fg=#3a3a3a,bg=#262626,nobold]}"
 
     # Copy/Paste configuration (${osLabel})
     # Clipboard integration
