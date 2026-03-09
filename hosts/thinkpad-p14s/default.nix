@@ -68,10 +68,10 @@ in
   services.tailscale.enable = true;
 
   # Keep network/session alive when laptop lid is closed
-  services.logind = {
-    lidSwitch = "ignore";
-    lidSwitchExternalPower = "ignore";
-    lidSwitchDocked = "ignore";
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitchDocked = "ignore";
   };
 
   # Do not fully trust tailscale0; only allow specific service ports above.
