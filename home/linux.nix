@@ -103,9 +103,14 @@ in
     --wayland-text-input-version=3
   '';
 
-  programs.fish.shellInit = "";
-
-  # SSH agent is managed by keychain (see programs.fish.shellInit)
+  # SSH agent is managed by keychain (Linux only, macOS uses native ssh-agent)
+  programs.fish.shellInit = ''
+    if type -q keychain
+        keychain --eval --quiet ~/.ssh/github/id_ed25519 2>/dev/null \
+            | sed -n 's/^\([A-Z_]*\)="\(.*\)"; export.*/set -gx \1 "\2"/p; s/^\([A-Z_]*\)=\([^;]*\); export.*/set -gx \1 \2/p' \
+            | source
+    end
+  '';
 
   # Mouse Cursor
   home.pointerCursor = {
