@@ -28,6 +28,9 @@
     nix-switch = "cd ~/dotfiles && nix build .#darwinConfigurations.m1-mac.system && sudo ./result/sw/bin/darwin-rebuild switch --flake ~/dotfiles#m1-mac";
   };
 
+  # Alacritty (installed via Homebrew cask, config managed by home-manager)
+  programs.alacritty.enable = true;
+
   # macOS-specific shell config
   programs.fish.loginShellInit = ''
     # Nix paths (must be set early)
