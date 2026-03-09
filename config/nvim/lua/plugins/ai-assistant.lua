@@ -4,7 +4,7 @@
 -- AI pane を探す (pane option を使用)
 local function get_ai_pane_id(pane_marker)
   -- 末尾に一致するように grep を調整
-  local cmd = string.format("tmux list-panes -F '#{pane_id} #{@ai_pane_marker}' | grep ' %s$' | cut -d' ' -f1", vim.fn.shellescape(pane_marker))
+  local cmd = string.format("tmux list-panes -F '#{pane_id} #{@ai_pane_marker}' | grep ' %s$' | cut -d' ' -f1", pane_marker)
   local pane_id = vim.fn.system(cmd):gsub("%s+$", "")
   return pane_id ~= "" and pane_id or nil
 end
