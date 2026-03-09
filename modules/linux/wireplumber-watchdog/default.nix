@@ -23,7 +23,7 @@
 
     Service = {
       Type = "simple";
-      ExecStart = "%h/.local/bin/wireplumber-watchdog.sh";
+      ExecStart = "${pkgs.bash}/bin/bash %h/.local/bin/wireplumber-watchdog.sh";
       Restart = "on-failure";
       RestartSec = 10;
       Environment = "DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/%U/bus";

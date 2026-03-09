@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/run/current-system/sw/bin/bash
 
 # wireplumber CPU使用率監視スクリプト
 # CPU使用率が閾値を超えたらwireplumberを再起動する

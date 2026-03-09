@@ -14,7 +14,7 @@ fi
 
 : "${NAS_TAILSCALE_IP:=100.96.43.9}"
 : "${HA_WEBHOOK_URL:=http://${NAS_TAILSCALE_IP}:8123/api/webhook/claude_code_hook}"
-: "${CLAUDE_CONFIRM_RESULT_FILE:=/mnt/nas-docker/projects/homeassistant/config/claude_confirm_result.json}"
+: "${CLAUDE_CONFIRM_RESULT_FILE:=/home/susiyaki/.local/state/claude/claude_confirm_result.json}"
 CLAUDE_CONFIRM_TIMEOUT_SEC="${CLAUDE_CONFIRM_TIMEOUT_SEC:-300}"
 CLAUDE_CONFIRM_POLL_INTERVAL_SEC="${CLAUDE_CONFIRM_POLL_INTERVAL_SEC:-5}"
 

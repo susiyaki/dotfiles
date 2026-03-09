@@ -13,7 +13,7 @@
 #
 # 環境変数:
 #   HA_WEBHOOK_URL               Webhook URL (default: http://100.96.43.9:8123/api/webhook/claude_code_hook)
-#   CLAUDE_CONFIRM_RESULT_FILE   結果 JSON のパス (default: /mnt/nas-docker/projects/homeassistant/config/claude_confirm_result.json)
+#   CLAUDE_CONFIRM_RESULT_FILE   結果 JSON のパス (default: /home/susiyaki/.local/state/claude/claude_confirm_result.json)
 #   CLAUDE_CONFIRM_TIMEOUT_SEC   タイムアウト秒数 (default: 300)
 #   CLAUDE_CONFIRM_POLL_SEC      ポーリング間隔秒数 (default: 5)
 
@@ -49,7 +49,7 @@ fi
 
 : "${NAS_TAILSCALE_IP:=100.96.43.9}"
 : "${HA_WEBHOOK_URL:=http://${NAS_TAILSCALE_IP}:8123/api/webhook/claude_code_hook}"
-: "${CLAUDE_CONFIRM_RESULT_FILE:=/mnt/nas-docker/projects/homeassistant/config/claude_confirm_result.json}"
+: "${CLAUDE_CONFIRM_RESULT_FILE:=/home/susiyaki/.local/state/claude/claude_confirm_result.json}"
 : "${CLAUDE_CONFIRM_TIMEOUT_SEC:=300}"
 : "${CLAUDE_CONFIRM_POLL_SEC:=5}"
 

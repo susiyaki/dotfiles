@@ -103,7 +103,7 @@ in
       SMARTPHONE_TAILSCALE_IP=${smartphoneIp}
       THINKPAD_P14S_TAILSCALE_IP=${thinkpadP14sIp}
       HA_WEBHOOK_URL=http://${nasIp}:8123/api/webhook/claude_code_hook
-      CLAUDE_CONFIRM_RESULT_FILE=/mnt/nas-docker/projects/homeassistant/config/claude_confirm_result.json
+      CLAUDE_CONFIRM_RESULT_FILE=/home/susiyaki/.local/state/claude/claude_confirm_result.json
     '';
 
     # Bat (cat replacement)

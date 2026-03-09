@@ -310,8 +310,8 @@ in
         };
         Service = {
           Type = "simple";
-          ExecStart = "${pkgs.gammastep}/bin/gammastep";
-          Restart = "always";
+          ExecStart = "${pkgs.gammastep}/bin/gammastep -m wayland -l 35.6762:139.6503";
+          Restart = "on-failure";
           RestartSec = 5;
         };
         Install = { WantedBy = [ "sway-session.target" ]; };

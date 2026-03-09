@@ -48,6 +48,15 @@ in
     # Debug logging for SUSPEND/WIFI to diagnose random disconnects
     logLevel = "INFO";
   };
+  networking.networkmanager.dispatcherScripts = [
+    {
+      source = pkgs.writeShellScript "nm-wifi-stability" ''
+        if [ "$1" = "wlp2s0" ] && [ "$2" = "up" ]; then
+          ${pkgs.iw}/bin/iw dev wlp2s0 set power_save off || true
+        fi
+      '';
+    }
+  ];
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
@@ -66,24 +75,41 @@ in
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   # SMB mount for Synology docker share (auto-mount on access)
+  # Define explicit systemd mount/automount units to avoid generator timing issues
+  # during switch-to-configuration.
   boot.supportedFilesystems = [ "cifs" ];
-  fileSystems."/mnt/nas-docker" = {
-    device = "//${nasIp}/docker";
-    fsType = "cifs";
-    options = [
-      "credentials=/etc/nixos/secrets/smb-docker-cred"
-      "uid=1000"
-      "gid=100"
-      "file_mode=0664"
-      "dir_mode=0775"
-      "vers=3.0"
-      "_netdev"
-      "nofail"
-      "noauto"
-      "x-systemd.automount"
-      "x-systemd.idle-timeout=300"
-    ];
-  };
+  systemd.mounts = [
+    {
+      description = "NAS docker share";
+      what = "//${nasIp}/docker";
+      where = "/mnt/nas-docker";
+      type = "cifs";
+      options = lib.concatStringsSep "," [
+        "credentials=/etc/nixos/secrets/smb-docker-cred"
+        "uid=1000"
+        "gid=100"
+        "file_mode=0664"
+        "dir_mode=0775"
+        "vers=3.0"
+        "_netdev"
+        "nofail"
+        "noauto"
+        "x-systemd.mount-timeout=10s"
+      ];
+      wantedBy = [ "multi-user.target" ];
+      unitConfig = {
+        After = [ "network-online.target" ];
+        Wants = [ "network-online.target" ];
+      };
+    }
+  ];
+  systemd.automounts = [
+    {
+      where = "/mnt/nas-docker";
+      wantedBy = [ "multi-user.target" ];
+      automountConfig.TimeoutIdleSec = "120";
+    }
+  ];
   systemd.tmpfiles.rules = [
     "d /mnt/nas-docker 0775 root users -"
   ];
@@ -164,25 +190,29 @@ in
   };
 
   powerManagement.powerDownCommands = ''
-    # flush any bytes in pipe
-    while read -n 1 -t 1 SUSPEND_RESULT < /tmp/PmMessagesPort_out; do : ; done;
+    # DisplayLinkManager pipe handling can block if fifo peer is missing.
+    # Only talk to it when both endpoints are real FIFOs, and always timeout.
+    if [ -p /tmp/PmMessagesPort_in ] && [ -p /tmp/PmMessagesPort_out ]; then
+      # flush any bytes in pipe
+      ${pkgs.coreutils}/bin/timeout 1 ${pkgs.bash}/bin/bash -c 'while read -n 1 -t 0.2 SUSPEND_RESULT < /tmp/PmMessagesPort_out; do : ; done' || true
 
-    # suspend DisplayLinkManager
-    echo "S" > /tmp/PmMessagesPort_in
+      # suspend DisplayLinkManager
+      ${pkgs.coreutils}/bin/timeout 1 ${pkgs.bash}/bin/bash -c 'echo "S" > /tmp/PmMessagesPort_in' || true
 
-    # wait until suspend of DisplayLinkManager finish
-    if [ -f /tmp/PmMessagesPort_out ]; then
-      read -n 1 -t 10 SUSPEND_RESULT < /tmp/PmMessagesPort_out
+      # wait until suspend of DisplayLinkManager finish
+      ${pkgs.coreutils}/bin/timeout 10 ${pkgs.bash}/bin/bash -c 'read -n 1 -t 10 SUSPEND_RESULT < /tmp/PmMessagesPort_out' || true
     fi
   '';
 
   powerManagement.resumeCommands = ''
     # resume DisplayLinkManager
-    echo "R" > /tmp/PmMessagesPort_in
+    if [ -p /tmp/PmMessagesPort_in ]; then
+      ${pkgs.coreutils}/bin/timeout 1 ${pkgs.bash}/bin/bash -c 'echo "R" > /tmp/PmMessagesPort_in' || true
+    fi
 
     # Reload ath11k after resume to fix WiFi not reconnecting
     if ${pkgs.kmod}/bin/lsmod | grep -q ath11k_pci; then
-      ${pkgs.kmod}/bin/modprobe -r ath11k_pci && ${pkgs.kmod}/bin/modprobe ath11k_pci
+      ${pkgs.kmod}/bin/modprobe -r ath11k_pci && ${pkgs.kmod}/bin/modprobe ath11k_pci || true
     fi
 
     # Force NetworkManager back online after resume
@@ -283,30 +313,6 @@ in
 
   # Thunderbolt support
   services.hardware.bolt.enable = true;
-
-  # Wake-on-Wireless-LAN
-  systemd.services.wowlan = {
-    description = "Enable Wake-on-Wireless-LAN";
-    after = [ "network-online.target" ];
-    wants = [ "network-online.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    path = with pkgs; [ iw gawk gnugrep ];
-    script = ''
-      # Find the phy associated with wlp2s0
-      PHY=$(iw dev wlp2s0 info | grep wiphy | awk '{print "phy"$2}')
-      if [ -n "$PHY" ]; then
-        iw $PHY wowlan enable magic-packet
-        echo "Enabled WoWLAN on $PHY (wlp2s0)"
-      else
-        echo "Could not find phy for wlp2s0"
-        exit 1
-      fi
-    '';
-  };
 
   # uinput device access (for game controllers, remote desktop, etc.)
   services.udev.extraRules = ''
