@@ -262,6 +262,7 @@ in
       exec blueman-applet
       exec wl-paste -t text --watch ~/.config/sway/scripts/myclipman.sh
       exec nm-applet --indicator
+      exec_always ${pkgs.bash}/bin/bash -lc '${pkgs.coreutils}/bin/timeout 20 ${pkgs.coreutils}/bin/ls /mnt/nas-docker >/dev/null 2>&1 || true'
       exec_always kanshi
       exec_always fcitx5 -d --replace
 

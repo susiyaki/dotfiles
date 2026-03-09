@@ -7,8 +7,7 @@ in
 {
   imports = [
     ./hardware.nix
-    ./displaylink.nix
-  ];
+  ] ++ lib.optional false ./displaylink.nix;
 
   # Allow unfree packages (Discord, 1Password, etc.)
   nixpkgs.config.allowUnfree = true;
@@ -28,7 +27,6 @@ in
     "quiet"
     "splash"
     "amdgpu.gpu_recovery=1"
-    "amdgpu.s0ix=1"       # Enable S0ix for proper s2idle on AMD
   ];
 
   # Increase inotify limits for file watching
@@ -46,21 +44,6 @@ in
       scanRandMacAddress = false;
     };
   };
-  networking.networkmanager.dispatcherScripts = [
-    {
-      source = pkgs.writeShellScript "nm-wifi-stability" ''
-        iface="$1"
-        state="$2"
-
-        [ "$iface" = "wlp2s0" ] || exit 0
-
-        # Keep powersave disabled for ath11k stability once interface is up.
-        if [ "$state" = "up" ]; then
-          ${pkgs.iw}/bin/iw dev wlp2s0 set power_save off || true
-        fi
-      '';
-    }
-  ];
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ ];
   networking.firewall.allowedUDPPorts = [ ];
@@ -116,10 +99,6 @@ in
         "noauto"
         "x-systemd.mount-timeout=10s"
       ];
-      unitConfig = {
-        After = [ "network-online.target" ];
-        Wants = [ "network-online.target" ];
-      };
     }
   ];
   systemd.automounts = [
@@ -132,6 +111,28 @@ in
   systemd.tmpfiles.rules = [
     "d /mnt/nas-docker 0775 root users -"
   ];
+
+  systemd.services.network-startup-snapshot = {
+    description = "Capture NetworkManager startup state";
+    after = [ "NetworkManager.service" ];
+    wants = [ "NetworkManager.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      ${pkgs.coreutils}/bin/sleep 15
+      out=/tmp/network-startup.log
+      {
+        echo "=== $(date --iso-8601=seconds) ==="
+        ${pkgs.networkmanager}/bin/nmcli general status || true
+        echo
+        ${pkgs.networkmanager}/bin/nmcli device status || true
+        echo
+        ${pkgs.networkmanager}/bin/nmcli -f NAME,UUID,TYPE,AUTOCONNECT,DEVICE connection show || true
+        echo
+        ${pkgs.systemd}/bin/journalctl -b -u NetworkManager --no-pager | ${pkgs.ripgrep}/bin/rg -i 'wlp2s0|NoeHouse_5G|autoconnect|unmanaged|unavailable|supplicant|secret' || true
+      } > "$out"
+    '';
+  };
 
   # Timezone and locale
   time.timeZone = "Asia/Tokyo";
@@ -207,34 +208,6 @@ in
   services.xserver = {
     enable = true;
   };
-
-  powerManagement.powerDownCommands = ''
-    # DisplayLinkManager pipe handling can block if fifo peer is missing.
-    # Only talk to it when both endpoints are real FIFOs, and always timeout.
-    if [ -p /tmp/PmMessagesPort_in ] && [ -p /tmp/PmMessagesPort_out ]; then
-      # flush any bytes in pipe
-      ${pkgs.coreutils}/bin/timeout 1 ${pkgs.bash}/bin/bash -c 'while read -n 1 -t 0.2 SUSPEND_RESULT < /tmp/PmMessagesPort_out; do : ; done' || true
-
-      # suspend DisplayLinkManager
-      ${pkgs.coreutils}/bin/timeout 1 ${pkgs.bash}/bin/bash -c 'echo "S" > /tmp/PmMessagesPort_in' || true
-
-      # wait until suspend of DisplayLinkManager finish
-      ${pkgs.coreutils}/bin/timeout 10 ${pkgs.bash}/bin/bash -c 'read -n 1 -t 10 SUSPEND_RESULT < /tmp/PmMessagesPort_out' || true
-    fi
-  '';
-
-  powerManagement.resumeCommands = ''
-    # resume DisplayLinkManager
-    if [ -p /tmp/PmMessagesPort_in ]; then
-      ${pkgs.coreutils}/bin/timeout 1 ${pkgs.bash}/bin/bash -c 'echo "R" > /tmp/PmMessagesPort_in' || true
-    fi
-
-    # Keep resume simple/stable and let NetworkManager autoconnect.
-    ${pkgs.networkmanager}/bin/nmcli networking on || true
-    ${pkgs.networkmanager}/bin/nmcli radio wifi on || true
-    ${pkgs.networkmanager}/bin/nmcli device set wlp2s0 managed yes || true
-    ${pkgs.iw}/bin/iw dev wlp2s0 set power_save off || true
-  '';
 
   # Display manager (greetd with agreety)
   services.greetd = {
