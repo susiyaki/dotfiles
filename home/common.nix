@@ -126,7 +126,7 @@ in
   };
 
   # Claude Code configuration (merge common + OS settings)
-  home.file.".claude/settings.json".text =
+  home.file.".claude/settings.local.json".text =
     let
       commonSettings = builtins.fromJSON (builtins.readFile ../config/claude/settings.common.json);
       osSettings = builtins.fromJSON (builtins.readFile claudeSettingsPath);

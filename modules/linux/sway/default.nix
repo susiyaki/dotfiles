@@ -113,11 +113,11 @@ in
 
       ## Screenshots & Screencasts
       # Screenshot/screencast to clipboard (no Shift)
-      bindsym Print exec bash ~/.config/sway/scripts/capture-manager.sh screenshot --clipboard
-      bindsym Ctrl+Print exec bash ~/.config/sway/scripts/capture-manager.sh screencast --clipboard
+      bindsym $super+Print exec bash ~/.config/sway/scripts/capture-manager.sh screenshot --clipboard
+      bindsym $super+Ctrl+Print exec bash ~/.config/sway/scripts/capture-manager.sh screencast --clipboard
       # Screenshot/screencast to file (with Shift)
-      bindsym Shift+Print exec bash ~/.config/sway/scripts/capture-manager.sh screenshot --save
-      bindsym Ctrl+Shift+Print exec bash ~/.config/sway/scripts/capture-manager.sh screencast --save
+      bindsym $super+Shift+Print exec bash ~/.config/sway/scripts/capture-manager.sh screenshot --save
+      bindsym $super+Ctrl+Shift+Print exec bash ~/.config/sway/scripts/capture-manager.sh screencast --save
 
       ## Logout
       bindsym $alt+Shift+delete exec wlogout
