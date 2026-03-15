@@ -13,6 +13,7 @@
     tree
     htop
     wget
+    sox
   ];
 
   home.sessionVariables = {

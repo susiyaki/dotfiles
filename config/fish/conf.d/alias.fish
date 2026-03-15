@@ -42,3 +42,5 @@ alias cat="bat"
 
 # htop (managed by Nix)
 alias top="htop"
+
+alias disable_shutter_soundb="adb shell settings put system csc_pref_camera_forced_shuttersound_key 0"
