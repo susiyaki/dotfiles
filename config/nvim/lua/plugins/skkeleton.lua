@@ -5,6 +5,7 @@ utils.map('i', 'jk', '<Plug>(skkeleton-enable)', { noremap = false })
 -- 子音があると1文字目だけうまく動かないので、1回打って消して回避している
 utils.map('c', '<C-j>', '<Plug>(skkeleton-enable)ka<DEL>', { noremap = false, silent = true })
 utils.map('c', 'jk', '<Plug>(skkeleton-enable)ka<DEL>', { noremap = false, silent = true })
+utils.map('t', 'jk', '<Plug>(skkeleton-enable)', { noremap = false })
 
 utils.map('i', 'jj', '<ESC>')
 
