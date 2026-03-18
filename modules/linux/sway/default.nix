@@ -40,16 +40,10 @@ in
       gammastep # Redshift fork with better Wayland support
       wtype # Wayland keyboard input emulator
       libnotify # Desktop notifications
-      pipewire # pw-record for voice input
-      whisper-cpp # Speech-to-text engine
+      pipewire # PipeWire utilities
     ];
 
     home.sessionVariables = {
-      # Voice input defaults (used by ~/.config/sway/scripts/voice-input.sh)
-      VOICE_INPUT_LANGUAGE = "ja";
-      VOICE_INPUT_DURATION = "20";
-      VOICE_INPUT_WARN_BEFORE = "5";
-      VOICE_INPUT_MODEL = "$HOME/.local/share/whisper/ggml-small-q5_1.bin";
     };
 
     # This replaces the home.file link to the sway config dir
@@ -131,8 +125,6 @@ in
       # Clipboard
       bindsym Control+semicolon exec clipman pick -t wofi -T'--prompt=clipboard-history -i'
 
-      # Voice input (speech-to-text)
-      bindsym $super+v exec bash ~/.config/sway/scripts/voice-input.sh
 
       # Bluetooth
       for_window [app_id="blueman-manager"] floating enable
