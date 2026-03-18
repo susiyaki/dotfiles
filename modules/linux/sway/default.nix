@@ -261,12 +261,13 @@ in
       exec swaync
       exec swayidle -w \
         timeout 300 'env LC_TIME=C swaylock -f' \
-        timeout 330 'swaymsg "output * dpms off"' \
-             resume 'swaymsg "output * dpms on"' \
-        before-sleep 'env LC_TIME=C swaylock -f'
+        timeout 330 'brightnessctl -s && swaymsg "output * dpms off"' \
+             resume 'swaymsg "output * dpms on" && brightnessctl -r' \
+        before-sleep 'brightnessctl -s && env LC_TIME=C swaylock -f'
       exec blueman-applet
       exec wl-paste -t text --watch ~/.config/sway/scripts/myclipman.sh
       exec nm-applet --indicator
+      exec vocalinux-gui
       exec_always ${pkgs.bash}/bin/bash -lc '${pkgs.coreutils}/bin/timeout 20 ${pkgs.coreutils}/bin/ls /mnt/nas-docker >/dev/null 2>&1 || true'
       exec_always kanshi
       exec_always fcitx5 -d --replace

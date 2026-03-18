@@ -44,6 +44,12 @@ in
     skkDictionaries.l # SKK dictionary for skkeleton
     (pkgs.callPackage ../pkgs/ttf-hackgen { }) # HackGen Japanese programming font
 
+    # Voice to Text
+    (pkgs.callPackage ../pkgs/vocalinux { })
+
+    # Audio control
+    pavucontrol
+    
     # Android SDK
     androidSdk
   ];
