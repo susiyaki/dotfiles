@@ -85,12 +85,6 @@ in
     ".config/fish/conf.d".source = ../config/fish/conf.d;
     ".config/fish/functions".source = ../config/fish/functions;
 
-    # Claude Code commands
-    ".claude/commands" = {
-      source = ../config/claude/commands;
-      recursive = true;
-    };
-
     # Claude Code hooks
     ".claude/hooks" = {
       source = ../config/claude/hooks;

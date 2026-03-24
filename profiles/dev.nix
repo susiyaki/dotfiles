@@ -35,6 +35,9 @@
     extensions = with pkgs; [
       gh-markdown-preview
     ];
+    settings = {
+      git_protocol = "ssh";
+    };
   };
 
   programs.fish.shellAliases = {
