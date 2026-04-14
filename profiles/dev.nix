@@ -27,6 +27,7 @@
     gemini-cli
     nixpkgs-fmt
     uv
+    playwright-driver
   ];
 
   # GitHub CLI
@@ -178,6 +179,9 @@
           set -g @continuum-restore 'on'
           set -g @continuum-boot 'on'
           set -g @continuum-save-interval '15'
+
+          # Override resurrect's C-s to clean numeric sessions before saving
+          bind C-s run-shell "$HOME/.config/tmux/scripts/clean-and-save.sh"
         '';
       }
     ];

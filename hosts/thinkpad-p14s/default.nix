@@ -355,7 +355,26 @@ in
     openssl
     curl
     expat
-    # Add more libraries here as needed for specific tools
+    # Electron / React Native DevTools
+    glib
+    nspr
+    atk
+    cups
+    dbus
+    libdrm
+    gtk3
+    pango
+    cairo
+    xorg.libX11
+    xorg.libXcomposite
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXrandr
+    xorg.libxcb
+    mesa
+    mesa.gbm
+    alsa-lib
   ];
 
   # 1Password

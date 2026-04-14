@@ -18,11 +18,6 @@ if vim.env.TMUX then
   vim.api.nvim_create_autocmd("VimLeavePre", {
     callback = function()
       vim.fn.system("tmux set-option -p @nvim_instance_id ''")
-      local window_id = vim.fn.system("tmux display-message -p '#{window_id}'"):gsub("%s+$", "")
-      if window_id ~= "" then
-        local cleanup_script = vim.fn.expand("~/.config/tmux/scripts/ai-pane-cleanup.sh")
-        vim.fn.jobstart({cleanup_script, window_id})
-      end
       vim.fn.system("tmux refresh-client -S")
     end,
   })
