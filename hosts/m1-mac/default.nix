@@ -60,7 +60,6 @@
       "spotify"
 
       # Development
-      "docker-desktop"
       "android-studio"
       "android-platform-tools"
 
